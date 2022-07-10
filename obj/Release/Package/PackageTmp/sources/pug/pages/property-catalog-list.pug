@@ -1,0 +1,33 @@
+extends  ../_skeleton
+include ../elements/_section_fullwidth
+include ../mixins/_thumbnail-mixin-4
+include ../mixins/_pagination-mixin
+block variables
+  - var activeIndex = 5
+  - var title_h1 = "Property Catalog"
+  - var bread_2 = "Property Catalog"
+  - var bread_3 = "Property Catalog List"
+  - footer_class_adjuster = "bg-gray"
+  - var section_full_adjuster="section-full-mod-1"
+  - var section_full_col_adjuster = ""
+  - var position_margin_top_adjuster="position-margin-top-mod-1"
+  - var brand_name_adjuster = "images/logo-2.png"
+
+block title
+  title Property Catalog List
+
+block page
+  // Page Header
+  include ../elements/_header
+
+  // Page Content
+  main.page-content.text-start
+    +breadcrumb_items(1)
+    include ../section/index/_section_index-1
+    include ../section/catalog/_section_catalog_list-2
+  // Page Footer
+  include ../elements/_footer-widget
+
+
+
+

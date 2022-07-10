@@ -1,0 +1,134 @@
+section.section-lg
+  .container
+    h2 Fill in the Form
+    hr
+
+    .row.submit-form.text-start
+      .col-md-6
+        // RD form
+        form.inset-6
+          .form-wrap
+            label.form-label(for='title') Property Title
+            input.form-input#title(type='text', name='title', placeholder='No title')
+          .form-wrap
+            label.form-label(for='message') Property Description
+            textarea#message.form-input.min-height(name='message', placeholder='No Description')
+
+          .row
+            .col-md-6
+              .form-wrap
+                label.form-label(for='select-1') Type
+                //Select 2
+                select.form-input.select-filter#select-1(data-minimum-results-for-search="Infinity" )
+                  option(value="Any" selected) Any
+                  option(value="Under Construction") Under Construction
+                  option(value="Ready to Move") Ready to Move
+            .col-md-6
+              .form-wrap
+                label.form-label(for='select-2') Property Status
+                //Select 2
+                select.form-input.select-filter#select-2( data-minimum-results-for-search="Infinity")
+                  option(value="Any" selected) Any
+                  option(value="Vacant land") Vacant land
+                  option(value="Commercial") Commercial
+                  option(value="Residential") Residential
+                  option(value="Homes") Homes
+                  option(value="Condos") Condos
+                  option(value="Townhouses") Townhouses
+                  option(value="Foreclosures") Foreclosures
+
+            .col-md-6
+              .form-wrap
+                label.form-label(for='select-3') Location
+                select.form-input.select-filter#select-3( data-minimum-results-for-search="Infinity")
+                    option(value="Any" selected) Any
+                    option(value="Denver") Denver
+                    option(value="Houston") Houston
+                    option(value="Las Vegas") Las Vegas
+                    option(value="Orlando") Orlando
+                    option(value="Phoenix") Phoenix
+                    option(value="San Diego") San Diego
+                    option(value="Miami") Miami
+                    option(value="Atlanta") Atlanta
+            .col-md-6
+              .form-wrap
+                label.form-label(for='price') Price
+                input.form-input#price(type='text', name='price', placeholder="")
+          .row
+            .col-md-6
+              .form-wrap
+                label.form-label(for='select-4') Beds
+                select.form-input.select-filter#select-4( data-minimum-results-for-search="Infinity")
+                    option(value="Any" selected) Any
+                    option(value="1") 1
+                    option(value="2") 2
+                    option(value="3") 3
+                    option(value="4") 4
+                    option(value="5") 5
+                    option(value="6") 6
+            .col-md-6
+              .form-wrap
+                label.form-label(for='select-5') Baths
+                select.form-input.select-filter#select-5( data-minimum-results-for-search="Infinity")
+                    option(value="Any" selected) Any
+                    option(value="1") 1
+                    option(value="2") 2
+                    option(value="3") 3
+                    option(value="4") 4
+                    option(value="5") 5
+                    option(value="6") 6
+            .col-md-6
+              .form-wrap
+                label.form-label(for='select-6') Garages
+                select.form-input.select-filter#select-6( data-minimum-results-for-search="Infinity")
+                    option(value="Any" selected) Any
+                    option(value="1") 1
+                    option(value="2") 2
+                    option(value="3") 3
+                    option(value="4") 4
+                    option(value="5") 5
+                    option(value="6") 6
+            .col-md-6
+              .form-wrap
+                label.form-label(for='square') Square
+                input.form-input#square(type='text', name='title', placeholder='')
+      .col-12.col-md-6
+        //Google map search
+        .form-wrap
+          label.form-label.rd-input-label(for='rd-google-map-address') Address
+          .form-inline-flex-md
+            input#rd-google-map-address.form-input.form-input-has-validation(type='text', name='address', data-constraints='@Required', placeholder='', autocomplete='off')
+            a#rd-google-map-address-submit.btn.btn-primary.btn-sm.btn-min-width-sm(href='#') Find Address
+
+        //Please, add the data attribute data-key="YOUR_API_KEY" in order to insert your own API key for the Google map.
+        //Please note that YOUR_API_KEY should replaced with your key.
+        //Example: <div class="google-map-container" data-key="YOUR_API_KEY">
+        .google-map-container( data-center='9870 St Vincent Place, Glasgow, DC 45 Fr 45.', data-zoom='5', data-icon='images/gmap_marker.png', data-icon-active='images/gmap_marker_active.png', data-styles='[{"featureType":"administrative","elementType":"labels.text.fill","stylers":[{"color":"#444444"}]},{"featureType":"landscape","elementType":"all","stylers":[{"color":"#f2f2f2"}]},{"featureType":"poi","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"poi.business","elementType":"geometry.fill","stylers":[{"visibility":"on"}]},{"featureType":"road","elementType":"all","stylers":[{"saturation":-100},{"lightness":45}]},{"featureType":"road.highway","elementType":"all","stylers":[{"visibility":"simplified"}]},{"featureType":"road.arterial","elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"transit","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"water","elementType":"all","stylers":[{"color":"#b4d4e1"},{"visibility":"on"}]}]' )
+          .google-map.google-map-2
+          ul.google-map-markers
+            li( data-location='9870 St Vincent Place, Glasgow, DC 45 Fr 45.', data-description='9870 St Vincent Place, Glasgow' )
+
+      .col-12.col-md-12.offset-custom-9
+        h4.border-bottom Additional Details
+        .details-wrap
+          .form-wrap.input-width-1
+            label.form-label(for='prop-title1') Title
+            input.form-input#prop-title1(type='text', name='title', placeholder='')
+          .form-wrap.input-width-2
+            label.form-label(for='description1') Value
+            input.form-input#description1(type='text', name='title', placeholder='')
+          span.icon.mdi.mdi-close.preffix-1.cursor-pointer
+        .details-wrap
+          .form-wrap.input-width-1
+            label.form-label(for='prop-title2') Title
+            input.form-input#prop-title2(type='text', name='title', placeholder='')
+          .form-wrap.input-width-2
+            label.form-label(for='description2') Value
+            input.form-input#description2(type='text', name='title', placeholder='')
+          span.icon.mdi.mdi-close.preffix-1.cursor-pointer
+
+          button(type='submit').btn.btn-sm.btn-primary-transparent.btn-min-width-mod-3 add detail row
+      .col-12.offset-custom-8
+        button(type='submit').btn.btn-sm.btn-sushi.btn-min-width-sm submit
+
+

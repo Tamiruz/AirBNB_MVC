@@ -1,0 +1,94 @@
+//Section Heather Turner’s Properties
+section.section-lg
+  .container.text-center.text-md-start
+    h2 Heather Turner’s Offerings
+    hr
+    .row.relative.text-start.offset-custom-10
+      .col-12.col-md-12.col-lg-8
+        .row.clearleft-custom-5
+          .col-md-6
+            + thumbnail ( "images/index-6.jpg", "$4,339.00/","Building: 123 on the Park", "Introducing Brooklyn's most unique and genteel address: 123 on the Park. A stately, one-of-a-kind rental residence directly overlooking Brooklyn's famed Prospect Park.")
+          .col-md-6
+            + thumbnail ( "images/index-7.jpg", "$2,229.00/","225 Maywood Dr, San Francisco, CA 94127", "One of the original homes built at Ocean Beach.")
+          .col-md-6
+            + thumbnail ( "images/index-8.jpg", "$1,339.00/","2266 48th Ave", "Classic architectural detail, truly superb floor plan & strong upside potential for the next steward to restore this forever home to greatness.")
+          .col-md-6
+            + thumbnail ( "images/index-9.jpg", "$4,339.00/","1336 N Occidental Blvd", "Located in the heart of Silver Lake, this magnificently re-imagined Spanish bungalow is not to be missed.")
+          .col-md-6
+            + thumbnail ( "images/index-10.jpg", "$2,229.00/","650 Kelton Ave #201", "Front-facing, single level, well-designed floor plan. Secure building in a highly DESIRABLE location!")
+          .col-md-6
+            + thumbnail ( "images/index-11.jpg", "$1,339.00/","1735 N Fuller Ave #124", "This charming 2 bed and 2 bath townhome has been beautifully renovated and ready for its next owners.")
+          .col-md-12.text-center.text-md-start.offset-custom-11
+            +pagination()
+
+      .col-12.col-md-12.col-lg-4.inset-7.text-center.text-lg-start
+        h4.border-bottom.offset-custom-11 Property Filter
+        form.form-mod-1.offset-custom-11
+          .form-wrap
+            label.form-label(for='select-1') Location
+            //Select 2
+            select.form-input.select-filter#select-1(data-minimum-results-for-search="Infinity" )
+              option(value="Any" selected) Any
+              option(value="Denver") Denver
+              option(value="Houston") Houston
+              option(value="Las Vegas") Las Vegas
+              option(value="Orlando") Orlando
+              option(value="Phoenix") Phoenix
+              option(value="San Diego") San Diego
+              option(value="Miami") Miami
+              option(value="Atlanta") Atlanta
+          .form-wrap
+            label.form-label(for='select-2') Property Status
+            //Select 2
+            select.form-input.select-filter#select-2(data-minimum-results-for-search="Infinity" )
+              option(value="Any" selected) Any
+              option(value="Vacant land") Vacant land
+              option(value="Commercial") Commercial
+              option(value="Residential") Residential
+              option(value="Homes") Homes
+              option(value="Condos") Condos
+              option(value="Townhouses") Townhouses
+              option(value="Foreclosures") Foreclosures
+          .form-wrap
+            label.form-label(for='select-3') Property Type
+            //Select 2
+            select.form-input.select-filter#select-3(data-minimum-results-for-search="Infinity" )
+              option(value="Any" selected) Any
+              option(value="Under Construction") Under Construction
+              option(value="Ready to Move") Ready to Move
+          .form-inline-flex-xs
+            .form-wrap
+              label.form-label(for='select-4') Min Beds
+              //Select 2
+              select.form-input.select-filter#select-4(data-minimum-results-for-search="Infinity" )
+                option(value="Any" selected) Any
+                option(value="1") 1
+                option(value="2") 2
+                option(value="3") 3
+                option(value="4") 4
+                option(value="5") 5
+                option(value="6") 6
+            .form-wrap
+              label.form-label(for='select-5') Min Baths
+              //Select 2
+              select.form-input.select-filter#select-5(data-minimum-results-for-search="Infinity" )
+                  option(value="Any" selected) Any
+                  option(value="1") 1
+                  option(value="2") 2
+                  option(value="3") 3
+                  option(value="4") 4
+                  option(value="5") 5
+                  option(value="6") 6
+          .form-wrap
+            label.form-label(for='price') Price (USD)
+            .form-inline-flex-xs
+              input.form-input#price(type='text', name='min-price', placeholder="100")
+              span.text-abbey.dash &ndash;
+              input.form-input#max-price(type='text', name='max-price',placeholder="10000")
+          .form-wrap
+            label.form-label(for='area') Area (Sq Ft)
+            .form-inline-flex-xs
+              input.form-input#area(type='text', name='min-area', placeholder="1500")
+              span.text-abbey.dash &ndash;
+              input.form-input#max-area(type='text', name='max-area', placeholder="22000")
+          button.btn.btn-sushi.btn-sm.btn-min-width-mod-3(type="submit") apply filter

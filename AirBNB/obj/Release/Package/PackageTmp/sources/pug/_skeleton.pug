@@ -1,0 +1,45 @@
+include _config
+include _functions
+include _mixins
+
+block variables
+
+doctype html
+
+html(lang="en" class= html_class)
+  head
+    // Site Title
+    block title
+      title Home
+
+    meta(name="format-detection" content="telephone=no")
+    meta(name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=0")
+    meta(http-equiv="X-UA-Compatible" content="IE=Edge")
+    meta(charset='utf-8')
+
+
+    link(rel="icon" href="images/favicon.ico" type="image/x-icon")
+
+    // Stylesheets
+    link(rel="stylesheet" type="text/css" href=fonts )
+    link(rel="stylesheet" href="css/bootstrap.css")
+    link(rel="stylesheet" href="css/fonts.css")
+    link(rel="stylesheet" href="css/style.css")
+
+  body
+    .preloader
+      .preloader-body
+        .cssload-container: .cssload-speeding-wheel
+
+    // Page
+    div.page
+      block page
+
+    // Global Mailform Output
+    #form-output-global.snackbars
+
+    // Java script
+    script(src="js/core.min.js")
+    script(src="js/script.js")
+
+

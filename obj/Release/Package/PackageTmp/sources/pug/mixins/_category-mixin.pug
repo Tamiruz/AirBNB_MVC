@@ -1,0 +1,7 @@
+mixin category(src, title, text, width, height)
+  .category
+    img(src=src alt="" width=width height=height)
+    .category-content
+      h4= title
+      p= text
+      a.btn.btn-xs.btn-primary(href="property-catalog-single.html") view properties

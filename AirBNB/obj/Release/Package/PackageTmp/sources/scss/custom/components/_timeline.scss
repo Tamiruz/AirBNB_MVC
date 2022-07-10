@@ -1,0 +1,141 @@
+//
+// Custom Timeline
+// --------------------------------------------------
+.timeline {
+  position: relative;
+  &:before {
+    position: absolute;
+    left: 15px;
+    top: 66px;
+    bottom: 57px;
+    display: inline-block;
+    content: "";
+    width: 2px;
+    background: $gray-darker;
+    z-index: 1;
+    @include media-breakpoint-up(md) {
+      left: 5px;
+    }
+    @include media-breakpoint-up(lg) {
+      top: 88px;
+      left: 50%;
+      margin-left: 0;
+    }
+    @include media-breakpoint-up(xl) {
+      left: calc(42% - 4px);
+    }
+  }
+
+  .thumbnail-2 {
+    padding-left: 35px;
+    @include media-breakpoint-up(lg) {
+      padding-left: 0;
+    }
+    .img-wrap {
+      position: relative;
+      z-index: 1;
+      &:before {
+        content: "";
+        position: absolute;
+        height: 2px;
+        left: -40px;
+        width: 114px;
+        top: 50%;
+        display: inline-block;
+        margin-top: -1px;
+        background: $primary;
+        z-index: -1;
+        transition: 0.4s;
+        @include media-breakpoint-up(md) {
+          left: -50px;
+        }
+        @include media-breakpoint-up(lg) {
+          left: auto;
+          right: -30.7%;
+          transition: 0.4s;
+        }
+      }
+      &:after {
+        content: "";
+        position: absolute;
+        left: -47px;
+        top: 50%;
+        margin-top: -14px;
+        //top: 47%;
+        width: 28px;
+        height: 28px;
+        display: inline-block;
+        //margin-top: -8px;
+        border-radius: 50%;
+        border: 6px solid $white-clr;
+        background-color: $primary;
+        transition: .4s;
+        @include media-breakpoint-up(sm) {
+          //top: 48.6%;
+        }
+        @include media-breakpoint-up(md) {
+          left: -57px;
+          //top: 49%;
+        }
+        @include media-breakpoint-up(lg) {
+          //top: 48%;
+          left: auto;
+          right: -37.8%;
+          transition: 0.4s;
+        }
+        @include media-breakpoint-up(xl) {
+          right: -35.4%;
+        }
+      }
+    }
+    &:hover {
+      .img-wrap {
+        &:before, &:after {
+          background-color: $gray;
+        }
+      }
+    }
+  }
+  time.h4 {
+    position: relative;
+    padding: 18px 0;
+    background-color: $white-clr;
+  }
+
+}
+
+.timeline-right {
+  .thumbnail-2 {
+    .img-wrap {
+      &:before {
+        left: -10.5%;
+        right: auto;
+        @include media-breakpoint-up(sm) {
+          left: -5%;
+        }
+        @include media-breakpoint-up(lg) {
+          left: -31%;
+        }
+      }
+      &:after {
+        left: -47px;
+        right: auto;
+        top: 50%;
+        margin-top: -14px;
+        //top:47%;
+        @include media-breakpoint-up(md) {
+          left: -57px;
+          //top: 48.7%;
+        }
+        @include media-breakpoint-up(lg) {
+          //top: 47%;
+          left: -37%;
+        }
+        @include media-breakpoint-up(xl) {
+          left: -34.5%;
+          //top: 48%;
+        }
+      }
+    }
+  }
+}

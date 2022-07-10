@@ -1,0 +1,30 @@
+extends  ../_skeleton
+include ../elements/_section_fullwidth
+block variables
+  - var activeIndex = 2
+  - var title_h1 = "Table Styles"
+  - var bread_2 = "Elements"
+  - footer_class_adjuster = "bg-gray"
+  - var section_full_adjuster = ""
+  - var section_full_col_adjuster = ""
+  - var brand_name_adjuster = "images/logo-2.png"
+
+block title
+  title Table Styles
+
+block page
+  // Page Header
+  include ../elements/_header
+
+  // Page Content
+  main.page-content.text-center.text-xl-start
+    +breadcrumb_items(1)
+    include ../section/tables/_section_tables-1
+    include ../section/tables/_section_tables-2
+    include ../section/tables/_section_tables-3
+  // Page Footer
+  include ../elements/_footer-widget
+
+
+
+

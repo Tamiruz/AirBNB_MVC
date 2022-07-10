@@ -1,0 +1,32 @@
+//Section Accordion
+section.section-lg.section-mod-1
+  .container
+    h2 Accordion
+    hr
+    .row
+      .col-md-8
+        #accordion-1.accordion-custom
+          +accordion({
+            show: true,
+            parentId: 'accordion-1',
+            title: 'What is the first step in the home buying process?'
+          })
+            p If you are buying your first home it all starts with getting your finance pre-approved. This involves either contacting a bank directly and working with their in-house mortgage advisors or using a mortgage broker. A broker works on your behalf to secure a pre-approval from any number of banks / institutions at their disposal.
+
+          +accordion({
+            parentId: 'accordion-1',
+            title: 'The benefit of using a broker'
+          })
+            p Brokers are often able to negotiate a better deal than you potentially could yourselves by knowing exactly who to talk to and having up to the minute knowledge of what deals different banks are offering (note: they can usually secure interest rates significantly lower than the ones that are publicly advertised by the banks).
+
+          +accordion({
+            parentId: 'accordion-1',
+            title: 'The hidden costs of buying a home'
+          })
+            p If you thought good old wallpaper was outdated and a horrid memory of the past - you're wrong - wallpaper is back in vogue and it's looking mighty fine. To ensure you're prepared when the bills arrive, we've laid out a list of the fees and costs you need to prepare yourself for before signing on the dotted line.
+
+          +accordion({
+            parentId: 'accordion-1',
+            title: 'It\'s all about location'
+          })
+            p Whether you're a first-time buyer, investor or existing homeowner, you need to understand the best locations for your investment. Buying the smallest house on the best street versus the largest house on a less preferred street will reap big rewards when it comes time to sell. As an investor, a condominium that is near public transit or a university is a good move.

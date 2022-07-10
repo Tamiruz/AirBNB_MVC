@@ -1,0 +1,73 @@
+/*
+* @subsection   Google Map
+*/
+$map-height: 200px;
+$map-xs-height: 250px;
+$map-sm-height: 350px;
+$map-md-height: 500px;
+
+$map-md-height-2: 590px;
+$map-md-height-3: 650px;
+$map-md-height-4: 230px;
+
+.google-map-markers {
+  display: none;
+}
+
+.google-map-container {
+  width: 100%;
+
+  button {
+    img {
+      margin: 0;
+    }
+  }
+}
+
+.google-map {
+  width: 100%;
+}
+
+.google-map-1 {
+  height: $map-xs-height;
+
+  @include media-breakpoint-up(sm) {
+    height: $map-xs-height;
+  }
+  @include media-breakpoint-up(md) {
+    height: $map-sm-height;
+  }
+  @include media-breakpoint-up(xl) {
+    height: $map-md-height;
+  }
+}
+
+.google-map-2 {
+  height: $map-xs-height;
+  @include media-breakpoint-up(sm) {
+    height: $map-xs-height;
+  }
+  @include media-breakpoint-up(md) {
+    height: $map-sm-height;
+  }
+  @include media-breakpoint-up(xl) {
+    height: $map-md-height-2;
+  }
+}
+
+.google-map-3 {
+  height: $map-xs-height;
+  @include media-breakpoint-up(sm) {
+    height: $map-xs-height;
+  }
+  @include media-breakpoint-up(md) {
+    height: $map-sm-height;
+  }
+  @include media-breakpoint-up(xl) {
+    height: $map-md-height-3;
+  }
+}
+
+.google-map-4 {
+  height: $map-md-height-4;
+}

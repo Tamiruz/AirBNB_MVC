@@ -1,0 +1,77 @@
+footer.page-foot.text-start(class= footer_class_adjuster )
+  section.footer-content
+    .container
+      .row.flow-offset-3
+        .col-12.col-md-6.col-xl-3
+          .rd-navbar-brand
+            a.brand-name(href='index.html')
+              img( src= brand_name_adjuster, alt="" )
+          p We believe in Simple, Creative & Flexible Design Standards.
+          address.address
+            dl
+              dt Headquarters:
+              dd 795 Folsom Ave, Suite 600 San Francisco, CA 94107
+            dl.dl-horizontal-mod-1
+              dt Phone
+              dd: a(href="callto:#").text-primary (91) 8547 632521
+            dl.dl-horizontal-mod-1
+              dt Fax
+              dd: a(href="callto:#").text-primary (91) 11 4752 1433
+            dl.dl-horizontal-mod-1
+              dt Email
+              dd: a(href="mailto:#").text-primary info@canvas.com
+
+        .col-12.col-md-6.col-xl-3
+          h6.text-ubold Blogroll
+          ul.list-marked.well6.text-start
+            li: a(href="#") Documentation
+            li: a(href="#") Feedback
+            li: a(href="#") Plugins
+            li: a(href="#") Support Forums
+            li: a(href="#") Themes
+            li: a(href="#") WordPress Blog
+            li: a(href="#") WordPress Planet
+        .col-12.col-md-6.col-xl-3
+          h6.text-ubold Recent posts
+          .blog-post.text-start
+            .blog-post-title
+              a(href="blog_post.html").text-primary Believe in the Business of Your Dreams
+            .blog-post-time
+              time.small(datetime="2016") December 28, 2016
+          .blog-post.text-start
+            .blog-post-title
+              a(href="blog_post.html").text-primary Establishing Your Brand on College Campuses
+            .blog-post-time
+              time.small(datetime="2016") December 28, 2016
+          .blog-post.text-start
+            .blog-post-title
+              a(href="blog_post.html").text-primary Beautiful Rumi Quotes that are Worth Reading
+            .blog-post-time
+              time.small(datetime="2016") December 28, 2016
+        .col-12.col-md-6.col-xl-3
+          h6.text-ubold Newsletter
+          p.text-gray Enter your email address to receive all news, updates on new arrivals, special offers and other information.
+          // RD Mailform
+          form.rd-mailform.text-start.subscribe(data-form-output="form-output-global", data-form-type='subscribe', method='post', action='bat/rd-mailform.php')
+            .form-wrap
+              label.form-label(for="email-sub")
+              input#email-sub.form-input(type="email" name="email" data-constraints="@Required @Email", placeholder='Enter e-mail')
+            button.btn.btn-sushi.btn-sm subscribe
+  section.copyright
+    .container
+      .row.row-30.justify-content-between
+        .col-md-auto
+          p
+            | &#169;
+            span.copyright-year All Rights Reserved
+            a(href='terms.html') Terms of Use and Privacy Policy
+        .col-md-auto
+          ul.list-inline
+            li: a.fa-facebook(href="#")
+            li: a.fa-twitter(href="#")
+            li: a.fa-pinterest-p(href="#")
+            li: a.fa-vimeo(href="#")
+            li: a.fa-google(href="#")
+            li: a.fa-rss(href='#')
+  // Rd Mailform result field
+  .rd-mailform-validate

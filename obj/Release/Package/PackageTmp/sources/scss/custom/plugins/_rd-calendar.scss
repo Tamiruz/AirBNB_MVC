@@ -1,0 +1,357 @@
+/*
+* @subsection   RD Calendar
+*
+*
+* @author       Evgeniy Gusarov
+* @see          https://ua.linkedin.com/pub/evgeniy-gusarov/8a/a40/54a
+* @version      1.0.0
+*/
+@import "../base/variables";
+
+.rd-calendar {
+
+  &.show-events {
+
+  }
+}
+
+// Today
+.rdc-today_day {
+
+}
+
+.rdc-today_date {
+
+}
+
+.rdc-month {
+  text-align: right;
+}
+
+.rdc-fullyear {
+  text-align: left;
+}
+
+// Panel
+.rdc-panel {
+
+}
+
+.rdc-month,
+.rdc-fullyear {
+
+  display: inline-block;
+}
+
+// Controls
+.rdc-panel {
+  position: relative;
+  max-width: 360px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.rdc-next, .rdc-prev, .rdc-events_close {
+  color: $brand-sushi;
+  font: 400 18px/38px "FontAwesome";
+  cursor: pointer;
+  transition: .3s all ease;
+
+  &:hover {
+    color: $brand-olive-drab;
+  }
+}
+.rdc-next,
+.rdc-prev {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.rdc-next {
+  right: 10%;
+  &:before {
+    content: '\f054';
+  }
+}
+
+.rdc-prev {
+  left: 10%;
+  &:before {
+    content: '\f053';
+  }
+}
+
+//@include media-breakpoint-up(xl) {
+//  .rdc-month,
+//  .rdc-fullyear {
+//    width: 140px;
+//  }
+//  .rdc-next {
+//    right: 40%;
+//  }
+//  .rdc-prev {
+//    left: 40%;
+//  }
+//}
+
+.rdc-events_close {
+  &:before {
+    content: '\f00d';
+  }
+}
+
+// Events
+.rdc-events {
+  display: none;
+}
+
+.rdc-table_has-events {
+
+  .rdc-table_date {
+    background-color: $primary;
+    color: $white-clr;
+    cursor: pointer;
+  }
+
+  ul {
+    display: none;
+    position: absolute;
+    top: 47px;
+    left: 0;
+    right: 0;
+    width: 100%;
+    margin-bottom: 0;
+    padding: 10px;
+    background-color: $primary;
+    @media (min-width: 640px) {
+      top: 85px;
+      border-radius: $border-radius-large;
+    }
+    @include media-breakpoint-up(lg) {
+      top: 135px;
+    }
+    @include media-breakpoint-up(xl) {
+      top: 125px;
+    }
+    @include media-breakpoint-up(xl) {
+      padding: 40px;
+    }
+    @media (min-width: 1900px) {
+      top: 185px;
+    }
+    li {
+      padding: 0 10px;
+      background-color: $white-clr;
+      @include media-breakpoint-up(lg) {
+        padding: 0 40px;
+      }
+      .table-responsive {
+        border: none;
+      }
+
+      table {
+        margin-bottom: 0;
+        thead {
+          th {
+            text-align: center;
+            padding: 10px 10px;
+            @include media-breakpoint-up(lg) {
+              text-align: left;
+              padding: 26px 30px;
+            }
+
+            span.h4 {
+              font-size: 24px;
+            }
+          }
+        }
+        tr {
+          display: table-row;
+          border-bottom: 1px solid $gray-darker;
+          &.disabled {
+            time {
+              color: $gray-lightest;
+            }
+            button {
+              visibility: hidden;
+            }
+          }
+          &:nth-child(2n) {
+            border-bottom: 1px solid $gray-darker;
+
+            td {
+              background-color: transparent;
+            }
+          }
+        }
+        td {
+          display: block;
+          border: none;
+          time {
+            color: $color-abbey;
+          }
+          &:nth-child(2) {
+            color: $gray-lightest;
+          }
+          @include media-breakpoint-up(lg) {
+            display: table-cell;
+          }
+        }
+        @include media-breakpoint-up(lg) {
+          text-align: left;
+        }
+      }
+    }
+  }
+  .rdc-table_events-count {
+    display: none;
+  }
+}
+
+.rdc-event {
+  //display: none;
+
+  &.active {
+    display: block;
+  }
+}
+
+// Table
+.rdc-table {
+  margin-top: 20px;
+  margin-left: -10px;
+  position: relative;
+  width: 100%;
+
+  @media (min-width: 350px) {
+    margin-left: 0;
+  }
+  @include media-breakpoint-up(md) {
+    margin-top: 40px;
+  }
+  table {
+    border-spacing: 4px;
+    border-collapse: collapse;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+  }
+
+  td {
+    vertical-align: top;
+    border-top: none;
+    padding: 1.5px;
+    @media (min-width: 640px) {
+      padding: 4px;
+    }
+    @include media-breakpoint-up(xl) {
+      padding: 10px;
+    }
+  }
+  th {
+    color: $gray-light;
+    font-size: 16px;
+    font-weight: 900;
+    padding: 0 7px;
+    text-align: left;
+    @include media-breakpoint-up(xl) {
+      font-size: 20px;
+      padding: 5px 0 0 30px;
+    }
+  }
+
+  tr {
+    position: relative;
+    display: inline-block;
+    td:nth-last-child(1),
+    td:nth-last-child(2) {
+      > div {
+        background-color: $gray-dark;
+      }
+    }
+  }
+}
+
+.rdc-month {
+
+}
+
+.rdc-fullyear {
+
+}
+
+.rdc-table_day {
+  width: 42px;
+  color: $gray;
+  font-size: 18px;
+  font-weight: 300;
+  @media (min-width: 640px) {
+    width: 76px;
+  }
+  @include media-breakpoint-up(lg) {
+    width: 126px;
+  }
+  @include media-breakpoint-up(xl) {
+    width: 165px;
+  }
+  @media (min-width: 1900px) {
+    width: 255px;
+  }
+}
+
+.rdc-table_date {
+  width: 41px;
+  height: 41px;
+  font-weight: 900;
+  font-size: 20px;
+  line-height: 1.4;
+  padding: 5px;
+  color: $color-abbey;
+  text-align: left;
+  background-color: $white-clr;
+  box-sizing: border-box;
+
+  box-shadow: 0 1px 5px rgba(0, 0, 0, .2);
+  @media (min-width: 640px) {
+    height: 75px;
+    width: 75px;
+    border-radius: $border-radius-large;
+  }
+  @include media-breakpoint-up(lg) {
+    height: 125px;
+    width: 125px;
+  }
+  @include media-breakpoint-up(xl) {
+    padding: 15px;
+    width: 145px;
+    height: 110px;
+  }
+  @media (min-width: 1900px) {
+    width: 235px;
+    height: 170px;
+  }
+}
+
+.rdc-table_today {
+  position: relative;
+  background-color: $gray-dark;
+  @include media-breakpoint-up(xl) {
+    background-color: transparent;
+    &:before {
+      position: absolute;
+      top: 9px;
+      left: 7px;
+      content: "";
+      display: inline-block;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 2px solid $gray-darker;
+    }
+  }
+}
+
+.rdc-table_next,
+.rdc-table_prev {
+  opacity: .5;
+}
+

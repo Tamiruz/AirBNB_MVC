@@ -1,0 +1,47 @@
+//Section Login
+section.section-lg
+  .container
+    h2 Sign In
+    hr
+    .row
+      .col-12.col-md-8.col-xl-5
+        #tabs-login.tabs-custom.tabs-corporate
+          ul.nav.nav-tabs
+            li.nav-item(role='presentation'): a.nav-link(href='#tabs-login-1' data-bs-toggle='tab') Login
+            li.nav-item(role='presentation'): a.nav-link(href='#tabs-login-2' data-bs-toggle='tab') Registration
+          .tab-content
+            div#tabs-login-1.tab-pane.fade
+              // Login form
+              form
+                .form-wrap
+                  label.form-label(for="name-1") Username or e-mail
+                  input#name-1.form-input(type="text" name="name" )
+                .form-wrap
+                  label.form-label(for="password-1") Password
+                  input#password-1.form-input(type="password" name="password" )
+                .form-wrap-btn
+                  button(type="submit").btn.btn-sushi.btn-sm.btn-min-width-xs Enter
+                  p or enter with
+                  .icon-group
+                    a.icon.icon-sm.icon-social.fa-facebook(href="#")
+                    a.icon.icon-sm.icon-social.fa-twitter(href="#")
+                    a.icon.icon-sm.icon-social.fa-google-plus(href="#")
+            div#tabs-login-2.tab-pane.fade
+              // Login form
+              form
+                .form-wrap
+                  label.form-label(for="name-2") Username
+                  input#name-2.form-input(type="text" name="name" )
+                .form-wrap
+                  label.form-label(for="email") E-mail
+                  input#email.form-input(type="text" name="name" )
+                .form-wrap
+                  label.form-label(for="password-2") Password
+                  input#password-2.form-input(type="password" name="password" )
+                .form-wrap-btn
+                  button(type="submit").btn.btn-sushi.btn-sm.btn-min-width-xs Enter
+                  p or enter with
+                  .icon-group
+                    a.icon.icon-sm.icon-social.fa-facebook(href="#")
+                    a.icon.icon-sm.icon-social.fa-twitter(href="#")
+                    a.icon.icon-sm.icon-social.fa-google-plus(href="#")

@@ -1,0 +1,25 @@
+//Section Login
+section.section-height-mod-1.bg-image.bg-image-1.section-middle
+  .container.text-white.text-center.text-lg-start.z-index
+    h1 Create an Account
+    .row.offset-custom-2
+      .col-12.col-md-8.col-md-offset-2.col-lg-offset-0.col-xl-4
+        .jumbotron.jumbotron-mod-1.text-center.text-lg-start
+            // Rd Mailform result field
+            .rd-mailform-validate
+            // RD Mailform
+            form.rd-mailform.rd-mailform-mod-1(data-result-class='rd-mailform-validate', data-form-type='contact', method='post', action='bat/rd-mailform.php')
+              input(type='text', name='name', data-constraints='@NotEmpty', placeholder='Your name')
+              input(type='text', name='username', data-constraints='@NotEmpty', placeholder='Your username')
+              input(type='text', name='email', data-constraints='@NotEmpty @Email', placeholder='Your e-mail')
+              input(type='password', name='password', data-constraints='@NotEmpty', placeholder='Password')
+              button.btn.btn-primary.btn-md Create an account
+            p Or enter with
+            .btn-group-mod-2
+              a(href="#").btn.btn-sm.btn-info
+                span.fa-facebook
+              a(href="#").btn.btn-sm.btn-info-2
+                span.fa-twitter
+              a(href="#").btn.btn-sm.btn-danger
+                span.fa-google-plus
+

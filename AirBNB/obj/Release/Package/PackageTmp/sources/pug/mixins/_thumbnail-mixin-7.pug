@@ -1,0 +1,27 @@
+mixin thumbnail-7(src, width,height, title, comments, meta_1, meta_2, meta_3, datetime, time)
+  article.thumbnail.thumbnail-2
+    .media.media-mod-5
+      .media-left
+        time(datetime= datetime).h5.text-regular.text-sushi= time
+      .media-body
+        .img-wrap
+          a.img-block(href="blog_post.html")
+            img(src= src alt="" width= width height= height)
+        .caption
+          a(href="blog_post.html").h5.text-sushi= title
+          .caption-meta
+            a(href="#")
+              span.mdi.mdi-account
+              span Admin
+            a(href="blog_post.html").comment
+              span.mdi.mdi-comment-multiple-outline
+              span= comments
+            .post-meta
+              span.mdi.mdi-folder-outline
+              a(href="blog_post.html").meta-link= meta_1
+              | , &nbsp;
+              a(href="blog_post.html").meta-link= meta_2
+              | , &nbsp;
+              a(href="blog_post.html").meta-link= meta_3
+          if block
+            block

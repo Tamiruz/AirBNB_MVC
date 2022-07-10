@@ -1,0 +1,105 @@
+//
+// Pagination Custom
+// --------------------------------------------------
+.pagination {
+  margin: 0;
+
+  > li {
+    > a,
+    > span {
+      min-height: 39px;
+      display: inline-block;
+      font-weight: 700;
+      padding: 5px 13px;
+      border: 2px solid $primary;
+      border-radius: $border-radius-small;
+      background-color: transparent;
+      margin-left: 8px;
+      font-size: 16px;
+      line-height: 1.5;
+      color: $primary;
+      &.fa-chevron-right,
+      &.fa-chevron-left {
+        padding-top: 9px;
+        font-size: 12px;
+
+      }
+    }
+    &:first-child,
+    &:last-child {
+      > a,
+      > span {
+        border-bottom-left-radius: $border-radius-small;
+        border-top-left-radius: $border-radius-small;
+        border-bottom-right-radius: $border-radius-small;
+        border-top-right-radius: $border-radius-small;
+        &:before{
+          position: relative;
+        }
+      }
+    }
+    &:first-child{
+      > a,
+      > span {
+        &:before {
+          left: -1px;
+        }
+      }
+    }
+    &:last-child {
+      > a,
+      > span {
+        &:before {
+          right: -1px;
+        }
+      }
+    }
+    &.active {
+      > a,
+      > span {
+        color: $pagination-active-color;
+        border-color: $pagination-active-bg;
+        background-color: $pagination-active-border;
+      }
+    }
+    &.disabled {
+      > a,
+      > span {
+        color: $gray-darker;
+        border-color: $gray-darker;
+        background-color: transparent;
+        pointer-events: none;
+      }
+    }
+    @include media-breakpoint-up(md) {
+      > a,
+      > span {
+        min-height: 50px;
+        padding: 10px 19px;
+        &.fa-chevron-right,
+        &.fa-chevron-left {
+          padding-top: 15px;
+        }
+      }
+
+    }
+  }
+
+  > li > a,
+  > li > span {
+    &:focus {
+      color: $primary;
+      background-color: transparent;
+      border-color: $primary;
+    }
+    &:hover {
+      color: $pagination-hover-color;
+      background-color: $pagination-hover-bg;
+      border-color: $primary;
+    }
+  }
+  //&.offset-10{
+  //  margin-top: 30px;
+  //}
+}
+

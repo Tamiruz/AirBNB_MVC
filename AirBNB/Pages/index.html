@@ -1,0 +1,730 @@
+﻿<!DOCTYPE html>
+<html class="wide wow-animation" lang="en">
+<head>
+    <style>
+        .thumbnail .img-link, .img-thumbnail-variant-1 img, .img-thumbnail-variant-1 .caption {
+            border-radius: 20px;
+        }
+
+        .img-link {
+            width: 370px;
+            height: 250px;
+        }
+
+        .img-thumbnail-variant-1 img {
+            width: 570px;
+            height: 380px;
+        }
+    </style>
+
+    <!-- Site Title-->
+    <title>Home</title>
+    <meta name="format-detection" content="telephone=no">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta charset="utf-8">
+
+    <!-- Stylesheets-->
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Lato:400,700,900,400italic">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/fonts.css">
+    <link rel="stylesheet" href="css/style.css">
+
+    <script src="../Scripts/ajaxCalls.js"></script>
+    <script src="../Scripts/jquery-3.3.1.min.js"></script>
+    <script src="../Scripts/renderFunction.js"></script>
+    <script src="../Scripts/commonFunctions.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+
+    <!-- Script-->
+    <script>
+        $(document).ready(function () {
+
+            checkLogin();
+
+            //Removing the previous filters in localStorage.
+            localStorage.removeItem("group101_filters");
+
+            //Getting the homepage tiny list apartments which contains 6 apartments.
+            api = `../api/Apartments/tinyGet`;
+            ajaxCall("GET", api, "", successCB, errorCB);
+
+            //Getting the popular apartment types.
+            apiPopularType = `../api/Apartments/propertyTypeGet`;
+            ajaxCall("GET", apiPopularType, "", successPopularCB, errorPopularCB);
+
+            //Routing to single catalog page if guest clicks on apartment to view more details.
+            routeSingleApartmentHTML();
+
+            //Routing the submit button for filter search.
+            $('#frmSubmit').submit(searchApartments);
+
+            //If the user clicks on the property type, we will show him all the apartments with this type.
+            $(".propertyType").click(function () {
+                let id = this.id;                
+                let propType = $('#h' + this.id).html();
+                let api = `../api/Apartments/getByProp/${propType}`
+                ajaxCall("GET", api, "", successByProp, errorByProp);
+            });
+
+            $("#allApartments").click(function () {
+                let api = `../api/Apartments/getAllApartments`
+                ajaxCall("GET", api, "", getAllApartmentsSCB, errorCB);
+            });
+
+        });
+
+        //Getting all apartments success.
+        function getAllApartmentsSCB(apartments) {
+            console.log(apartments);
+            localStorage.setItem('group101_searchApartments', JSON.stringify(apartments)); // Send apartments results.
+            localStorage.setItem('group101_index', JSON.stringify(0));                     // Send starting index.
+            window.location = 'property-catalog-grid.html';
+        }
+
+        //Getting all apartments by this specific property type.
+        function successByProp(apartments) {
+            console.log(apartments);
+            localStorage.setItem('group101_searchApartments', JSON.stringify(apartments)); // Send apartments results.
+            localStorage.setItem('group101_index', JSON.stringify(0));                     // Send starting index.
+            window.location = 'property-catalog-grid.html';
+        }
+
+        //Error function for the propertyType apartments.
+        function errorByProp(error) {
+            console.log(error);
+        }
+
+        // need to put in js file. (index and single-catalog)
+        //Routing to single catalog page if guest clicks on apartment to view more details.
+        function routeSingleApartmentHTML() {
+            $('.img-link, .apartment').click(function (event) {
+                // Remember the link href
+                let href = 'property-catalog-single.html';
+                let id = this.id;
+                // Save apartment id in local storage
+                localStorage.setItem("group101_apartmentId", JSON.stringify(id));
+                // Go to the link
+                window.location = href;
+            });
+        }
+
+        //Success CB function for tiny list apartments.
+        function successCB(apartments) {
+            render(apartments);
+            renderTopPage(apartments);
+        }
+        //Error CB for tinylist apartments or searchApartments function.
+        function errorCB(error) {
+            console.error(error);
+        }
+
+
+        //Success CB function for apartment catagories.
+        function successPopularCB(apartmentCatgeories) {
+            renderPropertyType(apartmentCatgeories);
+        }
+
+        //Error CB function for apartment catagories.
+        function errorPopularCB(error) {
+            console.error(error);
+        }
+
+        // Rener apartments (Tiny-list)
+        function render(apartments) {
+
+            arrImgs = $('.thumbnail-3.thumbnail img');      // catch all apartments imgs.
+            arrDivs = $('.thumbnail-3.thumbnail .caption'); // catch all apartments description divs.
+
+            for (var i = 0; i < 6; i++) {
+
+                let img = arrImgs.eq(i);
+                img.attr("src", apartments[i].Picture);
+                img.parent().attr('id', apartments[i].Id);  // catch a tag and insert him aprtmend id as element id
+
+                let div = arrDivs.eq(i);
+                let str = apartments[i].Price + '$/<span class="mon text-regular">night</span>';
+                div.find('span').first().html(str);
+                div.find('a').html(apartments[i].Name);
+                div.find('a').attr('id', apartments[i].Id); // catch a tag and insert him aprtmend id as element id
+                div.find('p').html(renderDescription(apartments[i].Description, 38));
+                div.find('li').first().parent().html(renderStars(apartments[i].ReviewRating, apartments[i].NumOfReviews));
+                div.find('.describe-2 li').first().html(apartments[i].Bedrooms + ' bedrooms');
+                div.find('.describe-2 li').last().html(renderPersons(apartments[i].Accommodates));
+            }
+        }
+
+        //Rendering top page.
+        function renderTopPage(apartments) {
+            $('.price').html(apartments[6].Price + '$<span>/night</span>');
+            $('.h3').html(apartments[6].Name);
+            $('.swiper-caption-wrap').find('p').last().html(renderDescription(apartments[6].Description, 10));
+            $("#desc").html(renderDescription(apartments[6].Description, 10));
+            $('.swiper-slide').css("background-image", 'url("' + apartments[6].Picture + '")');
+            $(".topPageBTN").attr('id', apartments[6].Id);
+
+            // Route 'book now' button.
+            $(".topPageBTN").click(function () {
+                // Remember the link href
+                let id = this.id;
+                // Save apartment id in local storage
+                localStorage.setItem("group101_apartmentId", JSON.stringify(id));
+                // Go to the link
+                window.location = 'property-catalog-single.html';
+            });
+
+        }
+
+        //Rendering the property types.
+        function renderPropertyType(apartmentCatgeories) {
+            let arr_aTags = $('.img-thumbnail-variant-1');      // catch all categories imgs.
+            let arrDivs = $('.img-thumbnail-variant-1 .caption'); // catch all apartments description divs.
+            let count = 0;
+            let size = 0;
+            for (var i = 0; i < 4; i++) { // 3 - Number of categories.
+
+                let img = arr_aTags.eq(i).find('img');
+                img.attr("src", apartmentCatgeories[i].Picture);
+                let div = arrDivs.eq(i);
+
+                div.parent().parent().attr('id', 'div' + (i + 1));
+                div.find('h4').attr('id', 'hdiv' + (i + 1));
+
+                div.find('h4').html(apartmentCatgeories[i].PropertyType);
+                div.find('p').html(apartmentCatgeories[i].Count + " Properties");
+                count += apartmentCatgeories[i].Count;
+                size += apartmentCatgeories[i].Count;
+            }
+            /*
+            for (var i = 3; i < apartmentCatgeories.length; i++)
+                size += apartmentCatgeories[i].Count;
+            let img = arr_aTags.eq(3).find('img');
+            img.attr("src", apartmentCatgeories[3].Picture);
+            let div = arrDivs.eq(3);
+            div.find('h4').html("Other");
+            div.find('p').html((size - count) + " Properties");
+            */
+        }
+    </script>
+</head>
+<body>
+    <div class="preloader">
+        <div class="preloader-body">
+            <div class="cssload-container">
+                <div class="cssload-speeding-wheel"></div>
+            </div>
+        </div>
+    </div>
+    <!-- Page-->
+    <div class="page">
+        <!-- Page Header-->
+        <header class="page-head">
+            <!-- RD Navbar-->
+            <div class="rd-navbar-wrap header_corporate">
+                <nav class="rd-navbar" data-layout="rd-navbar-fixed" data-sm-layout="rd-navbar-fixed" data-md-layout="rd-navbar-fullwidth" data-lg-layout="rd-navbar-fullwidth" data-xl-layout="rd-navbar-fullwidth" data-xxl-layout="rd-navbar-fullwidth" data-device-layout="rd-navbar-fixed" data-sm-device-layout="rd-navbar-fixed" data-md-device-layout="rd-navbar-fixed" data-lg-device-layout="rd-navbar-fullwidth" data-xl-device-layout="rd-navbar-fullwidth" data-xxl-device-layout="rd-navbar-fullwidth" data-stick-up-offset="100px">
+                    <!--RD Navbar Panel-->
+                    <div class="rd-navbar-top-panel">
+                        <div class="rd-navbar-top-panel-wrap">
+                            <dl class="dl-horizontal-mod-1 login">
+                                <dt><span class="mdi mdi-login icon-xxs-mod-2"></span></dt>
+                                <dd><a class="text-sushi sign" href="login.html" > Login/Registration</a></dd>
+                            </dl>
+                            <div class="top-panel-inner">
+                                <dl class="dl-horizontal-mod-1">
+                                    <dt><span class="material-icons-local_phone icon-xxs-mod-2"></span></dt>
+                                    <dd><a href="callto:#"> +1 (855) 635-7754</a></dd>
+                                </dl>
+                                <dl class="dl-horizontal-mod-1">
+                                    <dt><span class="material-icons-drafts icon-xxs-mod-2"></span></dt>
+                                    <dd><a href="mailto:#">support@airbnb.com</a></dd>
+                                </dl>
+                                <address>
+                                    <dl class="dl-horizontal-mod-1">
+                                        <dt><span class="mdi mdi-map-marker-radius icon-xxs-mod-2"></span></dt>
+                                        <dd><a class="inset-11" > 888 Brannan Street San Francisco, CA 94103 USA </a></dd>
+                                    </dl>
+                                </address>
+                            </div>
+                            <ul class="list-inline">
+                                <li><a class="fa-facebook" href="https://www.facebook.com/airbnb/"></a></li>
+                                <li><a class="fa-twitter" href="https://twitter.com/airbnb"></a></li>
+                                <li><a class="mdi mdi-instagram" href="https://www.instagram.com/airbnb/"></a></li>
+                                <li><a class="fa-google" href="https://www.google.com/search?q=airbnb&hl=iw&source=hp&ei=JJmXYpbLLJ2Vxc8Pq9q3mA4&iflsig=AJiK0e8AAAAAYpenNDXx8_Ad_y2dMZ3THoR2Ts333B_l&ved=0ahUKEwiW7aKk24z4AhWdSvEDHSvtDeMQ4dUDCAc&uact=5&oq=airbnb&gs_lcp=Cgdnd3Mtd2l6EAMyBAgAEEMyFAguEIAEELEDEIMBEMcBENEDEMkDMgUIABCSAzIFCAAQkgMyBQgAEIAEMgUIABCABDIFCAAQgAQyBQgAEIAEMgUIABCABDIFCAAQgAQ6EAguELEDEIMBEMcBENEDEEM6EQguEIAEELEDEIMBEMcBENEDOgsILhCABBDHARDRAzoICAAQgAQQsQM6CwgAEIAEELEDEIMBOg4ILhCABBCxAxDHARCjAjoRCC4QgAQQsQMQgwEQxwEQrwFQiANYog1g8g5oAXAAeACAAZ4BiAGfBpIBAzAuNpgBAKABAbABAA&sclient=gws-wiz"></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="rd-navbar-inner inner-wrap">
+                        <div class="rd-navbar-panel">
+                            <!-- RD Navbar Toggle-->
+                            <button class="rd-navbar-toggle" data-rd-navbar-toggle=".rd-navbar-nav-wrap"><span></span></button>
+                            <!-- RD Navbar Brand-->
+                            <div class="rd-navbar-brand"><a class="brand-name" href="index.html"><img src="images/logo-1.png" alt=""></a></div>
+                        </div>
+                        <div class="btn-group"><a class="btn btn-sm btn-primary userLogin">Hello Guest</a></div>
+                        <div class="rd-navbar-nav-wrap">
+                            <!-- RD Navbar Nav-->
+                            <ul class="rd-navbar-nav">
+                                <li class="active"><a href="./">Home</a></li>
+                                <li>
+                                    <a href="reservationsManagment.html">My reservations</a>
+                                </li>
+                                <li>
+                                    <a href="additions.html">Additions</a>
+                                </li>
+                                <li id="adminPages">
+                                    <a href="">Management pages</a>
+                                    <!-- RD Navbar Dropdown-->
+                                    <ul class="rd-navbar-dropdown">
+                                        <li><a href="usersManagment.html">Users</a></li>
+                                        <li><a href="hostManagement.html">Hosts</a></li>
+                                        <li><a href="apartmentManagement.html">Apartments</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="favorites.html">My Favorites</a>
+                                </li>
+                                <li class="link-group"><a class="btn btn-sm btn-primary userLogin">Hello Guest</a></li>
+                                <li class="rd-navbar-bottom-panel">
+                                    <div class="rd-navbar-bottom-panel-wrap">
+                                        <dl class="dl-horizontal-mod-1 login">
+                                            <dt><span class="mdi mdi-login icon-xxs-mod-2"></span></dt>
+                                            <dd><a class="text-sushi sign" href="login.html"> Login/Registration</a></dd>
+                                        </dl>
+                                        <div class="top-panel-inner">
+                                            <dl class="dl-horizontal-mod-1">
+                                                <dt><span class="material-icons-local_phone icon-xxs-mod-2"></span></dt>
+                                                <dd><a href="callto:#"> +1 (855) 635-7754</a></dd>
+                                            </dl>
+                                            <dl class="dl-horizontal-mod-1">
+                                                <dt><span class="material-icons-drafts icon-xxs-mod-2"></span></dt>
+                                                <dd><a href="mailto:#">support@airbnb.com</a></dd>
+                                            </dl>
+                                            <address>
+                                                <dl class="dl-horizontal-mod-1">
+                                                    <dt><span class="icon-xxs-mod-2 mdi mdi-map-marker-radius"></span></dt>
+                                                    <dd><a class="inset-11" href="#">795 Folsom Ave, Suite 600 San Francisco, CA 94107</a></dd>
+                                                </dl>
+                                            </address>
+                                        </div>
+                                        <ul class="list-inline">
+                                            <li><a class="fa-facebook" href="https://www.facebook.com/airbnb/"></a></li>
+                                            <li><a class="fa-twitter" href="https://twitter.com/airbnb"></a></li>
+                                            <li><a class="mdi mdi-instagram" href="https://www.instagram.com/airbnb/"></a></li>
+                                            <li><a class="fa-google" href="https://www.google.com/search?q=airbnb&hl=iw&source=hp&ei=JJmXYpbLLJ2Vxc8Pq9q3mA4&iflsig=AJiK0e8AAAAAYpenNDXx8_Ad_y2dMZ3THoR2Ts333B_l&ved=0ahUKEwiW7aKk24z4AhWdSvEDHSvtDeMQ4dUDCAc&uact=5&oq=airbnb&gs_lcp=Cgdnd3Mtd2l6EAMyBAgAEEMyFAguEIAEELEDEIMBEMcBENEDEMkDMgUIABCSAzIFCAAQkgMyBQgAEIAEMgUIABCABDIFCAAQgAQyBQgAEIAEMgUIABCABDIFCAAQgAQ6EAguELEDEIMBEMcBENEDEEM6EQguEIAEELEDEIMBEMcBENEDOgsILhCABBDHARDRAzoICAAQgAQQsQM6CwgAEIAEELEDEIMBOg4ILhCABBCxAxDHARCjAjoRCC4QgAQQsQMQgwEQxwEQrwFQiANYog1g8g5oAXAAeACAAZ4BiAGfBpIBAzAuNpgBAKABAbABAA&sclient=gws-wiz"></a></li>
+                                        </ul>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </header>
+        <section>
+            <!--Swiper-->
+            <div class="swiper-container swiper-slider swiper-slider-1">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide" data-slide-bg="">
+                        <div class="swiper-slide-caption section-xs">
+                            <div class="container">
+                                <div class="swiper-caption-wrap" data-caption-animate="fadeInDown">
+                                    <p class="h3" data-caption-animate="fadeIn" data-caption-delay="800"></p>
+                                    <hr data-caption-animate="fadeIn" data-caption-delay="800">
+                                    <p id="desc" class="d-none d-md-block" data-caption-animate="fadeIn" data-caption-delay="800">Loading...</p>
+                                    <div class="price text-ubold" data-caption-animate="fadeIn" data-caption-delay="800"></div><a class="btn btn-sm btn-sushi topPageBTN" data-caption-animate="fadeIn" data-caption-delay="800">book now</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Page Content-->
+        <main class="page-content">
+            <!--Section Find your home-->
+            <section class="section-md section-bottom-0 bg-gray-dark">
+                <div class="container position-margin-top">
+                    <div class="search-form-wrap bg-default container-shadow">
+                        <h3>Find Your Apartment</h3>
+                        <form class="form-variant-1" action="#" id="frmSubmit"name="search-form">
+                            <div class="form-wrap">
+                                <label class="form-label" for="keyword">Keyword</label>
+                                <input class="form-input" id="keyword" value="Any" type="text" name="keyword" placeholder="Any">
+                            </div>
+
+                            <div class="form-wrap">
+                                <label class="form-label" for="from">From</label>
+                                <br />
+                                <input type="date" class="form-input" id="from" min="{new Date().toISOString().split('T')[0]" required/>
+                            </div>
+                            <div class="form-wrap">
+                                <label class="form-label" for="to">To</label>
+                                <br />
+                                <input type="date" class="form-input" id="to" min="{new Date().toISOString().split('T')[0]" required/>
+                            </div>
+                            <div class="form-wrap width-1">
+                                <span>Price (USD)<br></span>
+                                <div class="form-inline-flex-xs">
+                                    <input class="rd-range-input-value rd-range-input-value-1 form-input" id="range-1" type="text" name="range-2"><span class="text-abbey dash">&mdash;</span>
+                                    <input class="rd-range-input-value rd-range-input-value-2 form-input" id="range-2" type="text" name="range-3">
+                                </div>
+                                <div class="rd-range" data-min="10" data-max="1000" data-start="[10, 1000]" data-step="10" data-tooltip="true" data-min-diff="100" data-input=".rd-range-input-value-1" data-input-2=".rd-range-input-value-2"></div>
+                            </div>
+                            <div class="form-wrap width-1">
+                                <span>Distance from center(Meters)<br></span>
+                                <div class="form-inline-flex-xs">
+                                    <input class="rd-range-input-value rd-range-input-value-3 form-input" id="range-3" type="text" name="range-2"><span class="text-abbey dash">&mdash;</span>
+                                    <input class="rd-range-input-value rd-range-input-value-4 form-input" id="range-4" type="text" name="range-3">
+                                </div>
+
+                                <div class="rd-range" data-min="0" data-max="10000" data-start="[0, 10000]" data-step="50" data-tooltip="true" data-min-diff="500" data-input=".rd-range-input-value-3" data-input-2=".rd-range-input-value-4"></div>
+                            </div>
+                            <div class="form-wrap width-2">
+                                <label class="form-label" for="select-search-7">Min Bedrooms</label>
+                                <select class="form-input select-filter" id="select-search-7" data-minimum-results-for-search="Infinity">
+                                    <option value="Any" selected>Any</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                </select>
+                            </div>
+                            <div class="form-wrap width-2">
+                                <label class="form-label" for="select-search-8">Review rating</label>
+                                <select class="form-input select-filter" id="select-search-8" data-minimum-results-for-search="Infinity">
+                                    <option value="Any" selected>Any</option>
+                                    <option value="1">1+</option>
+                                    <option value="2">2+</option>
+                                    <option value="3">3+</option>
+                                    <option value="4">4+</option>
+                                    <option value="5">5</option>
+                                </select>
+                            </div>
+                            <input type="submit" class="btn btn-sm btn-sushi btn-min-width-sm" value="Search"/>
+                        </form>
+                    </div>
+                </div>
+            </section>
+            <!--Section popular categories 1-->
+            <section class="section-lg text-center text-md-start bg-gray-dark">
+                <div class="container">
+                    <h2>Popular categories</h2>
+                    <hr>
+                    <div class="row offset-custom-11">
+                        <div class="col-12 col-md-6 propertyType">
+                            <a class="img-thumbnail-variant-1">
+                                <img src="" alt="" width="570" height="380">
+                                <div class="caption">
+                                    <h4 class="text-white"></h4>
+                                    <p></p>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-12 col-md-6 propertyType">
+                            <a class="img-thumbnail-variant-1">
+                                <img src="" alt="" width="570" height="380">
+                                <div class="caption">
+                                    <h4 class="text-white"></h4>
+                                    <p></p>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-12 col-md-6 propertyType">
+                            <a class="img-thumbnail-variant-1" >
+                                <img src="" alt="" width="570" height="380">
+                                <div class="caption">
+                                    <h4 class="text-white"></h4>
+                                    <p></p>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-12 col-md-6 propertyType">
+                            <a class="img-thumbnail-variant-1">
+                                <img src="" alt="" width="570" height="380">
+                                <div class="caption">
+                                    <h4 class="text-white"></h4>
+                                    <p></p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!--Section Recent Properties-->
+            <section class="section-lg text-center text-md-start">
+                <div class="container">
+                    <h2>Top Reviews Apartments</h2>
+                    <hr>
+                    <div class="row clearleft-custom" id="tamir">
+                        <div class="col-12 col-md-6 col-lg-4">
+                            <div class="thumbnail thumbnail-3">
+                                <a class="img-link"><img src="images/preloader.gif" alt="" width="370" height="250" /></a>
+                                <div class="caption">
+                                    <h4><a class="text-sushi apartment">--------</a></h4><span class="thumbnail-price h5">----/<span class="mon text-regular">-------</span></span>
+                                    <ul class="describe-1">
+                                        <li>
+                                            <span class="icon-square icon-sm">
+                                                <svg x="0px" y="0px" viewbox="0 0 100 100" style="enable-background:new 0 0 100 100;" xml:space="preserve">
+                                                <g>
+                                                <path d="M3.6,75.7h3.6V7.3l85.7-0.1v85.3l-16.7-0.1l0-16.7c0-0.9-0.4-1.9-1-2.5c-0.7-0.7-1.6-1-2.5-1h-69V75.7h3.6                          H3.6v3.6H69L69,96c0,2,1.6,3.6,3.6,3.6l23.8,0.1c1,0,1.9-0.4,2.5-1c0.7-0.7,1-1.6,1-2.5V3.6c0-1-0.4-1.9-1-2.5                          c-0.7-0.7-1.6-1-2.5-1L3.6,0.1C1.6,0.2,0,1.7,0,3.7v72c0,0.9,0.4,1.9,1,2.5c0.7,0.7,1.6,1,2.5,1V75.7z"></path>
+                                                <path d="M38.1,76.9v-9.5c0-1.3-1.1-2.4-2.4-2.4c-1.3,0-2.4,1.1-2.4,2.4v9.5c0,1.3,1.1,2.4,2.4,2.4                          C37,79.3,38.1,78.2,38.1,76.9"></path>
+                                                <path d="M38.1,50.7V15c0-1.3-1.1-2.4-2.4-2.4c-1.3,0-2.4,1.1-2.4,2.4v35.7c0,1.3,1.1,2.4,2.4,2.4                          C37,53.1,38.1,52.1,38.1,50.7"></path>
+                                                <path d="M2.4,38.8h33.3c1.3,0,2.4-1.1,2.4-2.4c0-1.3-1.1-2.4-2.4-2.4H2.4c-1.3,0-2.4,1.1-2.4,2.4                          C0,37.8,1.1,38.8,2.4,38.8"></path>
+                                                <path d="M35.7,46h31c1.3,0,2.4-1.1,2.4-2.4c0-1.3-1.1-2.4-2.4-2.4h-31c-1.3,0-2.4,1.1-2.4,2.4                          C33.3,44.9,34.4,46,35.7,46"></path>
+                                                <path d="M78.6,46h16.7c1.3,0,2.4-1.1,2.4-2.4c0-1.3-1.1-2.4-2.4-2.4H78.6c-1.3,0-2.4,1.1-2.4,2.4                          C76.2,44.9,77.3,46,78.6,46"></path>
+                                                <path d="M78.6,46h16.7c1.3,0,2.4-1.1,2.4-2.4c0-1.3-1.1-2.4-2.4-2.4H78.6c-1.3,0-2.4,1.1-2.4,2.4                          C76.2,44.9,77.3,46,78.6,46"></path>
+                                                <path d="M81,43.6v-7.1c0-1.3-1.1-2.4-2.4-2.4c-1.3,0-2.4,1.1-2.4,2.4v7.1c0,1.3,1.1,2.4,2.4,2.4                          C79.9,46,81,44.9,81,43.6"></path>
+                                                <path d="M81,43.6v-7.1c0-1.3-1.1-2.4-2.4-2.4c-1.3,0-2.4,1.1-2.4,2.4v7.1c0,1.3,1.1,2.4,2.4,2.4                            C79.9,46,81,44.9,81,43.6"></path>
+                            </g>
+                          </svg>
+                                            </span>1200 sq ft
+                                        </li>
+                                        <li><span class="icon icon-sm icon-primary hotel-icon-10"></span>---</li>
+                                    </ul>
+                                    <ul class="describe-2">
+                                        <li><span class="icon icon-sm icon-primary hotel-icon-05"></span>---</li>
+                                        <li><span class="icon icon-sm icon-primary hotel-icon-26"></span>---</li>
+                                    </ul>
+                                    <p class="text-abbey">---</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-4">
+                            <div class="thumbnail thumbnail-3">
+                                <a class="img-link"><img src="images/preloader.gif" alt="" width="370" height="250" /></a>
+                                <div class="caption">
+                                    <h4><a class="text-sushi apartment">---</a></h4><span class="thumbnail-price h5">---/<span class="mon text-regular">---</span></span>
+                                    <ul class="describe-1">
+                                        <li>
+                                            <span class="icon-square icon-sm">
+                                                <svg x="0px" y="0px" viewbox="0 0 100 100" style="enable-background:new 0 0 100 100;" xml:space="preserve">
+                                                <g>
+                                                <path d="M3.6,75.7h3.6V7.3l85.7-0.1v85.3l-16.7-0.1l0-16.7c0-0.9-0.4-1.9-1-2.5c-0.7-0.7-1.6-1-2.5-1h-69V75.7h3.6                          H3.6v3.6H69L69,96c0,2,1.6,3.6,3.6,3.6l23.8,0.1c1,0,1.9-0.4,2.5-1c0.7-0.7,1-1.6,1-2.5V3.6c0-1-0.4-1.9-1-2.5                          c-0.7-0.7-1.6-1-2.5-1L3.6,0.1C1.6,0.2,0,1.7,0,3.7v72c0,0.9,0.4,1.9,1,2.5c0.7,0.7,1.6,1,2.5,1V75.7z"></path>
+                                                <path d="M38.1,76.9v-9.5c0-1.3-1.1-2.4-2.4-2.4c-1.3,0-2.4,1.1-2.4,2.4v9.5c0,1.3,1.1,2.4,2.4,2.4                          C37,79.3,38.1,78.2,38.1,76.9"></path>
+                                                <path d="M38.1,50.7V15c0-1.3-1.1-2.4-2.4-2.4c-1.3,0-2.4,1.1-2.4,2.4v35.7c0,1.3,1.1,2.4,2.4,2.4                          C37,53.1,38.1,52.1,38.1,50.7"></path>
+                                                <path d="M2.4,38.8h33.3c1.3,0,2.4-1.1,2.4-2.4c0-1.3-1.1-2.4-2.4-2.4H2.4c-1.3,0-2.4,1.1-2.4,2.4                          C0,37.8,1.1,38.8,2.4,38.8"></path>
+                                                <path d="M35.7,46h31c1.3,0,2.4-1.1,2.4-2.4c0-1.3-1.1-2.4-2.4-2.4h-31c-1.3,0-2.4,1.1-2.4,2.4                          C33.3,44.9,34.4,46,35.7,46"></path>
+                                                <path d="M78.6,46h16.7c1.3,0,2.4-1.1,2.4-2.4c0-1.3-1.1-2.4-2.4-2.4H78.6c-1.3,0-2.4,1.1-2.4,2.4                          C76.2,44.9,77.3,46,78.6,46"></path>
+                                                <path d="M78.6,46h16.7c1.3,0,2.4-1.1,2.4-2.4c0-1.3-1.1-2.4-2.4-2.4H78.6c-1.3,0-2.4,1.1-2.4,2.4                          C76.2,44.9,77.3,46,78.6,46"></path>
+                                                <path d="M81,43.6v-7.1c0-1.3-1.1-2.4-2.4-2.4c-1.3,0-2.4,1.1-2.4,2.4v7.1c0,1.3,1.1,2.4,2.4,2.4                          C79.9,46,81,44.9,81,43.6"></path>
+                                                <path d="M81,43.6v-7.1c0-1.3-1.1-2.4-2.4-2.4c-1.3,0-2.4,1.1-2.4,2.4v7.1c0,1.3,1.1,2.4,2.4,2.4                            C79.9,46,81,44.9,81,43.6"></path>
+                            </g>
+                          </svg>
+                                            </span>1200 sq ft
+                                        </li>
+                                        <li><span class="icon icon-sm icon-primary hotel-icon-10"></span>2 bathrooms</li>
+                                    </ul>
+                                    <ul class="describe-2">
+                                        <li><span class="icon icon-sm icon-primary hotel-icon-05"></span>4 bedrooms</li>
+                                        <li><span class="icon icon-sm icon-primary hotel-icon-26"></span>2 garages</li>
+                                    </ul>
+                                    <p class="text-abbey">---</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-4">
+                            <div class="thumbnail thumbnail-3">
+                                <a class="img-link"><img src="images/preloader.gif" alt="" width="370" height="250" /></a>
+                                <div class="caption">
+                                    <h4><a class="text-sushi apartment">---</a></h4><span class="thumbnail-price h5">---/<span class="mon text-regular">---</span></span>
+                                    <ul class="describe-1">
+                                        <li>
+                                            <span class="icon-square icon-sm">
+                                                <svg x="0px" y="0px" viewbox="0 0 100 100" style="enable-background:new 0 0 100 100;" xml:space="preserve">
+                                                <g>
+                                                <path d="M3.6,75.7h3.6V7.3l85.7-0.1v85.3l-16.7-0.1l0-16.7c0-0.9-0.4-1.9-1-2.5c-0.7-0.7-1.6-1-2.5-1h-69V75.7h3.6                          H3.6v3.6H69L69,96c0,2,1.6,3.6,3.6,3.6l23.8,0.1c1,0,1.9-0.4,2.5-1c0.7-0.7,1-1.6,1-2.5V3.6c0-1-0.4-1.9-1-2.5                          c-0.7-0.7-1.6-1-2.5-1L3.6,0.1C1.6,0.2,0,1.7,0,3.7v72c0,0.9,0.4,1.9,1,2.5c0.7,0.7,1.6,1,2.5,1V75.7z"></path>
+                                                <path d="M38.1,76.9v-9.5c0-1.3-1.1-2.4-2.4-2.4c-1.3,0-2.4,1.1-2.4,2.4v9.5c0,1.3,1.1,2.4,2.4,2.4                          C37,79.3,38.1,78.2,38.1,76.9"></path>
+                                                <path d="M38.1,50.7V15c0-1.3-1.1-2.4-2.4-2.4c-1.3,0-2.4,1.1-2.4,2.4v35.7c0,1.3,1.1,2.4,2.4,2.4                          C37,53.1,38.1,52.1,38.1,50.7"></path>
+                                                <path d="M2.4,38.8h33.3c1.3,0,2.4-1.1,2.4-2.4c0-1.3-1.1-2.4-2.4-2.4H2.4c-1.3,0-2.4,1.1-2.4,2.4                          C0,37.8,1.1,38.8,2.4,38.8"></path>
+                                                <path d="M35.7,46h31c1.3,0,2.4-1.1,2.4-2.4c0-1.3-1.1-2.4-2.4-2.4h-31c-1.3,0-2.4,1.1-2.4,2.4                          C33.3,44.9,34.4,46,35.7,46"></path>
+                                                <path d="M78.6,46h16.7c1.3,0,2.4-1.1,2.4-2.4c0-1.3-1.1-2.4-2.4-2.4H78.6c-1.3,0-2.4,1.1-2.4,2.4                          C76.2,44.9,77.3,46,78.6,46"></path>
+                                                <path d="M78.6,46h16.7c1.3,0,2.4-1.1,2.4-2.4c0-1.3-1.1-2.4-2.4-2.4H78.6c-1.3,0-2.4,1.1-2.4,2.4                          C76.2,44.9,77.3,46,78.6,46"></path>
+                                                <path d="M81,43.6v-7.1c0-1.3-1.1-2.4-2.4-2.4c-1.3,0-2.4,1.1-2.4,2.4v7.1c0,1.3,1.1,2.4,2.4,2.4                          C79.9,46,81,44.9,81,43.6"></path>
+                                                <path d="M81,43.6v-7.1c0-1.3-1.1-2.4-2.4-2.4c-1.3,0-2.4,1.1-2.4,2.4v7.1c0,1.3,1.1,2.4,2.4,2.4                            C79.9,46,81,44.9,81,43.6"></path>
+                            </g>
+                          </svg>
+                                            </span>1200 sq ft
+                                        </li>
+                                        <li><span class="icon icon-sm icon-primary hotel-icon-10"></span>---</li>
+                                    </ul>
+                                    <ul class="describe-2">
+                                        <li><span class="icon icon-sm icon-primary hotel-icon-05"></span>---</li>
+                                        <li><span class="icon icon-sm icon-primary hotel-icon-26"></span>---</li>
+                                    </ul>
+                                    <p class="text-abbey"> &amp;</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-4">
+                            <div class="thumbnail thumbnail-3">
+                                <a class="img-link"><img src="images/preloader.gif" alt="" width="370" height="250" /></a>
+                                <div class="caption">
+                                    <h4><a class="text-sushi apartment">---</a></h4><span class="thumbnail-price h5">$4,339.00/<span class="mon text-regular">month</span></span>
+                                    <ul class="describe-1">
+                                        <li>
+                                            <span class="icon-square icon-sm">
+                                                <svg x="0px" y="0px" viewbox="0 0 100 100" style="enable-background:new 0 0 100 100;" xml:space="preserve">
+                                                <g>
+                                                <path d="M3.6,75.7h3.6V7.3l85.7-0.1v85.3l-16.7-0.1l0-16.7c0-0.9-0.4-1.9-1-2.5c-0.7-0.7-1.6-1-2.5-1h-69V75.7h3.6                          H3.6v3.6H69L69,96c0,2,1.6,3.6,3.6,3.6l23.8,0.1c1,0,1.9-0.4,2.5-1c0.7-0.7,1-1.6,1-2.5V3.6c0-1-0.4-1.9-1-2.5                          c-0.7-0.7-1.6-1-2.5-1L3.6,0.1C1.6,0.2,0,1.7,0,3.7v72c0,0.9,0.4,1.9,1,2.5c0.7,0.7,1.6,1,2.5,1V75.7z"></path>
+                                                <path d="M38.1,76.9v-9.5c0-1.3-1.1-2.4-2.4-2.4c-1.3,0-2.4,1.1-2.4,2.4v9.5c0,1.3,1.1,2.4,2.4,2.4                          C37,79.3,38.1,78.2,38.1,76.9"></path>
+                                                <path d="M38.1,50.7V15c0-1.3-1.1-2.4-2.4-2.4c-1.3,0-2.4,1.1-2.4,2.4v35.7c0,1.3,1.1,2.4,2.4,2.4                          C37,53.1,38.1,52.1,38.1,50.7"></path>
+                                                <path d="M2.4,38.8h33.3c1.3,0,2.4-1.1,2.4-2.4c0-1.3-1.1-2.4-2.4-2.4H2.4c-1.3,0-2.4,1.1-2.4,2.4                          C0,37.8,1.1,38.8,2.4,38.8"></path>
+                                                <path d="M35.7,46h31c1.3,0,2.4-1.1,2.4-2.4c0-1.3-1.1-2.4-2.4-2.4h-31c-1.3,0-2.4,1.1-2.4,2.4                          C33.3,44.9,34.4,46,35.7,46"></path>
+                                                <path d="M78.6,46h16.7c1.3,0,2.4-1.1,2.4-2.4c0-1.3-1.1-2.4-2.4-2.4H78.6c-1.3,0-2.4,1.1-2.4,2.4                          C76.2,44.9,77.3,46,78.6,46"></path>
+                                                <path d="M78.6,46h16.7c1.3,0,2.4-1.1,2.4-2.4c0-1.3-1.1-2.4-2.4-2.4H78.6c-1.3,0-2.4,1.1-2.4,2.4                          C76.2,44.9,77.3,46,78.6,46"></path>
+                                                <path d="M81,43.6v-7.1c0-1.3-1.1-2.4-2.4-2.4c-1.3,0-2.4,1.1-2.4,2.4v7.1c0,1.3,1.1,2.4,2.4,2.4                          C79.9,46,81,44.9,81,43.6"></path>
+                                                <path d="M81,43.6v-7.1c0-1.3-1.1-2.4-2.4-2.4c-1.3,0-2.4,1.1-2.4,2.4v7.1c0,1.3,1.1,2.4,2.4,2.4                            C79.9,46,81,44.9,81,43.6"></path>
+                            </g>
+                          </svg>
+                                            </span>1200 sq ft
+                                        </li>
+                                        <li><span class="icon icon-sm icon-primary hotel-icon-10"></span>---</li>
+                                    </ul>
+                                    <ul class="describe-2">
+                                        <li><span class="icon icon-sm icon-primary hotel-icon-05"></span>---</li>
+                                        <li><span class="icon icon-sm icon-primary hotel-icon-26"></span>---</li>
+                                    </ul>
+                                    <p class="text-abbey">---</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-4">
+                            <div class="thumbnail thumbnail-3">
+                                <a class="img-link"><img src="images/preloader.gif" alt="" width="370" height="250" /></a>
+                                <div class="caption">
+                                    <h4><a class="text-sushi apartment">---</a></h4><span class="thumbnail-price h5">$2,229.00/<span class="mon text-regular">month</span></span>
+                                    <ul class="describe-1">
+                                        <li>
+                                            <span class="icon-square icon-sm">
+                                                <svg x="0px" y="0px" viewbox="0 0 100 100" style="enable-background:new 0 0 100 100;" xml:space="preserve">
+                                                <g>
+                                                <path d="M3.6,75.7h3.6V7.3l85.7-0.1v85.3l-16.7-0.1l0-16.7c0-0.9-0.4-1.9-1-2.5c-0.7-0.7-1.6-1-2.5-1h-69V75.7h3.6                          H3.6v3.6H69L69,96c0,2,1.6,3.6,3.6,3.6l23.8,0.1c1,0,1.9-0.4,2.5-1c0.7-0.7,1-1.6,1-2.5V3.6c0-1-0.4-1.9-1-2.5                          c-0.7-0.7-1.6-1-2.5-1L3.6,0.1C1.6,0.2,0,1.7,0,3.7v72c0,0.9,0.4,1.9,1,2.5c0.7,0.7,1.6,1,2.5,1V75.7z"></path>
+                                                <path d="M38.1,76.9v-9.5c0-1.3-1.1-2.4-2.4-2.4c-1.3,0-2.4,1.1-2.4,2.4v9.5c0,1.3,1.1,2.4,2.4,2.4                          C37,79.3,38.1,78.2,38.1,76.9"></path>
+                                                <path d="M38.1,50.7V15c0-1.3-1.1-2.4-2.4-2.4c-1.3,0-2.4,1.1-2.4,2.4v35.7c0,1.3,1.1,2.4,2.4,2.4                          C37,53.1,38.1,52.1,38.1,50.7"></path>
+                                                <path d="M2.4,38.8h33.3c1.3,0,2.4-1.1,2.4-2.4c0-1.3-1.1-2.4-2.4-2.4H2.4c-1.3,0-2.4,1.1-2.4,2.4                          C0,37.8,1.1,38.8,2.4,38.8"></path>
+                                                <path d="M35.7,46h31c1.3,0,2.4-1.1,2.4-2.4c0-1.3-1.1-2.4-2.4-2.4h-31c-1.3,0-2.4,1.1-2.4,2.4                          C33.3,44.9,34.4,46,35.7,46"></path>
+                                                <path d="M78.6,46h16.7c1.3,0,2.4-1.1,2.4-2.4c0-1.3-1.1-2.4-2.4-2.4H78.6c-1.3,0-2.4,1.1-2.4,2.4                          C76.2,44.9,77.3,46,78.6,46"></path>
+                                                <path d="M78.6,46h16.7c1.3,0,2.4-1.1,2.4-2.4c0-1.3-1.1-2.4-2.4-2.4H78.6c-1.3,0-2.4,1.1-2.4,2.4                          C76.2,44.9,77.3,46,78.6,46"></path>
+                                                <path d="M81,43.6v-7.1c0-1.3-1.1-2.4-2.4-2.4c-1.3,0-2.4,1.1-2.4,2.4v7.1c0,1.3,1.1,2.4,2.4,2.4                          C79.9,46,81,44.9,81,43.6"></path>
+                                                <path d="M81,43.6v-7.1c0-1.3-1.1-2.4-2.4-2.4c-1.3,0-2.4,1.1-2.4,2.4v7.1c0,1.3,1.1,2.4,2.4,2.4                            C79.9,46,81,44.9,81,43.6"></path>
+                            </g>
+                          </svg>
+                                            </span>1200 sq ft
+                                        </li>
+                                        <li><span class="icon icon-sm icon-primary hotel-icon-10"></span>2 bathrooms</li>
+                                    </ul>
+                                    <ul class="describe-2">
+                                        <li><span class="icon icon-sm icon-primary hotel-icon-05"></span>4 bedrooms</li>
+                                        <li><span class="icon icon-sm icon-primary hotel-icon-26"></span>2 garages</li>
+                                    </ul>
+                                    <p class="text-abbey">---</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-4">
+                            <div class="thumbnail thumbnail-3">
+                                <a class="img-link"><img src="images/preloader.gif" alt="" width="370" height="250" /></a>
+                                <div class="caption">
+                                    <h4><a class="text-sushi apartment">---</a></h4><span class="thumbnail-price h5">---/<span class="mon text-regular">---</span></span>
+                                    <ul class="describe-1">
+                                        <li>
+                                            <span class="icon-square icon-sm">
+                                                <svg x="0px" y="0px" viewbox="0 0 100 100" style="enable-background:new 0 0 100 100;" xml:space="preserve">
+                                                <g>
+                                                <path d="M3.6,75.7h3.6V7.3l85.7-0.1v85.3l-16.7-0.1l0-16.7c0-0.9-0.4-1.9-1-2.5c-0.7-0.7-1.6-1-2.5-1h-69V75.7h3.6                          H3.6v3.6H69L69,96c0,2,1.6,3.6,3.6,3.6l23.8,0.1c1,0,1.9-0.4,2.5-1c0.7-0.7,1-1.6,1-2.5V3.6c0-1-0.4-1.9-1-2.5                          c-0.7-0.7-1.6-1-2.5-1L3.6,0.1C1.6,0.2,0,1.7,0,3.7v72c0,0.9,0.4,1.9,1,2.5c0.7,0.7,1.6,1,2.5,1V75.7z"></path>
+                                                <path d="M38.1,76.9v-9.5c0-1.3-1.1-2.4-2.4-2.4c-1.3,0-2.4,1.1-2.4,2.4v9.5c0,1.3,1.1,2.4,2.4,2.4                          C37,79.3,38.1,78.2,38.1,76.9"></path>
+                                                <path d="M38.1,50.7V15c0-1.3-1.1-2.4-2.4-2.4c-1.3,0-2.4,1.1-2.4,2.4v35.7c0,1.3,1.1,2.4,2.4,2.4                          C37,53.1,38.1,52.1,38.1,50.7"></path>
+                                                <path d="M2.4,38.8h33.3c1.3,0,2.4-1.1,2.4-2.4c0-1.3-1.1-2.4-2.4-2.4H2.4c-1.3,0-2.4,1.1-2.4,2.4                          C0,37.8,1.1,38.8,2.4,38.8"></path>
+                                                <path d="M35.7,46h31c1.3,0,2.4-1.1,2.4-2.4c0-1.3-1.1-2.4-2.4-2.4h-31c-1.3,0-2.4,1.1-2.4,2.4                          C33.3,44.9,34.4,46,35.7,46"></path>
+                                                <path d="M78.6,46h16.7c1.3,0,2.4-1.1,2.4-2.4c0-1.3-1.1-2.4-2.4-2.4H78.6c-1.3,0-2.4,1.1-2.4,2.4                          C76.2,44.9,77.3,46,78.6,46"></path>
+                                                <path d="M78.6,46h16.7c1.3,0,2.4-1.1,2.4-2.4c0-1.3-1.1-2.4-2.4-2.4H78.6c-1.3,0-2.4,1.1-2.4,2.4                          C76.2,44.9,77.3,46,78.6,46"></path>
+                                                <path d="M81,43.6v-7.1c0-1.3-1.1-2.4-2.4-2.4c-1.3,0-2.4,1.1-2.4,2.4v7.1c0,1.3,1.1,2.4,2.4,2.4                          C79.9,46,81,44.9,81,43.6"></path>
+                                                <path d="M81,43.6v-7.1c0-1.3-1.1-2.4-2.4-2.4c-1.3,0-2.4,1.1-2.4,2.4v7.1c0,1.3,1.1,2.4,2.4,2.4                            C79.9,46,81,44.9,81,43.6"></path>
+                            </g>
+                          </svg>
+                                            </span>1200 sq ft
+                                        </li>
+                                        <li><span class="icon icon-sm icon-primary hotel-icon-10"></span>2 bathrooms</li>
+                                    </ul>
+                                    <ul class="describe-2">
+                                        <li><span class="icon icon-sm icon-primary hotel-icon-05"></span>4 bedrooms</li>
+                                        <li><span class="icon icon-sm icon-primary hotel-icon-26"></span>2 garages</li>
+                                    </ul>
+                                    <p class="text-abbey">---</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div><input type="button" class="btn btn-sm btn-sushi offset-custom-11" id="allApartments" value="View all apartments" />
+
+                </div>
+            </section>
+            <!--Footer-->
+            <section class="section-lg bg-gray text-center text-lg-start">
+                <div class="container">
+                    <h2>Our Advantages</h2>
+                    <hr>
+                    <div class="row flow-offset-8">
+                        <div class="col-md-6 col-lg-3">
+                            <div class="media media-mod-6">
+                                <div class="media-left"><span class="linecons-location4 icon icon-lg bg-accent"></span></div>
+                                <div class="media-body">
+                                    <h4>Various Locations</h4>
+                                    <p>Search by state then by city to find an apartment  overlooking the lake in Chicago, within walking distance of the beach in Los Angeles or in the heart of Atlanta.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-3">
+                            <div class="media media-mod-6">
+                                <div class="media-left"><span class="linecons-camera7 icon icon-lg bg-accent"></span></div>
+                                <div class="media-body">
+                                    <h4>View Apartments</h4>
+                                    <p>View apartment listings with photos, HD videos, InsideView virtual tours, 3D floor plans, and more, while also choosing the apartment and community features that you want.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-3">
+                            <div class="media media-mod-6">
+                                <div class="media-left"><span class="linecons-blockade icon icon-lg bg-accent"></span></div>
+                                <div class="media-body">
+                                    <h4>Privacy and Security</h4>
+                                    <p>Renters insurance helps keep your belongings secure, whether they're on your desk, under your couch, or in some cases, even in your car's glove box.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-3">
+                            <div class="media media-mod-6">
+                                <div class="media-left"><span class="linecons-banknote icon icon-lg bg-accent"></span></div>
+                                <div class="media-body">
+                                    <h4>No Commission</h4>
+                                    <p>You will therefore appreciate this opportunity to acquire a high-quality apartment for rent without having to pay any commission to our real estate agency.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div class="container" style="text-align:center">
+                    <ul class="list-inline">
+                        <li><a class="fa-facebook" href="https://www.facebook.com/airbnb/"></a></li>
+                        <li><a class="fa-twitter" href="https://twitter.com/airbnb"></a></li>
+                        <li><a class="mdi mdi-instagram" href="https://www.instagram.com/airbnb/"></a></li>
+                        <li><a class="fa-google" href="https://www.google.com/search?q=airbnb&hl=iw&source=hp&ei=JJmXYpbLLJ2Vxc8Pq9q3mA4&iflsig=AJiK0e8AAAAAYpenNDXx8_Ad_y2dMZ3THoR2Ts333B_l&ved=0ahUKEwiW7aKk24z4AhWdSvEDHSvtDeMQ4dUDCAc&uact=5&oq=airbnb&gs_lcp=Cgdnd3Mtd2l6EAMyBAgAEEMyFAguEIAEELEDEIMBEMcBENEDEMkDMgUIABCSAzIFCAAQkgMyBQgAEIAEMgUIABCABDIFCAAQgAQyBQgAEIAEMgUIABCABDIFCAAQgAQ6EAguELEDEIMBEMcBENEDEEM6EQguEIAEELEDEIMBEMcBENEDOgsILhCABBDHARDRAzoICAAQgAQQsQM6CwgAEIAEELEDEIMBOg4ILhCABBCxAxDHARCjAjoRCC4QgAQQsQMQgwEQxwEQrwFQiANYog1g8g5oAXAAeACAAZ4BiAGfBpIBAzAuNpgBAKABAbABAA&sclient=gws-wiz"></a></li>
+                    </ul>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Global Mailform Output-->
+    <div class="snackbars" id="form-output-global"></div>
+    <!-- Java script-->
+    <script src="js/core.min.js"></script>
+    <script src="js/script.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBwgbLOX5Asukel9nJJzqnqYEXSCCQh1GU"></script>
+
+</body>
+</html>

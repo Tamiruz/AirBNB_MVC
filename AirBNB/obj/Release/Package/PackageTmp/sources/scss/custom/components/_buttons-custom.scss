@@ -1,0 +1,325 @@
+//
+// Custom Buttons Styles
+// --------------------------------------------------
+
+// Base styles
+// --------------------------------------------------
+
+.btn {
+  border-radius: $border-radius-small;
+  transition: 0.3s;
+  box-shadow: none;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  &,
+  &:active,
+  &:focus,
+  &.active {
+    box-shadow: none;
+    &:focus,
+    &.focus {
+      outline: none;
+    }
+  }
+
+  &:hover,
+  &:focus,
+  &.focus {
+    outline: none;
+  }
+
+  &:active,
+  &.active {
+    box-shadow: none;
+    outline: none;
+  }
+
+  &.disabled,
+  &[disabled],
+  fieldset[disabled] & {
+
+  }
+  .icon {
+    font-size: 18px;
+    line-height: 1.2;
+    padding-left: 10px;
+  }
+  .icon-sm{
+    height: 21px;
+  }
+  .icon-left{
+    padding-left: 0;
+    padding-right:10px;
+  }
+}
+
+// Alternate buttons
+// --------------------------------------------------
+.btn-primary {
+  &:focus,
+  &.focus {
+    color: $white-clr;
+    background-color: $primary;
+    border-color: $primary;
+    outline: none;
+  }
+  &:hover {
+    color: $white-clr;
+    background-color: $brand-trinidad;
+    border-color: $brand-trinidad;
+  }
+  &:active,
+  &.active,
+  .open > &.dropdown-toggle {
+    color: $white-clr;
+    background-color: $brand-trinidad;
+    border-color: $brand-trinidad;
+    outline: none;
+
+    &:hover,
+    &:focus,
+    &.focus {
+      color: $white-clr;
+      background-color: $brand-trinidad;
+      border-color: $brand-trinidad;
+      outline: none;
+    }
+  }
+}
+.btn-sushi {
+  color: $white-clr;
+  background-color: $brand-sushi;
+  border-color: $brand-sushi;
+
+  &:focus,
+  &.focus {
+    color: $white-clr;
+    background-color: $brand-sushi;
+    border-color: $brand-sushi;
+    outline: none;
+  }
+  &:hover {
+    color: $white-clr;
+    background-color: $brand-olive-drab;
+    border-color: $brand-olive-drab;
+  }
+  &:active,
+  &.active,
+  .open > &.dropdown-toggle {
+    color: $white-clr;
+    background-color: $brand-olive-drab;
+    border-color: $brand-olive-drab;
+    outline: none;
+
+    &:hover,
+    &:focus,
+    &.focus {
+      color: $white-clr;
+      background-color: $brand-olive-drab;
+      border-color: $brand-olive-drab;
+      outline: none;
+    }
+  }
+}
+
+.btn-primary-transparent {
+  background-color: transparent;
+  border-color: $primary;
+  color: $primary;
+
+  &:focus,
+  &.focus {
+    color: $primary;
+    background-color: transparent;
+    border-color: $primary;
+    outline: none;
+  }
+
+  &:hover {
+    color: $white-clr;
+    background-color: $primary;
+    border-color: $primary;
+  }
+  &:active,
+  &.active,
+  .open > &.dropdown-toggle {
+    color: $white-clr;
+    background-color: $primary;
+    border-color: $primary;
+    outline: none;
+
+  }
+}
+
+// Success appears as green
+.btn-success {
+
+}
+
+// Info appears as blue-green
+.btn-info {
+  &:focus {
+    border-color: darken($brand-info, 10%);
+  }
+  &:active:focus{
+    border-color: darken($brand-info, 17%);
+  }
+}
+
+// Warning appears as orange
+.btn-warning {
+
+}
+.btn-info-2{
+  @include button-variant($btn-info-2-color, $btn-info-2-bg, $btn-info-2-border);
+  &:focus {
+    border-color: darken($brand-info-2, 10%);
+  }
+  &:active:focus {
+    border-color: darken($brand-info-2, 17%);
+  }
+}
+
+// Danger and error appear as red
+.btn-danger {
+  &:focus {
+    border-color: darken($brand-danger, 10%);
+  }
+  &:active:focus {
+    border-color: darken($brand-danger, 17%);
+  }
+}
+
+
+.btn-transparent {
+  border: 2px solid $white-clr;
+  color: $white-clr;
+  &,
+  &:active,
+  &.active {
+    &:focus,
+    &.focus {
+
+    }
+  }
+
+  &:hover,
+  &:focus,
+  &.focus {
+    background-color: $brand-trinidad;
+    border-color: $brand-trinidad;
+  }
+
+  &:active,
+  &.active {
+
+  }
+}
+
+// Button Sizes
+// --------------------------------------------------
+
+.btn-xs {
+  padding: 9px 12px;
+  font-size: 12px;
+  border-width: 2px;
+}
+
+.btn-sm {
+  padding: 12.5px 23px;
+  font-size: 14px;
+  border-width:2px;
+  letter-spacing:0.96px;
+  span{
+    font-size: 20px;
+  }
+}
+
+.btn-lg {
+  padding: 17.5px 45px;
+  font-size: 16px;
+  border-width: 2px;
+}
+
+.btn-shape-1 {
+  border-radius: 3px;
+}
+.btn-shape-2 {
+  border-radius: $border-radius;
+}
+.btn-shape-3 {
+  border-radius: 35px;
+}
+
+.btn-shadow-1{
+  box-shadow: 0 3px 7px rgba($black, .20);
+}
+
+
+// Button min-width
+.btn-full-width{
+  width: 100%;
+  max-width: 340px;
+}
+.btn-min-width-xs {
+  min-width: 147px;
+}
+
+.btn-min-width-sm {
+  min-width: 164px;
+}
+
+.btn-min-width-md {
+  min-width: 272px;
+}
+
+.btn-min-width-lg {
+  min-width: 300px;
+  @include media-breakpoint-up(sm) {
+    min-width: 310px;
+  }
+}
+
+.btn-min-width-mod-1{
+  min-width: 282px;
+}
+.btn-min-width-mod-2{
+  min-width: 222px;
+}
+.btn-min-width-mod-3{
+  min-width: 200px;
+}
+
+// Button max-width
+.btn-max-width-sm {
+  max-width: 170px;
+  padding: 10px 20px;
+}
+
+//Button link
+
+.btn-link {
+  font-size: 24px;
+  font-weight: 700;
+  color: $black;
+  &:hover{
+    color: $primary;
+  }
+}
+.btn-link-primary {
+  padding: 0;
+  font-size: 18px;
+  font-weight: 400;
+  transition: .3s;
+  border: none;
+  background: transparent;
+  color: $primary;
+  &:focus{
+    outline: none;
+    color: $brand-trinidad;
+  }
+  &:hover {
+    color: $brand-trinidad;
+  }
+}

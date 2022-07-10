@@ -1,0 +1,15 @@
+//Section Button sizes
+section.section-lg
+  .container
+    h2 Newsletter
+    hr
+    p Enter your email address to receive all news, updates on new arrivals, special offers #[br.visible-lg] and other information.
+    .row.offset-custom-10
+      .col-12.col-lg-6
+        // RD Mailform
+        form.rd-mailform.subscribe.subscribe-mod-2.form-inline-flex-xs(data-form-output="form-output-global", data-form-type='subscribe', method='post', action='bat/rd-mailform.php')
+          .form-wrap
+            label.form-label(for="contact-email-2") Your e-mail
+            input#contact-email-2.form-input(type="email" name="email" data-constraints="@Required @Email")
+          button(type="submit").btn.btn-sushi.btn-sm Subscribe
+

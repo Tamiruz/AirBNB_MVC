@@ -1,0 +1,144 @@
+//
+// Sidebar
+// --------------------------------------------------
+.flex-md-row-reverse {
+  .sidebar {
+    @include media-breakpoint-up(lg) {
+      padding-right: 30px;
+      padding-left: 0;
+    }
+  }
+}
+
+.sidebar {
+  @include media-breakpoint-up(lg) {
+    padding-left: 30px;
+  }
+  .list-marked {
+    li {
+      padding-left: 26px;
+      &:before {
+        left: 15px;
+        @include media-breakpoint-up(xl) {
+          left: 0;
+        }
+
+      }
+    }
+    &-mod-1 {
+      display: inline-block;
+      width: 49%;
+      @include media-breakpoint-up(xl) {
+        width: 41%;
+        & + .list-marked-mod-1 {
+          margin-left: 40px;
+        }
+      }
+    }
+  }
+  .sidebar-module {
+    width: 100%;
+    @media (max-width: 709px) {
+      max-width: 370px;
+      margin-right: auto;
+      margin-left: auto;
+    }
+    @include media-breakpoint-between( md, lg ) {
+      float: left;
+      width: 50%;
+      &:nth-child(2n+1) {
+        padding-right: 40px;
+      }
+    }
+
+    &:nth-child(n+2) {
+      margin-top: 60px;
+    }
+    &:nth-child(2) {
+      @include media-breakpoint-between( md, lg ) {
+        margin-top: 0;
+      }
+    }
+    &:nth-child(3) {
+      @include media-breakpoint-between( md, lg ) {
+        clear: left;
+      }
+    }
+    &:nth-child(5n) {
+      @include media-breakpoint-between( md, lg ) {
+        clear: left;
+      }
+    }
+
+    > h4{
+      padding-bottom: 9px;
+      border-bottom: 1px solid $gray-darker;
+    }
+
+  }
+
+  * + .list-marked {
+    margin-top: 21px;
+  }
+}
+
+
+
+@include media-breakpoint-between( md, lg ) {
+  .sidebar-mod-1 .sidebar-module:nth-child(n+2){
+    margin-top: 0;
+  }
+  .sidebar.sidebar-mod-1 {
+    display: flex;
+    flex-wrap: wrap;
+
+    > *:nth-child(1) {
+      order: 1;
+    }
+    > *:nth-child(2) {
+      margin-top: 30px;
+      order: 4;
+    }
+    > *:nth-child(3) {
+      order: 2;
+    }
+    > *:nth-child(4) {
+      margin-top: 30px;
+      order: 5;
+    }
+    > *:nth-child(5) {
+      margin-top: 30px;
+      order: 3;
+    }
+  }
+}
+
+@media (min-width: 708px) and (max-width: 991px) {
+  .sidebar.sidebar-mod-2 {
+    display: flex;
+    flex-wrap: wrap;
+
+    > *:nth-child(1){
+      order:1;
+    }
+    > *:nth-child(2){
+      order:2;
+    }
+    > *:nth-child(3){
+      margin-top: 45px;
+      order:5;
+    }
+    > *:nth-child(4){
+      margin-top: 45px;
+      order:4;
+    }
+    > *:nth-child(5){
+      margin-top: 45px;
+      order:3;
+    }
+    > *:nth-child(6){
+      margin-top: 45px;
+      order:6;
+    }
+  }
+}

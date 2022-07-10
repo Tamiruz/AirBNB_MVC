@@ -1,0 +1,91 @@
+/** @section Countdown */
+
+.countdown {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1.2;
+  text-align: center;
+  @include group(15px);
+}
+
+.countdown-block {
+  position: relative;
+  flex: 1 1 33.33%;
+}
+
+.countdown-inner {
+  position: relative;
+  max-width: 30%;
+}
+
+.countdown-inner-seconds {
+  display: none;
+}
+
+
+.countdown-wrap {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.countdown-circle {
+  height: auto;
+  max-width: 100%;
+  fill: transparent;
+}
+
+.countdown-circle-bg {
+  stroke: $gray-darker;
+  stroke-width: 5px;
+}
+
+.countdown-circle-fg {
+  stroke: $primary;
+  stroke-width: 5px;
+}
+
+.countdown-counter {
+  font-weight: 900;
+  font-size: 30px;
+  line-height: 30px;
+  color: $color-abbey;
+  letter-spacing: 0;
+}
+
+.countdown-title {
+  text-transform: capitalize;
+}
+
+* + .countdown-title {
+  margin-top: 8px;
+}
+
+* + .countdown {
+  margin-top: 35px;
+}
+
+.countdown + * {
+  margin-top: 35px;
+}
+
+@include media-breakpoint-up( md ) {
+  .countdown {
+    @include group( 30px );
+  }
+
+  .countdown-block {
+    flex: 1 1 25%;
+  }
+
+  .countdown-inner-seconds {
+    display: block;
+  }
+}
+

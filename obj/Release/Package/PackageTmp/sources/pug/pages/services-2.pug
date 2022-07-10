@@ -1,0 +1,32 @@
+extends  ../_skeleton
+include ../elements/_section_fullwidth
+include ../mixins/_media-mixin
+block variables
+  - var activeIndex = 6
+  - var title_h1 = "Services 2"
+  - var bread_2 = "Pages"
+  - footer_class_adjuster = "bg-gray"
+  - var section_full_adjuster = ""
+  - var section_full_col_adjuster = ""
+  - var brand_name_adjuster = "images/logo-2.png"
+
+block title
+  title Services 2
+
+block page
+  // Page Header
+  include ../elements/_header
+
+  // Page Content
+  main.page-content.text-start
+    +breadcrumb_items(1)
+    include ../section/pages/services/_section_services_2_1
+    include ../section/pages/services/_section_services_2_2
+    include ../section/pages/services/_section_services_2_3
+
+  // Page Footer
+  include ../elements/_footer-widget
+
+
+
+

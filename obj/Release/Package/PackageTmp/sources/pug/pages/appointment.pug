@@ -1,0 +1,30 @@
+extends  ../_skeleton
+include ../elements/_section_fullwidth
+include ../mixins/_media-mixin
+block variables
+  - var activeIndex = 6
+  - var title_h1 = "Make an Appointment"
+  - var bread_2 = "Pages"
+  - footer_class_adjuster = "bg-gray"
+  - var section_full_adjuster = ""
+  - var section_full_col_adjuster = ""
+  - var section_full_text=""
+  - var brand_name_adjuster = "images/logo-2.png"
+
+block title
+  title Make an Appointment
+
+block page
+  // Page Header
+  include ../elements/_header
+
+  // Page Content
+  main.page-content.text-start
+    +breadcrumb_items(1)
+    include ../section/appoitment/_section_appointment_1
+  // Page Footer
+  include ../elements/_footer-widget
+
+
+
+

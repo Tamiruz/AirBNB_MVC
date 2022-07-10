@@ -1,0 +1,62 @@
+//Section Contact Us 2
+section.section-lg
+  .container
+    .row
+      .col-lg-8
+        h2 Get in Touch
+        hr
+        p You can contact us any way that is convenient for you. We are available 24/7 via fax or email. You can also use a quick contact form below or visit our office personally.
+        // RD Mailform
+        form.rd-mailform.text-start.offset-custom-11(data-form-output="form-output-global", data-form-type='contact', method='post', action='bat/rd-mailform.php')
+          .row
+            .col-md-6
+              .form-wrap
+                label.form-label(for="contact-name") Your name
+                input#contact-name.form-input(type="text" name="name" data-constraints="@Required")
+            .col-md-6.input-mod-1
+              .form-wrap
+                label.form-label(for="contact-phone") Your phone
+                input#contact-phone.form-input(type="text" name="phone" data-constraints="@Required @Numeric")
+            .col-12
+              .form-wrap
+                label.form-label(for="contact-email") Your e-mail
+                input#contact-email.form-input(type="email" name="email" data-constraints="@Required @Email")
+            .col-12
+              .form-wrap
+                label.form-label(for="contact-message") Message
+                textarea#contact-message.form-input(name="message" data-constraints="@Required")
+          button(type="submit").btn.btn-sushi.btn-sm Send message
+      .col-lg-4.offset-custom-7
+        .row.row-mod-1.flow-offset-6.sidebar.text-md-center.text-lg-start
+          .col-12.col-md-4.col-lg-12
+            dl.contact-info
+              dt
+                span.h4.border-bottom Phone
+              dd
+                a(href="callto:#").text-light-custom 1-800-123-4567<br>
+                a(href="callto:#").text-light-custom 1-800-987-1234
+          .col-12.col-md-4.col-lg-12
+            dl.contact-info
+              dt
+                span.h4.border-bottom E-mail
+              dd
+                a.text-sushi(href="mailto:#") info@demolink.org
+          .col-12.col-md-4.col-lg-12
+            h4.border-bottom Follow Us
+            .icon-group
+              a.icon.icon-sm.icon-social.fa-facebook(href="#")
+              a.icon.icon-sm.icon-social.fa-twitter(href="#")
+              a.icon.icon-sm.icon-social.fa-google-plus(href="#")
+
+          .col-12.col-md-6.col-lg-12
+            address.address
+              span.h4.border-bottom Address
+              p 795 Folsom Ave, Suite 600 San Francisco, CA 94107
+          .col-12.col-md-6.col-lg-12
+            h4.border-bottom Open Hours
+            p 8:00 - 18:00 Mon - Sat
+
+
+
+
+

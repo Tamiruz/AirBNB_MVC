@@ -1,0 +1,28 @@
+//Section Contact Us
+section.section-lg.bg-gray-dark
+  .container
+    h2 Contact Us
+    hr
+    .row.offset-custom-8
+      .col-12.col-lg-8
+        // RD Mailform
+        form.rd-mailform.text-start(data-form-output="form-output-global", data-form-type='contact', method='post', action='bat/rd-mailform.php')
+          .row
+            .col-md-6
+              .form-wrap
+                label.form-label(for="contact-name") Your name
+                input#contact-name.form-input(type="text" name="name" data-constraints="@Required")
+            .col-md-6.input-mod-1
+              .form-wrap
+                label.form-label(for="contact-phone") Your phone
+                input#contact-phone.form-input(type="text" name="phone" data-constraints="@Required @Numeric")
+            .col-12
+              .form-wrap
+                label.form-label(for="contact-email") Your e-mail
+                input#contact-email.form-input(type="email" name="email" data-constraints="@Required @Email")
+            .col-12
+              .form-wrap
+                label.form-label(for="contact-message") Message
+                textarea#contact-message.form-input(name="message" data-constraints="@Required")
+          button(type="submit").btn.btn-sushi.btn-sm Send message
+

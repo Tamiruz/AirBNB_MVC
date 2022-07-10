@@ -1,0 +1,195 @@
+// RD Navbar
+.rd-navbar-wrap( class= rd_navbar_class_adjuster )
+  nav&attributes( rd_navbar_data_adjuster ).rd-navbar
+    //RD Navbar Panel
+    .rd-navbar-top-panel
+      .rd-navbar-top-panel-wrap
+        dl.dl-horizontal-mod-1.login
+          dt #[span.mdi.mdi-login.icon-xxs-mod-2]
+          dd: a(href="login.html").text-sushi  Login/Registration
+        .top-panel-inner
+          dl.dl-horizontal-mod-1
+            dt: span.material-icons-local_phone.icon-xxs-mod-2
+            dd: a(href="callto:#")  1-800-1234-567
+          dl.dl-horizontal-mod-1
+            dt #[span.material-icons-drafts.icon-xxs-mod-2]
+            dd:  a(href="mailto:#")  info@demolink.org
+          address
+            dl.dl-horizontal-mod-1
+              dt: span.mdi.mdi-map-marker-radius.icon-xxs-mod-2
+              dd: a(href="#").inset-11 795 Folsom Ave, Suite 600 San Francisco, CA 94107
+        ul.list-inline
+          li
+            a.fa-facebook(href='#')
+          li
+            a.fa-twitter(href='#')
+          li
+            a.fa-pinterest-p(href='#')
+          li
+            a.fa-vimeo(href='#')
+          li
+            a.fa-google(href='#')
+          li
+            a.fa-rss(href='#')
+        .btn-group
+          a.btn.btn-sm.btn-primary(href="submit-property.html") Submit Property
+    .rd-navbar-inner.inner-wrap
+      .rd-navbar-panel
+        // RD Navbar Toggle
+        button.rd-navbar-toggle(data-rd-navbar-toggle='.rd-navbar-nav-wrap')
+          span
+        // RD Navbar Brand
+        .rd-navbar-brand
+          a.brand-name(href='index.html')
+            img(src="images/logo-1.png" alt="")
+      .btn-group
+        a.btn.btn-sm.btn-primary(href="submit-property.html") Submit Property
+      .rd-navbar-nav-wrap
+
+        // RD Navbar Nav
+        ul.rd-navbar-nav
+          li(class=(activeIndex == '1' ? 'active' : ''))
+            a(href='./') Home
+          li(class=(activeIndex == '2' ? 'active' : ''))
+            a(href='#') Elements
+            // RD Navbar Dropdown
+            ul.rd-navbar-dropdown
+              li
+                a(href='tabs-accordion.html') Tabs & Accordions
+              li
+                a(href='typography.html') Typography
+              li
+                a(href='forms.html') Forms
+              li
+                a(href='buttons.html') Buttons
+              li
+                a(href='grid.html') Grid
+              li
+                a(href='icons.html') Icons
+              li
+                a(href='tables.html') Tables
+              li
+                a(href='progress-bars.html') Progress bars
+          li(class=(activeIndex == '3' ? 'active' : ''))
+            a(href='#') Features
+            // RD Navbar Dropdown
+            ul.rd-navbar-dropdown
+              li: a(href="index-cent.html") Header Center, Footer Dark
+              li: a(href="index-min.html") Header Minimal, Footer Dark
+              li: a(href="index-corp-default.html") Header Corporate Default
+              li: a(href="index-sidebar.html") Header Hamburger Menu
+              li: a(href="index-cent-dark.html") Footer Center Dark
+              li: a(href="index-light.html") Footer Light
+              li: a(href="index-wid.html") Footer Widget Light
+              li: a(href="index-wid-dark.html") Footer Widget Dark
+          li(class=(activeIndex == '4' ? 'active' : ''))
+            a(href='#') Extras
+            // RD Navbar Dropdown
+            ul.rd-navbar-dropdown
+              li: a(href="404.html") 404
+              li: a(href="coming.html") Coming soon
+              li: a(href="login.html") Login page
+              li: a(href="maintenance.html") Maintenance page
+              li: a(href="terms.html") Terms of Use
+          li(class=(activeIndex == '5' ? 'active' : ''))
+            a(href='#') Property catalog
+            ul.rd-navbar-dropdown
+              li: a(href="property-catalog-grid.html") Property catalog grid
+              li: a(href="property-catalog-list.html") Property catalog list
+              li: a(href="property-catalog-single.html") Property catalog single
+
+          li(class=(activeIndex == '6' ? 'active' : ''))
+            a(href='#') Pages
+            // RD Navbar Megamenu
+            ul.rd-navbar-megamenu
+              li
+                p Pages 1
+                ul
+                  li: a(href="agency.html") Agency Page
+                  li: a(href="our-team.html") Our Team
+                  li: a(href="agent-personal.html") Agent Personal Page
+                  li: a(href="contact_us.html") Contact Us
+                  li: a(href="pricing.html") Pricing
+              li
+                p Pages 2
+                ul
+                  li: a(href="categories.html") Categories
+                  li: a(href="clients.html") Client Page
+                  li: a(href="faq.html") FAQ Page
+                  li: a(href="services.html") Services
+                  li: a(href="services-2.html") Services 2
+                  li: a(href="submit-property.html") Submit Property
+                  li: a(href="appointment.html") Make an Appointment
+              li
+                p Blog
+                ul
+                  li: a(href="2_columns_blog.html") 2 Columns Blog
+                  li: a(href="2_columns_blog_masonry.html") 2 Columns Blog Masonry
+                  li: a(href="3_columns_blog.html") 3 Columns Blog
+                  li: a(href="3_columns_blog_masonry.html") 3 Columns Blog Masonry
+                  li: a(href="left_sidebar_blog.html") Blog Left Sidebar
+                  li: a(href="right_sidebar_blog.html") Blog Right Sidebar
+                  li: a(href="blog_post.html") Post Page
+                  li: a(href="timeline.html") Timeline
+              li
+                p Layouts
+                ul
+                  li: a(href="index-cent.html") Header Center, Footer Dark
+                  li: a(href="index-min.html") Header Minimal, Footer Dark
+                  li: a(href="index-corp.html") Header Corporate
+                  li: a(href="index-corp-default.html") Header Corporate Default
+                  li: a(href="index-sidebar.html") Header Hamburger Menu
+                  li: a(href="index-cent-dark.html") Footer Center Dark
+                  li: a(href="index-light.html") Footer Light
+                  li: a(href="index-wid.html") Footer Widget Light
+                  li: a(href="index-wid-dark.html") Footer Widget Dark
+
+          li(class=(activeIndex == '7' ? 'active' : ''))
+            a(href='#') Blog
+            ul.rd-navbar-dropdown
+              li: a(href="2_columns_blog.html") 2 Columns Blog
+              li: a(href="2_columns_blog_masonry.html") 2 Columns Blog Masonry
+              li: a(href="3_columns_blog.html") 3 Columns Blog
+              li: a(href="3_columns_blog_masonry.html") 3 Columns Blog Masonry
+              li: a(href="left_sidebar_blog.html") Blog Left Sidebar
+              li: a(href="right_sidebar_blog.html") Blog Right Sidebar
+              li: a(href="blog_post.html") Post Page
+              li: a(href="timeline.html") Timeline
+          li(class=(activeIndex == '8' ? 'active' : ''))
+            a(href='#') Gallery
+            ul.rd-navbar-dropdown
+              li: a(href="gallery-1.html") Grid Padding Gallery
+              li: a(href="gallery-2.html") Grid Without Padding Gallery
+              li: a(href="gallery-3.html") Grid Masonry
+              li: a(href="gallery-4.html") Grid Cobbles
+          li.link-group
+            a.btn.btn-sm.btn-primary(href="submit-property.html") Submit Property
+          li.rd-navbar-bottom-panel
+            .rd-navbar-bottom-panel-wrap
+              dl.dl-horizontal-mod-1.login
+                dt #[span.mdi.mdi-login.icon-xxs-mod-2]
+                dd: a(href="login.html").text-sushi  Login/Registration
+              .top-panel-inner
+                dl.dl-horizontal-mod-1
+                  dt: span.icon-xxs-mod-2.material-icons-local_phone
+                  dd: a(href="callto:#")  1-800-1234-567
+                dl.dl-horizontal-mod-1
+                  dt #[span.material-icons-drafts.icon-xxs-mod-2]
+                  dd:  a(href="mailto:#")  info@demolink.org
+                address
+                  dl.dl-horizontal-mod-1
+                    dt: span.icon-xxs-mod-2.mdi.mdi-map-marker-radius
+                    dd: a(href="#").inset-11 795 Folsom Ave, Suite 600 San Francisco, CA 94107
+              ul.list-inline
+                li
+                  a.fa-facebook(href='#')
+                li
+                  a.fa-twitter(href='#')
+                li
+                  a.fa-pinterest-p(href='#')
+                li
+                  a.fa-vimeo(href='#')
+                li
+                  a.fa-google(href='#')
+                li
+                  a.fa-rss(href='#')

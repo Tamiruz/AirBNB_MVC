@@ -1,0 +1,10 @@
+-
+	/**
+	* @desc Returns random string
+	* @param {number} length - string length
+	*/
+	function randomStr( length ) {
+		var str = '';
+		for ( var n = 0; n < length; n++ ) str += String.fromCharCode( 97 + Math.random() * 25 );
+		return str;
+	}

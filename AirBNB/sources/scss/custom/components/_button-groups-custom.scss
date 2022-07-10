@@ -1,0 +1,35 @@
+//
+// Button groups Custom
+// --------------------------------------------------
+.btn-group-mod-1{
+  margin-bottom: -20px;
+  margin-left: -20px;
+  transform: translateY(-20px);
+  .btn{
+    margin-top: 20px;
+    margin-left: 20px;
+  }
+}
+
+.btn-group-mod-2{
+  margin-bottom: -15px;
+  margin-left: -15px;
+  transform: translateY(-15px);
+  .btn{
+    margin-top: 15px;
+    margin-left: 13px;
+  }
+  .btn-sm{
+    min-width: 100px;
+  }
+}
+.btn-group-mod-3{
+  display: inline-block;
+  margin-bottom: -10px;
+  margin-left: -10px;
+  transform: translateY(-10px);
+  .btn{
+    margin-top: 10px;
+    margin-left: 10px;
+  }
+}

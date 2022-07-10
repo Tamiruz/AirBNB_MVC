@@ -1,0 +1,145 @@
+/*
+* Fullwidth Layout
+*/
+
+$navbar-fullwidth-nav-color: $navbar-nav-color;
+$navbar-fullwidth-nav-background: $navbar-nav-background;
+$navbar-fullwidth-nav-hover-color: $navbar-nav-hover-color;
+$navbar-fullwidth-nav-hover-background: $navbar-nav-hover-background;
+$navbar-fullwidth-nav-active-color: $navbar-nav-active-color;
+$navbar-fullwidth-nav-active-background: $navbar-nav-active-background;
+
+.rd-navbar-fullwidth {
+  display: block;
+
+  // RD Navbar Panel
+  .rd-navbar-panel {
+    display: inline-block;
+    text-align: left;
+    //padding: 24px 0;
+  }
+  .rd-navbar-brand {
+
+    .brand-name {
+
+    }
+  }
+  .rd-navbar-nav-wrap {
+    position: relative;
+    width: 100%;
+    padding: 10px 15px;
+    text-align: center;
+    vertical-align: middle;
+
+  }
+
+  .rd-navbar-search-toggle {
+    right: 6%;
+  }
+
+  // RD Navbar Nav
+  .rd-navbar-nav {
+    padding: 0;
+
+    > li {
+      display: inline-block;
+
+      @include media-breakpoint-up(xl) {
+        & + li {
+          margin-left: $navbar-static-nav-indent;
+        }
+      }
+
+      > a {
+        display:inline-block;
+        text-align: center;
+        padding: 5px;
+      }
+      > .rd-navbar-megamenu {
+        top: 70%;
+        z-index: 2;
+        margin: 10px 0 0;
+        @include media-breakpoint-up(lg) {
+
+          top: 90%;
+        }
+        @media (min-width: 1800px) {
+          display: flex;
+        }
+      }
+    }
+  }
+
+  // RD Navbar States
+  &.rd-navbar--is-stuck {
+    transform: translateY(0);
+    .rd-navbar-inner.inner-wrap {
+      padding: 5px 0;
+    }
+    .rd-navbar-panel {
+      display: none;
+    }
+    .rd-navbar-nav-wrap {
+      padding-left: 10px;
+    }
+  }
+
+  .rd-navbar-fullwidth--visible {
+    display: block;
+  }
+
+  .rd-navbar-fullwidth--hidden {
+    display: none;
+  }
+  .rd-navbar-nav {
+    @media (min-width: 1800px) {
+      display: block;
+    }
+  }
+
+
+
+  @media (min-width: 768px) and (max-width: 1799px) {
+    .header_corporate & {
+      .rd-navbar-nav-wrap {
+        border-top: 1px solid $gray-darker;
+        padding: 10px 15px;
+        max-width: 1200px;
+      }
+    }
+    &.rd-navbar--is-stuck {
+      .rd-navbar-nav-wrap {
+        border-top: none;
+      }
+    }
+    .rd-navbar-inner {
+      padding: 35px 0 0;
+    }
+    .rd-navbar-panel {
+      padding-bottom: 40px;
+      padding-left: 15px;
+    }
+  }
+
+  @media(max-height: 650px){
+
+      .rd-navbar-panel {
+        padding-bottom: 20px;
+      }
+      .rd-navbar-nav > li > .rd-navbar-megamenu {
+        //margin: 0;
+        padding: 0 8px 0;
+        p {
+          padding: 0;
+        }
+      }
+      .rd-navbar-megamenu > li > ul li {
+        padding: 1px 5px;
+      }
+      &.rd-navbar--is-stuck {
+        .rd-navbar-nav > li > .rd-navbar-megamenu {
+          margin: 5px 0 0;
+        }
+      }
+  }
+}

@@ -1,0 +1,14 @@
+//Section Login
+section.section-lg
+  .container
+    h2 We're getting ready to launch in
+    hr
+    .row.text-center.text-lg-start
+      .col-12.col-lg-10.col-xl-8.offset-custom-7
+        p Custom maintenance mode page. In an ideal world this website wouldn't exist, a client would acknowledge the importance of having web copy before the design starts. Needless to say it's very important, content is king and people are beginning to understand.
+        // RD Mailform
+        form.rd-mailform.subscribe.subscribe-mod-2.form-inline-flex-xs(data-form-output="form-output-global", data-form-type='subscribe', method='post', action='bat/rd-mailform.php')
+          .form-wrap
+            label.form-label(for="contact-email-2") Enter your e-mail
+            input#contact-email-2.form-input(type="email" name="email" data-constraints="@Required @Email")
+          button(type="submit").btn.btn-sushi.btn-sm be the 1st notify

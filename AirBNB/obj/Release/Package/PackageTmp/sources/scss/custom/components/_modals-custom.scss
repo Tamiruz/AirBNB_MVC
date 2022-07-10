@@ -1,0 +1,83 @@
+#appointment {
+  .modal-dialog {
+    max-width: 370px;
+    box-shadow: $box-shadow-key-light;
+    margin-left: auto;
+    margin-right: auto;
+    @include media-breakpoint-up(md) {
+      margin: 5% auto;
+    }
+    .radio {
+      label {
+        input[type="radio"] {
+          margin-top: 8px;
+          &:focus {
+            outline: none;
+          }
+          &:active {
+            outline: none;
+          }
+        }
+
+      }
+    }
+  }
+  .modal-header {
+    padding: 30px 30px 0;
+    border: none;
+  }
+  .modal-content {
+    border-radius: 0;
+  }
+
+  .radio-custom-dummy {
+    width: 12px;
+    height: 12px;
+    margin-top: 5px;
+    &:after {
+      background: $color-abbey;
+    }
+  }
+
+  .modal-body {
+    padding: 15px 30px 30px;
+    p + * {
+      margin-top: 20px;
+    }
+    * + .register-form,
+    * + .login-form {
+      margin-top: 30px;
+    }
+    .register-form {
+      .btn-sm {
+        padding: 11px 12px;
+        @include media-breakpoint-up(lg) {
+          padding: 11px 26px;
+        }
+      }
+    }
+    form {
+      .form-wrap {
+        &:nth-child(1),
+        &:nth-child(2) {
+          @include media-breakpoint-up(md) {
+            display: inline-block;
+            width: 100%;
+            //max-width: 241px;
+          }
+        }
+        //&:nth-child(2) {
+        //  @include media-breakpoint-up(md) {
+        //    //margin-left: 20px;
+        //  }
+        //}
+      }
+    }
+  }
+  .login-form {
+    display: none;
+  }
+  .icon{
+    font-size: 18px;
+  }
+}

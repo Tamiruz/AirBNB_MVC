@@ -1,0 +1,28 @@
+extends  ../_skeleton
+include ../elements/_section_fullwidth
+block variables
+  - var activeIndex = 4
+  - var title_h1 = "The Website Is In Maintenance Mode"
+  - var bread_2 = "Extras"
+  - var bread_3 = "Maintenance Page"
+  - footer_class_adjuster = "bg-gray"
+  - var brand_name_adjuster = "images/logo-2.png"
+
+block title
+  title Maintenance
+
+block page
+  // Page Header
+  include ../elements/_header
+
+  // Page Content
+  main.page-content.text-center.text-lg-start
+    +breadcrumb_items(2)
+    include ../section/extras/_section_maintenance
+
+  // Page Footer
+  include ../elements/_footer-widget
+
+
+
+

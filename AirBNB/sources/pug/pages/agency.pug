@@ -1,0 +1,32 @@
+extends  ../_skeleton
+include ../elements/_section_fullwidth
+block variables
+  - var activeIndex = 6
+  - var title_h1 = "Agency Page"
+  - var bread_2 = "Pages"
+  - footer_class_adjuster = "bg-gray"
+  - var section_full_adjuster = ""
+  - var section_full_col_adjuster = ""
+  - var brand_name_adjuster = "images/logo-2.png"
+
+block title
+  title Agency Page
+
+block page
+  // Page Header
+  include ../elements/_header
+
+  // Page Content
+  main.page-content.text-start
+    +breadcrumb_items(1)
+    include ../section/pages/agency/_section_agency-1
+    include ../section/pages/agency/_section_agency-2
+    include ../section/pages/agency/_section_agency-3
+    include ../section/pages/agency/_section_agency-4
+
+  // Page Footer
+  include ../elements/_footer-widget
+
+
+
+

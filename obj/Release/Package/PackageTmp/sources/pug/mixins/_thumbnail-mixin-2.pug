@@ -1,0 +1,27 @@
+mixin thumbnail-2(src, width,height, date, title,comments,meta_1, meta_2,meta_3)
+  article.thumbnail.thumbnail-2
+    .img-wrap
+      a.img-block(href="blog_post.html")
+        img(src= src alt="" width= width height= height)
+    .caption
+      a(href="blog_post.html").h4.text-sushi= title
+      .caption-meta
+        time(datetime="2016")
+          span.mdi.mdi-calendar
+          span= date
+        .post-meta
+          a(href="#")
+            span.mdi.mdi-account
+            span Admin
+          a(href="blog_post.html").comment
+            span.mdi.mdi-comment-multiple-outline
+            span= comments
+        .post-meta
+          span.mdi.mdi-folder-outline
+          a(href="blog_post.html").meta-link= meta_1
+          | , &nbsp;
+          a(href="blog_post.html").meta-link= meta_2
+          | , &nbsp;
+          a(href="blog_post.html").meta-link= meta_3
+      if block
+        block

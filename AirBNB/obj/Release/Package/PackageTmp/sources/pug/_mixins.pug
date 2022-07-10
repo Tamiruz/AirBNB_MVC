@@ -1,0 +1,17 @@
+//- Accordion item
+	@param {object}  obj           - accordion object
+	@param {boolean} obj.show      - is accordion not collapsed
+	@param {string}  obj.parentId  - parent accordion id
+	@param {string}  obj.title     - accordion title
+mixin accordion( obj )
+	-
+		var
+			headId = obj.parentId +'-accordion-head-'+ randomStr(8),
+			bodyId = obj.parentId +'-accordion-body-'+ randomStr(8);
+
+	//Bootstrap accordion
+	.accordion-item&attributes( attributes )
+		a.accordion-item-title( data-bs-toggle='collapse', data-parent='#'+ obj.parentId, href='#'+ bodyId, aria-controls= bodyId, aria-expanded= Boolean( obj.show ).toString(), class={ collapsed: !obj.show }, role='button', )= obj.title
+		.collapse( id= bodyId, data-parent='#'+ obj.parentId, class={ show: obj.show } )
+			.accordion-item-content
+				block

@@ -1,0 +1,62 @@
+// Sidebar
+.sidebar.sidebar-mod-2
+  .sidebar-module
+    h4 About Us
+    p We deal with different kinds of properties. No matter what you need, a house, an apartment or garage - you'll find a good option on our site. Thousands of offers and the best prices are guaranteed. Start browsing now!
+    a(href="#").btn.btn-xs.btn-primary learn more
+  .sidebar-module
+    h4 Archives
+    ul.list-marked.list-marked-mod-1
+      li
+        a(href="#").text-sushi Oct 2015
+      li
+        a(href="#").text-sushi Dec 2015
+      li
+        a(href="#").text-sushi Feb 2015
+      li
+        a(href="#").text-sushi Apr 2015
+
+    ul.list-marked.list-marked-mod-1
+      li
+        a(href="#").text-sushi Nov 2015
+      li
+        a(href="#").text-sushi Jan 2015
+      li
+        a(href="#").text-sushi Mar 2015
+      li
+        a(href="#").text-sushi May 2015
+
+  .sidebar-module
+    h4 Recent Properties
+    +thumbnail-3("images/left_sidebar_blog-1.jpg", "340" , "230" ,"1336 N Occidental Blvd","$4,339.00")
+    +thumbnail-3("images/left_sidebar_blog-2.jpg", "340" , "230" ,"650 Kelton Ave #201","$2,449.00")
+    +thumbnail-3("images/left_sidebar_blog-3.jpg", "340" , "230" ,"1735 N Fuller Ave #124","$2,449.00")
+  .sidebar-module
+    h4 Categories
+    ul.list-marked
+      li
+        a(href="#").text-sushi Market Insights
+      li
+        a(href="#").text-sushi Market Report
+      li
+        a(href="#").text-sushi Buying a Foreclosure
+      li
+        a(href="#").text-sushi Pricing Your Home to Sell
+      li
+        a(href="#").text-sushi Your Strategic Sales Plan
+      li
+        a(href="#").text-sushi Find Your Home's Value
+      li
+        a(href="#").text-sushi Short Sale Selling
+  .sidebar-module
+    // Facebook Feed
+    .fb-page-responsive
+      .fb-page(data-href='https://www.facebook.com/TemplateMonster', data-tabs='timeline', data-height='500', data-small-header='false', data-adapt-container-width='true', data-hide-cover='false', data-show-facepile='true')
+        .fb-xfbml-parse-ignore
+          blockquote(cite='https://www.facebook.com/TemplateMonster')
+            a(href='https://www.facebook.com/TemplateMonster') TemplateMonster
+  .sidebar-module
+    .banner
+      img(src="images/left_sidebar_blog-4.jpg" alt="" width="340" height="500")
+      .banner-text
+        h4 Banner 340x500

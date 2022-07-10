@@ -1,0 +1,32 @@
+extends  ../_skeleton
+include ../elements/_section_fullwidth
+include ../mixins/_thumbnail-mixin-3
+include ../mixins/_thumbnail-mixin-2
+include ../mixins/_pagination-mixin
+block variables
+  - var activeIndex = 7
+  - var title_h1 = "Left Sidebar"
+  - var bread_2 = "Blog"
+  - footer_class_adjuster = "bg-gray"
+  - var section_full_adjuster = ""
+  - var section_full_col_adjuster = ""
+  - var brand_name_adjuster = "images/logo-2.png"
+
+block title
+  title Left Sidebar
+
+block page
+  #fb-root
+  // Page Header
+  include ../elements/_header
+
+  // Page Content
+  main.page-content.text-start
+    +breadcrumb_items(1)
+    include ../section/blog/_section_left_sidebar
+  // Page Footer
+  include ../elements/_footer-widget
+
+
+
+

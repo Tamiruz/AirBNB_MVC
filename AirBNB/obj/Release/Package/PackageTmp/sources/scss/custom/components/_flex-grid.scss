@@ -1,0 +1,32 @@
+//
+// Flex Grid system
+// --------------------------------------------------
+
+// Base Grid Styles
+// --------------------------------------------------
+
+.container {
+  &.container-wide {
+    @include media-breakpoint-up( xxl ) {
+      max-width: $shell-xl-width;
+    }
+  }
+}
+
+// Create IE 9 and below degradation styles
+html.lt-ie-10 * + .row,
+* + .row {
+  margin-top: $range-ws;
+}
+
+html.lt-ie-10 * + [class*='cell-'],
+* + [class*='cell-'],
+html.lt-ie-10 * + .row-md,
+* + .row-md {
+  margin-top: $range-ws-sm;
+}
+
+html.lt-ie-10 * + .row-xl,
+* + .row-xl {
+  margin-top: $range-ws-lg;
+}

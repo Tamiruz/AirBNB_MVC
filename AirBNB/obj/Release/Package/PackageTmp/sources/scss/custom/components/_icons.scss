@@ -1,0 +1,183 @@
+//
+// Icons
+// --------------------------------------------------
+
+// Base styles
+// --------------------------------------------------
+
+.icon {
+  display: inline-block;
+  width: 25px;
+  &:before {
+    position: relative;
+    display: inline-block;
+    font-weight: 400;
+    font-style: normal;
+    speak: none;
+    text-transform: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+// Alternate icons
+// --------------------------------------------------
+
+.icon-default {
+
+}
+
+.icon-primary {
+  color: $primary;
+}
+
+.icon-white {
+  color: $white-clr;
+}
+
+.icon-darker {
+  color: $gray-darker;
+}
+
+.icon-light{
+  color: $gray-light;
+}
+.icon-yellow {
+  color: $color-lightning-yellow;
+  &:focus {
+    color: $color-lightning-yellow;
+  }
+  &:hover{
+    color: darken($color-lightning-yellow, 10%);
+  }
+}
+
+// Button Sizes
+// --------------------------------------------------
+html .page{
+  .icon-xxs {
+    font-size: 24px;
+    line-height: 1;
+    vertical-align: middle;
+
+    &-mod-1 {
+      font-size: 22px;
+      line-height: 1;
+      vertical-align: middle;
+    }
+    &-mod-2{
+      font-size: 20px;
+    }
+  }
+}
+
+.icon-xs {
+  font-size: 36px;
+  line-height: 1;
+}
+
+.icon-sm {
+  height: 28px;
+  width: auto;
+  font-size: 40px;
+  line-height: 0.5;
+}
+
+.icon-md {
+  font-size: 44px;
+  line-height: 1;
+  width: 60px;
+}
+
+.icon-lg {
+  display: inline-block;
+  width: 80px;
+  height: 80px;
+  text-align: center;
+  border-radius: 50%;
+  font-size: 48px;
+  line-height: 1.65;
+}
+
+.icon-square {
+  svg {
+    fill: $primary;
+    height: 20px;
+    width: 20px;
+    position: relative;
+    top: -6px;
+  }
+}
+
+.icon-social {
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  border-radius: 50%;
+  font-size: 18px;
+  text-align: center;
+  color: $white-clr;
+  &:focus{
+    color: $white-clr;
+  }
+  &.fa-facebook {
+    background-color: $brand-info;
+    &:hover{
+      color: $white-clr;
+      background-color: $color-astronaut;
+    }
+  }
+  &.fa-twitter {
+    background-color: $brand-info-2;
+    &:hover{
+      color: $white-clr;
+      background-color: $color-eastern-blue;
+    }
+  }
+  &.fa-google-plus {
+    background-color: $brand-danger;
+    &:hover{
+      color: $white-clr;
+      background-color: $color-medium-carmine;
+    }
+  }
+  &.fa-linkedin {
+    background-color: $color-denim;
+    &:hover{
+      color: $white-clr;
+      background-color: darken($color-denim, 10%);
+    }
+  }
+  &.fa-instagram {
+    background-color: $color-wedgewood;
+    &:hover{
+      color: $white-clr;
+      background-color: darken($color-wedgewood, 10%);
+    }
+  }
+}
+
+.icon-short-code {
+  padding-bottom: 40px;
+  > div + div {
+    margin-top: 12px;
+    > span{
+      display: inline-block;
+      margin-left: 4px;
+    }
+  }
+}
+
+// icon group
+//------------------------------
+
+.icon-group {
+  margin-bottom: -10px;
+  margin-left: -10px;
+  transform: translateY(-10px);
+
+  .icon{
+    margin-top: 10px;
+    margin-left: 10px;
+  }
+}

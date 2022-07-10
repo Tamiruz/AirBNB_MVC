@@ -1,0 +1,57 @@
+//
+// Jumbotron Custom
+// --------------------------------------------------
+.jumbotron{
+  p{
+    font-size: 18px;
+    margin-bottom: 0;
+  }
+}
+.jumbotron.jumbotron-mod-1 {
+  padding: 0;
+  margin-bottom: 0;
+  h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+    color: $white-clr;
+  }
+  color: $white-clr;
+  background-color: transparent;
+  h1 + .btn {
+    margin-top: 30px;
+  }
+  .btn-group-mod-2 {
+    .btn-sm {
+      min-width: 100px;
+    }
+  }
+}
+
+.jumbotron.jumbotron-mod-2 {
+  padding: 0;
+  h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+    color: $white-clr;
+  }
+  @include media-breakpoint-up(xl) {
+    padding: 0 47px 0 0;
+    margin-bottom: 0;
+  }
+  color: $white-clr;
+  background-color: transparent;
+  p {
+    font-size: 18px;
+  }
+  .rd-mailform-mod-2 .mfInput {
+    width: 100%;
+    @include media-breakpoint-up(lg) {
+      width: 57%
+    }
+  }
+  * + p {
+    margin-top: 30px;
+    @include media-breakpoint-up(xl) {
+      margin-top: 60px;
+    }
+  }
+  .btn-sm {
+    min-width: 240px;
+  }
+}

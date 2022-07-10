@@ -1,0 +1,23 @@
+mixin thumbnail-6(src, width,height, date, title, meta_1, meta_2, meta_3)
+  article.thumbnail.thumbnail-2.thumbnail-2-mod-1
+    .img-wrap
+      a.img-block(href="blog_post.html")
+        img(src= src alt="" width= width height= height)
+    .caption
+      h5
+        a(href="blog_post.html").text-sushi= title
+      .caption-meta
+        time(datetime="2016")
+          span.mdi.mdi-calendar
+          span= date
+        a(href="#")
+          span.mdi.mdi-account
+          span Admin
+      if block
+        block
+      .post-meta-bottom
+        a(href="blog_post.html").meta-link= meta_1
+        | , &nbsp;
+        a(href="blog_post.html").meta-link= meta_2
+        | , &nbsp;
+        a(href="blog_post.html").meta-link= meta_3

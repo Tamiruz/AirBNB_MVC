@@ -1,0 +1,159 @@
+//
+// Blog Post
+// --------------------------------------------------
+
+.blog-post {
+  color: $color-abbey;
+
+  .media {
+    margin-top: 10px;
+    @include media-breakpoint-up(md) {
+      margin-top: 30px;
+    }
+    * + p {
+      margin-top: 10px;
+    }
+  }
+
+  * + h4 {
+    margin-top: 45px;
+    @include media-breakpoint-up(md) {
+      margin-top: 60px;
+    }
+  }
+  hr + .caption-meta{
+    margin-top: 30px;
+    @include media-breakpoint-up(md) {
+      margin-top: 60px;
+    }
+  }
+  .caption-meta .comment{
+    padding: 0;
+  }
+
+  * + .icon-group {
+    margin-top: 20px;
+  }
+
+  * + img{
+    margin-top: 20px;
+    @include media-breakpoint-up(md) {
+      margin-top: 30px;
+    }
+  }
+
+  img + * {
+    margin-top: 20px;
+    @include media-breakpoint-up(md) {
+      margin-top: 30px;
+    }
+  }
+
+  * + .blog-post-footer,
+  .blog-post-footer + * {
+    margin-top: 45px;
+    @include media-breakpoint-up(md) {
+      margin-top: 60px;
+    }
+  }
+
+  h4 + .row{
+    margin-top: 30px;
+  }
+
+  & + * {
+    margin-top: 45px;
+    @include media-breakpoint-up(lg) {
+      margin-top: 90px;
+    }
+  }
+  .comment + .comment {
+    margin-top: 0;
+  }
+  .caption-meta {
+    time{
+      display: block;
+    }
+    > *:nth-child(2){
+      margin-left: 0;
+    }
+    @include media-breakpoint-up(sm) {
+      time {
+        display: inline-block;
+      }
+      > *:nth-child(2){
+        margin-left: 17px;
+      }
+    }
+    @include media-breakpoint-up(xl) {
+      > *:nth-child(2) {
+        margin-left: 48px;
+      }
+    }
+  }
+  @media (min-width: 992px) and (max-width: 1199px) {
+    .thumbnail {
+      .caption-meta {
+        time{
+          display: block;
+        }
+        > *:nth-child(2){
+          margin-left: 0;
+        }
+      }
+    }
+  }
+}
+
+.comment {
+  padding: 0 0 30px;
+  
+  .media-left {
+    @include media-breakpoint-up(xl) {
+      padding-right: 25px;
+    }
+  }
+  a.text-sushi:hover {
+    span{
+      color: $brand-olive-drab;
+    }
+  }
+  time {
+    display: inline-block;
+    margin-top: 10px;
+    vertical-align: middle;
+    color: $color-abbey;
+    &:before{
+      color: $primary;
+    }
+
+    &:before {
+      font-size: 18px;
+      padding-right: 6px;
+    }
+  }
+  .fa-mail-reply {
+    margin-top: 15px;
+    color: $brand-sushi;
+    &:hover {
+      color: $brand-olive-drab;
+    }
+  }
+  .fa-reply {
+    &:before {
+      font-size: 14px;
+      margin-right: 5px;
+    }
+  }
+
+  &-repost {
+    padding: 30px 0 0;
+    border-top: 1px solid $gray-darker;
+    @include media-breakpoint-up(md) {
+      margin-top: 0;
+      margin-left: 95px;
+    }
+
+  }
+}
+

@@ -1,0 +1,26 @@
+mixin breadcrumb_items(item)
+  case item
+    when 1
+      // Section Title Breadcrumbs
+      section.section-full(class= section_full_adjuster)
+        .container
+          .row
+            .col-12(class= section_full_col_adjuster)
+              h1!= title_h1
+              p!= section_full_text
+              ol.breadcrumb
+                li: a(href="index.html") Home
+                li: a(href="#")!= bread_2
+                li.active!= title_h1
+    when 2
+      // Section Title Breadcrumbs
+      section.section-full(class= section_full_adjuster)
+        .container
+          .row
+            .col-12(class= section_full_col_adjuster)
+              h1!= title_h1
+              p!= section_full_text
+              ol.breadcrumb
+                li: a(href="index.html") Home
+                li: a(href="#")!= bread_2
+                li.active!= bread_3

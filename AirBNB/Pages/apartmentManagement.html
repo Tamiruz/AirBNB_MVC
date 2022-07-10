@@ -1,0 +1,433 @@
+﻿<!DOCTYPE html>
+<html class="wide wow-animation" lang="en">
+<head>
+    <!-- Site Title-->
+    <title>Apartments</title>
+    <meta name="format-detection" content="telephone=no">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta charset="utf-8">
+    <style>
+        table.dataTable tbody tr.selected td, table.dataTable tbody tr.selected {
+            background-color: pink !important;
+        }
+    </style>
+
+    <!-- Data Table-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" defer></script>
+    <script src="../Scripts/ajaxCalls.js"></script>
+    <script src="../Scripts/jquery-3.3.1.min.js"></script>
+    <script src="../Scripts/renderFunction.js"></script>
+
+    <!-- Stylesheets-->
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Lato:400,700,900,400italic">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/fonts.css">
+    <link rel="stylesheet" href="css/style.css">
+
+    <script>
+
+        $(document).ready(function () {
+            //Checking if the user is logged in
+            let bool = checkLogin();
+            $('#apartmentsData').hide(); 
+            $('#summary').hide(); 
+            if (bool == false) {
+                swal({ // this will open a dialouge
+                    title: "You need to log in",
+                    text: "Press ok to log in.",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true
+                })
+                    .then(function (ok) {
+                        if (ok) location.replace("login.html");
+                        else {
+                            swal("You are moved to Home Page!");
+                            location.replace("index.html");
+                        }
+                    });
+            }
+            else if (user.Type == 'C') {
+                swal({ // this will open a dialouge
+                    title: "You are not admin!",
+                    text: "",
+                    icon: "warning",
+                    buttone: true,
+                    dangerMode: true
+                })
+                    .then(function (ok) {
+                        if (ok) location.replace("index.html");
+                        else location.replace("index.html");
+                    });
+            }
+            else {
+                $('#apartmentsData').show();
+                $('#summary').show();
+            }
+
+            //Getting all the reservations for user by user id.
+            currentUserID = user.Id;//global variable for the user.
+
+            //We need to get the user and check if he is admin--------------------------------------------------
+
+
+            let api = `../api/Apartments/getAllApartments`;
+            ajaxCall('GET', api, "", successCB, errorCB);
+
+        });
+
+        //Success function for getting the reservations by user id, now we will render with datatable.
+        function successCB(apartmentsData) {
+            console.log(apartmentsData);
+            renderProgressBar(apartmentsData);
+            apartments = apartmentsData; // keep the hosts array in a global variable;
+            try {
+                tbl = $('#apartmentsData').DataTable({
+                    data: apartments,
+                    pageLength: 5,
+                    columns: [
+                        {
+                            render: function (data, type, row, meta) {
+                                return "<div class='col-xs d-md-none'><b>id</b></div>" + row.Id;
+                            }
+                        },
+                        {
+                            render: function (data, type, row, meta) {
+                                return "<div class='col-xs d-md-none'><b>Name</b></div>" + row.Name;
+                            }
+                        },
+                        {
+                            render: function (data, type, row, meta) {
+                                return "<div class='col-xs d-md-none'><b>Location</b></div>" + row.Location;
+                            }
+                        },
+                        {
+                            render: function (data, type, row, meta) {
+                                return "<div class='col-xs d-md-none'><b>Days Rented</b></div>" + row.DaysRented;
+                            }
+                        },
+                        {
+                            render: function (data, type, row, meta) {
+                                return "<div class='col-xs d-md-none'><b>Accommodates</b></div>" +renderPersons(row.Accommodates);
+                            }
+                        },
+                        {
+                            render: function (data, type, row, meta) {
+                                return "<div class='col-xs d-md-none'><b>Num Of Cancelation</b></div>" + row.NumOfCancelation;
+                            }
+                        },
+                        {
+                            render: function (data, type, row, meta) {
+                                return "<div class='col-xs d-md-none'><b>Review Rating</b></div>" + renderStars(row.ReviewRating);
+                            }
+                        }
+                    ]
+                });
+            }
+            catch (err) {
+                alert(err);
+            }
+
+        }
+
+        function errorCB(error) {
+            console.log(error);
+        }
+
+        function renderProgressBar(apartments) {
+            let avgPrice = 0;
+            let numOfCancelation =0 , rentals = 0;
+
+            for (let i = 0; i < apartments.length; i++) {
+                avgPrice += apartments[i].Price;
+                numOfCancelation += apartments[i].NumOfCancelation;
+                rentals += apartments[i].DaysRented;
+            }
+            console.log(avgPrice / apartments.length);
+            $("#avgPrice").html((avgPrice/apartments.length) + '$');
+            $("#numOfCancelation").html(numOfCancelation);
+            $("#rentals").html(rentals);
+            $("#apartments").html(apartments.length);
+
+        }
+
+
+    </script>
+
+
+</head>
+<body>
+    <div class="preloader">
+        <div class="preloader-body">
+            <div class="cssload-container">
+                <div class="cssload-speeding-wheel"></div>
+            </div>
+        </div>
+    </div>
+    <!-- Page-->
+    <div class="page">
+        <!-- Page Header-->
+        <header class="page-head">
+            <!-- RD Navbar-->
+            <div class="rd-navbar-wrap header_corporate">
+                <nav class="rd-navbar" data-layout="rd-navbar-fixed" data-sm-layout="rd-navbar-fixed" data-md-layout="rd-navbar-fullwidth" data-lg-layout="rd-navbar-fullwidth" data-xl-layout="rd-navbar-fullwidth" data-xxl-layout="rd-navbar-fullwidth" data-device-layout="rd-navbar-fixed" data-sm-device-layout="rd-navbar-fixed" data-md-device-layout="rd-navbar-fixed" data-lg-device-layout="rd-navbar-fullwidth" data-xl-device-layout="rd-navbar-fullwidth" data-xxl-device-layout="rd-navbar-fullwidth" data-stick-up-offset="100px">
+                    <!--RD Navbar Panel-->
+                    <div class="rd-navbar-top-panel">
+                        <div class="rd-navbar-top-panel-wrap">
+                            <dl class="dl-horizontal-mod-1 login">
+                                <dt><span class="mdi mdi-login icon-xxs-mod-2"></span></dt>
+                                <dd><a class="text-sushi sign" href="login.html"> Login/Registration</a></dd>
+                            </dl>
+                            <div class="top-panel-inner">
+                                <dl class="dl-horizontal-mod-1">
+                                    <dt><span class="material-icons-local_phone icon-xxs-mod-2"></span></dt>
+                                    <dd><a href="callto:#"> +1 (855) 635-7754</a></dd>
+                                </dl>
+                                <dl class="dl-horizontal-mod-1">
+                                    <dt><span class="material-icons-drafts icon-xxs-mod-2"></span></dt>
+                                    <dd><a href="mailto:#">support@airbnb.com</a></dd>
+                                </dl>
+                                <address>
+                                    <dl class="dl-horizontal-mod-1">
+                                        <dt><span class="mdi mdi-map-marker-radius icon-xxs-mod-2"></span></dt>
+                                        <dd><a class="inset-11"> 888 Brannan Street San Francisco, CA 94103 USA </a></dd>
+                                    </dl>
+                                </address>
+                            </div>
+                            <ul class="list-inline">
+                                <li><a class="fa-facebook" href="https://www.facebook.com/airbnb/"></a></li>
+                                <li><a class="fa-twitter" href="https://twitter.com/airbnb"></a></li>
+                                <li><a class="mdi mdi-instagram" href="https://www.instagram.com/airbnb/"></a></li>
+                                <li><a class="fa-google" href="https://www.google.com/search?q=airbnb&hl=iw&source=hp&ei=JJmXYpbLLJ2Vxc8Pq9q3mA4&iflsig=AJiK0e8AAAAAYpenNDXx8_Ad_y2dMZ3THoR2Ts333B_l&ved=0ahUKEwiW7aKk24z4AhWdSvEDHSvtDeMQ4dUDCAc&uact=5&oq=airbnb&gs_lcp=Cgdnd3Mtd2l6EAMyBAgAEEMyFAguEIAEELEDEIMBEMcBENEDEMkDMgUIABCSAzIFCAAQkgMyBQgAEIAEMgUIABCABDIFCAAQgAQyBQgAEIAEMgUIABCABDIFCAAQgAQ6EAguELEDEIMBEMcBENEDEEM6EQguEIAEELEDEIMBEMcBENEDOgsILhCABBDHARDRAzoICAAQgAQQsQM6CwgAEIAEELEDEIMBOg4ILhCABBCxAxDHARCjAjoRCC4QgAQQsQMQgwEQxwEQrwFQiANYog1g8g5oAXAAeACAAZ4BiAGfBpIBAzAuNpgBAKABAbABAA&sclient=gws-wiz"></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="rd-navbar-inner inner-wrap">
+                        <div class="rd-navbar-panel">
+                            <!-- RD Navbar Toggle-->
+                            <button class="rd-navbar-toggle" data-rd-navbar-toggle=".rd-navbar-nav-wrap"><span></span></button>
+                            <!-- RD Navbar Brand-->
+                            <div class="rd-navbar-brand"><a class="brand-name" href="index.html"><img src="images/logo-1.png" alt=""></a></div>
+                        </div>
+                        <div class="btn-group"><a class="btn btn-sm btn-primary userLogin">Hello Guest</a></div>
+                        <div class="rd-navbar-nav-wrap">
+                            <!-- RD Navbar Nav-->
+                            <ul class="rd-navbar-nav">
+                                <li><a href="./">Home</a></li>
+                                <li>
+                                    <a href="reservationsManagment.html">My reservations</a>
+                                </li>
+                                <li>
+                                    <a href="additions.html">Additions</a>
+                                </li>
+                                <li id="adminPages" class="active">
+                                    <a href="">Management pages</a>
+                                    <!-- RD Navbar Dropdown-->
+                                    <ul class="rd-navbar-dropdown">
+                                        <li><a href="usersManagment.html">Users</a></li>
+                                        <li><a href="hostManagement.html">Hosts</a></li>
+                                        <li><a href="apartmentManagement.html">Apartments</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="favorites.html">My Favorites</a>
+                                </li>
+                                <li class="link-group"><a class="btn btn-sm btn-primary userLogin">Hello Guest</a></li>
+                                <li class="rd-navbar-bottom-panel">
+                                    <div class="rd-navbar-bottom-panel-wrap">
+                                        <dl class="dl-horizontal-mod-1 login">
+                                            <dt><span class="mdi mdi-login icon-xxs-mod-2"></span></dt>
+                                            <dd><a class="text-sushi sign" href="login.html"> Login/Registration</a></dd>
+                                        </dl>
+                                        <div class="top-panel-inner">
+                                            <dl class="dl-horizontal-mod-1">
+                                                <dt><span class="material-icons-local_phone icon-xxs-mod-2"></span></dt>
+                                                <dd><a href="callto:#"> +1 (855) 635-7754</a></dd>
+                                            </dl>
+                                            <dl class="dl-horizontal-mod-1">
+                                                <dt><span class="material-icons-drafts icon-xxs-mod-2"></span></dt>
+                                                <dd><a href="mailto:#">support@airbnb.com</a></dd>
+                                            </dl>
+                                            <address>
+                                                <dl class="dl-horizontal-mod-1">
+                                                    <dt><span class="icon-xxs-mod-2 mdi mdi-map-marker-radius"></span></dt>
+                                                    <dd><a class="inset-11" href="#">795 Folsom Ave, Suite 600 San Francisco, CA 94107</a></dd>
+                                                </dl>
+                                            </address>
+                                        </div>
+                                        <ul class="list-inline">
+                                            <li><a class="fa-facebook" href="https://www.facebook.com/airbnb/"></a></li>
+                                            <li><a class="fa-twitter" href="https://twitter.com/airbnb"></a></li>
+                                            <li><a class="mdi mdi-instagram" href="https://www.instagram.com/airbnb/"></a></li>
+                                            <li><a class="fa-google" href="https://www.google.com/search?q=airbnb&hl=iw&source=hp&ei=JJmXYpbLLJ2Vxc8Pq9q3mA4&iflsig=AJiK0e8AAAAAYpenNDXx8_Ad_y2dMZ3THoR2Ts333B_l&ved=0ahUKEwiW7aKk24z4AhWdSvEDHSvtDeMQ4dUDCAc&uact=5&oq=airbnb&gs_lcp=Cgdnd3Mtd2l6EAMyBAgAEEMyFAguEIAEELEDEIMBEMcBENEDEMkDMgUIABCSAzIFCAAQkgMyBQgAEIAEMgUIABCABDIFCAAQgAQyBQgAEIAEMgUIABCABDIFCAAQgAQ6EAguELEDEIMBEMcBENEDEEM6EQguEIAEELEDEIMBEMcBENEDOgsILhCABBDHARDRAzoICAAQgAQQsQM6CwgAEIAEELEDEIMBOg4ILhCABBCxAxDHARCjAjoRCC4QgAQQsQMQgwEQxwEQrwFQiANYog1g8g5oAXAAeACAAZ4BiAGfBpIBAzAuNpgBAKABAbABAA&sclient=gws-wiz"></a></li>
+                                        </ul>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </header>
+        <!-- Page Content-->
+        <main class="page-content text-center text-xl-start">
+            <!-- Section Title Breadcrumbs-->
+            <section class="section-full">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <h1>Apartments</h1>
+                            <p></p>
+                            <ol class="breadcrumb">
+                                <li><a href="index.html">Home</a></li>
+                                <li><a>Managment Pages</a></li>
+                                <li class="active">Apartments</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!--Section Tables Dark Header-->
+
+            <section class="section-lg bg-gray-dark">
+                <div class="container">
+                    <h2>Apartments details</h2>
+                    <hr>
+                    <div class="row">
+                        <div class="col-xl-8">
+                            <div class="table-mobile">
+                                <table id="apartmentsData" class="table table-simple table-sushi display nowrap" style="width:100%">
+                                    <thead>
+                                        <tr class="bg-sushi text-white">
+                                            <th>Id</th>
+                                            <th>Name</th>
+                                            <th>Location</th>
+                                            <th>Days rented</th>
+                                            <th>Accomodates</th>
+                                            <th>Number of cancelation</th>
+                                            <th>Review Rating</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="section-lg">
+                <div  id="summary" class="container">
+                    <div class="row row-50">
+                        <div class="col-xs-6 col-md-3">
+                            <!--Apartments-->
+                            <div class="box-counter">
+                                <div class="box-counter-main">
+                                    <div id="apartments" class="counter">100</div>
+                                </div>
+                                <p class="progress-circle-title text-center fw-bold h6">Apartments</p>
+                            </div>
+                        </div>
+                        <div class="col-xs-6 col-md-3">
+                            <!--Average price-->
+                            <div class="box-counter">
+                                <div class="box-counter-main">
+                                    <div id="avgPrice" class="counter">-</div>
+                                </div>
+                                <p class="progress-circle-title text-center fw-bold h6">Average price per night</p>
+                            </div>
+                        </div>
+                        <div class="col-xs-6 col-md-3">
+                            <!--rentals-->
+                            <div class="box-counter">
+                                <div class="box-counter-main">
+                                    <div id="rentals" class="counter">-</div>
+                                </div>
+                                <p class="progress-circle-title text-center fw-bold h6">All Rentals</p>
+                            </div>
+                        </div>
+                        <div class="col-xs-6 col-md-3">
+                            <!--cancelation-->
+                            <div class="box-counter">
+                                <div class="box-counter-main">
+                                    <div id="numOfCancelation" class="counter">-</div>
+                                </div>
+                                <p class="progress-circle-title text-center fw-bold h6">Cancelation</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+        <!-- Page Footer-->
+        <section class="section-lg bg-gray text-center text-lg-start">
+            <div class="container">
+                <h2>Our Advantages</h2>
+                <hr>
+                <div class="row flow-offset-8">
+                    <div class="col-md-6 col-lg-3">
+                        <div class="media media-mod-6">
+                            <div class="media-left"><span class="linecons-location4 icon icon-lg bg-accent"></span></div>
+                            <div class="media-body">
+                                <h4>Various Locations</h4>
+                                <p>Search by state then by city to find an apartment  overlooking the lake in Chicago, within walking distance of the beach in Los Angeles or in the heart of Atlanta.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="media media-mod-6">
+                            <div class="media-left"><span class="linecons-camera7 icon icon-lg bg-accent"></span></div>
+                            <div class="media-body">
+                                <h4>View Apartments</h4>
+                                <p>View apartment listings with photos, HD videos, InsideView virtual tours, 3D floor plans, and more, while also choosing the apartment and community features that you want.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="media media-mod-6">
+                            <div class="media-left"><span class="linecons-blockade icon icon-lg bg-accent"></span></div>
+                            <div class="media-body">
+                                <h4>Privacy and Security</h4>
+                                <p>Renters insurance helps keep your belongings secure, whether they're on your desk, under your couch, or in some cases, even in your car's glove box.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="media media-mod-6">
+                            <div class="media-left"><span class="linecons-banknote icon icon-lg bg-accent"></span></div>
+                            <div class="media-body">
+                                <h4>No Commission</h4>
+                                <p>You will therefore appreciate this opportunity to acquire a high-quality apartment for rent without having to pay any commission to our real estate agency.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="container" style="text-align:center">
+                <ul class="list-inline">
+                    <li><a class="fa-facebook" href="https://www.facebook.com/airbnb/"></a></li>
+                    <li><a class="fa-twitter" href="https://twitter.com/airbnb"></a></li>
+                    <li><a class="mdi mdi-instagram" href="https://www.instagram.com/airbnb/"></a></li>
+                    <li><a class="fa-google" href="https://www.google.com/search?q=airbnb&hl=iw&source=hp&ei=JJmXYpbLLJ2Vxc8Pq9q3mA4&iflsig=AJiK0e8AAAAAYpenNDXx8_Ad_y2dMZ3THoR2Ts333B_l&ved=0ahUKEwiW7aKk24z4AhWdSvEDHSvtDeMQ4dUDCAc&uact=5&oq=airbnb&gs_lcp=Cgdnd3Mtd2l6EAMyBAgAEEMyFAguEIAEELEDEIMBEMcBENEDEMkDMgUIABCSAzIFCAAQkgMyBQgAEIAEMgUIABCABDIFCAAQgAQyBQgAEIAEMgUIABCABDIFCAAQgAQ6EAguELEDEIMBEMcBENEDEEM6EQguEIAEELEDEIMBEMcBENEDOgsILhCABBDHARDRAzoICAAQgAQQsQM6CwgAEIAEELEDEIMBOg4ILhCABBCxAxDHARCjAjoRCC4QgAQQsQMQgwEQxwEQrwFQiANYog1g8g5oAXAAeACAAZ4BiAGfBpIBAzAuNpgBAKABAbABAA&sclient=gws-wiz"></a></li>
+                </ul>
+            </div>
+        </section>
+    </div>
+    <!-- Global Mailform Output-->
+    <div class="snackbars" id="form-output-global"></div>
+    <!-- Java script-->
+    <script src="js/core.min.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,899 @@
+﻿<!DOCTYPE html>
+<html class="wide wow-animation" lang="en">
+<head>
+    <!-- Site Title-->
+    <title>Apartment Details</title>
+    <meta name="format-detection" content="telephone=no">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta charset="utf-8">
+    <!-- Stylesheets-->
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Lato:400,700,900,400italic">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/fonts.css">
+    <link rel="stylesheet" href="css/style.css">
+
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="../Scripts/renderFunction.js"></script>
+    <script src="../Scripts/ajaxCalls.js"></script>
+    <script src="../Scripts/jquery-3.3.1.min.js"></script>
+    <script src="../Scripts/favoritesFunctions.js"></script>
+
+    <!--Weather-->
+    <link href="css/weather.css" rel="stylesheet" />
+
+    <style>
+        #map {
+            width: 100%;
+            height: 200px;
+        }
+
+        .airlogobnb {
+            width: 300px;
+            height: 100px;
+        }
+
+        #aroundBorder {
+            border: solid #689029 2px !important;
+            border-radius: 10px;
+            text-align: center;
+            padding: 10px;
+        }
+    </style>
+    <script>
+
+        $(document).ready(function () {
+
+            loggedIn = checkLogin();
+
+            //If apartment ID isnt at local storage so page not found.
+            if (localStorage.getItem("group101_apartmentId") == undefined) {
+                location.replace("404.html");
+            }
+
+            // RSS-Weather, get Amsterdam weather.
+            ajaxCall("GET", `../api/rss`, "", successGetRSS, errorGetRSS);
+
+            //Getting the choosen apartment id.
+            apartmentID = JSON.parse(localStorage.getItem("group101_apartmentId")); // global variable
+            let api = `../api/Apartments/${apartmentID}`;
+            ajaxCall("GET", api, "", successApartmentCB, errorCB);
+
+            //Flag represents whether the guest wants to see all reviews or partial.
+            var flag = 0;
+            $('#showReviews').on('click', () => {
+                let btn = $('#showReviews');
+                if (flag == 0) {
+                    $('.hide-review').show();
+                    btn.html('Hide reviews');
+                    flag = 1;
+                }
+                else {
+                    $('.hide-review').hide();
+                    btn.html('Show all reviews');
+                    flag = 0;
+                }
+            });
+            //routing the submit form for booking an apartment
+            $("#submitBook").submit(bookApartment);
+
+            //routing the submit review for an apartment.
+            $("#submitReview").submit(submitReview);
+
+            // Rendering the wanted dates.
+            if (localStorage.getItem('group101_filters') != undefined) {
+                let filters = JSON.parse(localStorage.getItem('group101_filters'));
+                $('#from').val(filters.from);
+                $('#to').val(filters.to);
+            }
+
+            //Routing the favorites button
+            $("#favorites").click(addToFavorites);
+        });
+
+        // Success CB for getting weather.
+        function successGetRSS(data) {
+            console.log(data);
+
+            //Today
+            let descToday = (data[3].split(' '));
+            $("#minD").html(descToday[descToday.indexOf("Minimum") + 2])
+
+            let moreDescToday = data[2].split(' ');
+            console.log(moreDescToday);
+
+            let toTake = moreDescToday.indexOf("Minimum");
+            let weatherType = "";
+            for (let i = 1; i < toTake; i++)
+                weatherType += moreDescToday[i] + " ";
+
+            //Parameters today
+
+            $("#weatherType").html(weatherType);
+            $("#wind").html('<br/>Wind: ' + descToday[descToday.indexOf("Speed:") + 1]);
+            $("#humidity").html("Humidity: " + (descToday[descToday.indexOf("Humidity:") + 1]).split(",")[0]);
+            $("#uvRisk").html("UV Risk: " + descToday[descToday.indexOf("Risk:") + 1]);
+
+
+            /* Tommorow */
+            // Calculate temperature range.
+            let descTommorow = (data[4].split(' ')); // Split according of ' '.
+            let minTommorow = descTommorow.indexOf("Minimum"); // Index of minimum.
+            $("#day2").html(data[4].split(':')[0]); // Day name.
+            $("#range2").html(descTommorow[minTommorow + 2] + ' - ' + descTommorow[descTommorow.indexOf("Maximum") + 2]);  // Temperature range.
+
+            // Get weater type.
+            weatherType = "";
+            for (let j = 1; j < minTommorow; j++) // Calculate indexes of weather Type.
+                weatherType += descTommorow[j] + " "; // Weather type string.
+            $("#type2").html(weatherType.split(',')[0]); // Insert weather type without the ','.
+
+
+            /* More 2 days */
+            // Calculate temperature range.
+            let desc2Days = (data[6].split(' ')); // Split according of ' '.
+            let min2Days = desc2Days.indexOf("Minimum"); // Index of minimum.
+            $("#day3").html(data[6].split(':')[0]); // Day name.
+            $("#range3").html(desc2Days[min2Days + 2] + ' - ' + desc2Days[desc2Days.indexOf("Maximum") + 2]); // Temperature range.
+
+            // Get weater type.
+            weatherType = "";
+            for (let k = 1; k < min2Days; k++) // Calculate indexes of weather Type.
+                weatherType += desc2Days[k] + " "; // Weather type string.
+            $("#type3").html(weatherType.split(',')[0]); // Insert weather type without the ','.
+
+        }
+        // Error CB for getting weather.
+        function errorGetRSS(err) {
+            console.log(err);
+        }
+
+        // Render apartment details.
+        function successApartmentCB(apartment) {
+            // Header
+            $('#price').html(apartment.Price + '$<span class="mon text-regular">/night</span>');
+            $('#name').html(apartment.Name);
+            $('#location').html(apartment.Location);
+
+            // Picture
+            $('#img').attr('src', apartment.Picture);
+            $('#img').parent().attr("href", apartment.Picture); // for presenting img by click on it and adding more features.
+
+            // Table
+            $('#since').html((apartment.Since).split(' ')[0]);
+            $('#hostResponseTime').html(apartment.HostResponseTime);
+            $('#neighbourhood').html(apartment.HostNeighbourhood);
+            $('#propertyType').html(apartment.PropertyType);
+            $('#roomType').html(apartment.RoomType);
+            $('#bathrooms').html(apartment.BathroomsText);
+            $('#bedrooms').html(apartment.Bedrooms);
+            $('#beds').html(apartment.Beds);
+            $('#amenities').html(renderAmenities(apartment.Amenities));
+            $('#minNights').html(apartment.MinNights);
+            $('#maxNights').html(apartment.MaxNights);
+            $('#availability365').html(apartment.Availability365);
+            $('#lastReview').html((apartment.LastReview).split(' ')[0]);
+            $('#verified').html(renderVerified(apartment.HostVerified));
+            $('#numOfReviews').html(apartment.NumOfReviews);
+            $('#reviewRating').html(renderStars(apartment.ReviewRating, 0));
+            $('#reviewCleanliness').html(renderStars(apartment.ReviewCleanliness, 0));
+            $('#reviewCommunication').html(renderStars(apartment.ReviewCommunication, 0));
+            $('#reviewLocation').html(renderStars(apartment.ReviewLocation, 0));
+            $('#accommodates').html(renderPersons(apartment.Accommodates));
+            $('#distance').html(apartment.Distance.toFixed(2) + ' km');
+
+            // Description
+            $('#description').html((apartment.Description)/*.split('License number')[0]*/);
+
+            //Render reviews
+            renderReviews(apartment.Id);
+
+            // Initialize and add the map
+            initMap(apartment.X, apartment.Y);
+
+            // Save hostID min/max Nights for specific apartment reservation.
+            hostId = apartment.HostID;
+            minNights = apartment.MinNights;
+            maxNights = apartment.MaxNights;
+            price = apartment.Price;
+            apartmentName = apartment.Name;
+
+        }
+
+        //Error callback for getting the apartment
+        function errorCB() {
+            alert("error");
+        }
+
+
+        //Map options, showing the google maps, if you zoom in and drag the person on a street, you can view the street.
+        function initMap(x, y) {
+
+            var options = {
+                zoom: 8,
+                center: { lat: x, lng: y }
+            }
+            var map = new google.maps.Map(document.getElementById("map"), options);
+
+            // The marker, positioned at Uluru
+            const marker = new google.maps.Marker({
+                position: { lat: x, lng: y },
+                map: map
+            });
+        }
+
+        // for render amenities.
+        function renderAmenities(arr) {
+            let str = "";
+            if (arr.length > 1) {
+                for (var i = 0; i < arr.length - 2; i++)
+                    str += arr[i] + " ,";
+                str += arr[i] + " and " + arr[i + 1] + ".";
+            }
+            else if (arr.length == 1)
+                str += arr[0] + ".";
+            else str += "None.";
+            return str;
+        }
+
+        //Getting all the reviews for a apartment by apartment ID.
+        function reviewSCB(reviews) {
+            console.log(reviews);
+            let div = $("#mainReviews");
+            let str = "";
+            let size = 5; // how many reviews to show before click thr button "Show all reviews";
+
+            for (let i = 0; i < reviews.length; i++) {
+                str += "<div class='media media-mod-2 comment";
+                if (i > size - 1) // add to all other reviews class.
+                    str += " hide-review";
+                str += "'><div class='media-body'><p class='h6 text-sushi text-ubold'>" + reviews[i].ReviewerName;
+                str += "</p><time class='fa-calendar'>" + reviews[i].Date.split(' ')[0] + "</time><p class='text-light-custom'>" + reviews[i].RevComment + "</p></div></div>";
+            }
+            div.html(str);
+
+            $('.hide-review').hide(); // hide all the other reviews.
+        }
+
+        //Error cb function for getting reviews.
+        function reviewECB(error) {
+            alert(error);
+        }
+
+        //Booking an apartment
+        function bookApartment() {
+            if (loggedIn == false) {
+                swal({ // this will open a dialouge
+                    title: "You need to log in",
+                    text: "Press ok to log in.",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true
+                })
+                    .then(function (ok) {
+                        if (ok) location.replace("login.html");
+                        else swal("You are not logged!");
+                    });
+                return false;
+            }
+
+
+            if (localStorage.getItem("group101_userLogged") != undefined)
+                id = JSON.parse(localStorage.getItem("group101_userLogged")).Id;
+            if (apartmentID == 0 || id == 0)
+                return false;
+
+            let from = $("#from").val();
+            let to = $("#to").val();
+
+
+            if (validateDates(from, to) == false) {
+                swal({ // this will open a dialouge
+                    title: "Your Dates is invalid",
+                    text: "Please enter again.",
+                    icon: "warning",
+                    button: true,
+                    dangerMode: true
+                })
+                return false;
+            }
+
+            if (validateNightsRange(from, to, minNights, maxNights) == false) {
+                swal({ // this will open a dialouge
+                    title: "Your Dates is invalid",
+                    text: "Please meet the nights requirements.",
+                    icon: "warning",
+                    button: true,
+                    dangerMode: true
+                })
+                return false;
+            }
+
+            let reservationToInsert = {
+                ApartmentID: apartmentID,
+                HostID: hostId,
+                UserID: id,
+                From: from,
+                To: to,
+                Price: price,
+                ApartmentName: apartmentName,
+            };
+
+            let api = `../api/Reservations/insertReservation`;
+
+            ajaxCall("POST", api, JSON.stringify(reservationToInsert), bookSuccessCB, bookErrorCB);
+
+            return false;
+        }
+
+        // Validate dates.
+        function validateDates(checkIn, checkOut) {
+            checkIn = new Date(checkIn); // time - 03:00:00
+            checkOut = new Date(checkOut); // time - 03:00:00
+            nowDate = new Date();
+            nowDate.setHours(03); // time - 03:00:00
+
+
+            let diffTime = (checkIn - checkOut);
+            let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+            let diffTimeNow = (nowDate - checkIn);
+            let diffDaysNow = Math.ceil(diffTimeNow / (1000 * 60 * 60 * 24)) - 1;
+
+            if (diffDays >= 0)
+                return false;
+            else if (diffDaysNow > 0)
+                return false;
+            return true;
+        }
+
+        // Validate dates - the nights needs to be between minNights to maxNights.
+        function validateNightsRange(checkIn, checkOut, inMinNights, inMaxNights) {
+            checkIn = new Date(checkIn);
+            checkOut = new Date(checkOut);
+
+            let diffTime = (checkOut - checkIn);
+            let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+            if (diffDays >= inMinNights && diffDays <= inMaxNights)
+                return true;
+
+            return false;
+        }
+
+        // SuccessCB for book apartment.
+        function bookSuccessCB(success) {
+            if (success == -1) {
+                swal({ // this will open a dialouge
+                    title: "This apartment already book.",
+                    text: "Please enter new dates.",
+                    icon: "warning",
+                    button: true,
+                    dangerMode: true
+                })
+                return false;
+            }
+            else {
+                swal({ // this will open a dialouge
+                    title: "We got your reservation successfuly!",
+                    text: "",
+                    icon: "success",
+                    button: true,
+                    dangerMode: false
+                })
+            }
+        }
+
+        function bookErrorCB(error) {
+            alert("error");
+        }
+
+        function submitReview() {
+            //To submit the review the user must be logged in.
+            if (loggedIn == false) {
+                swal({ // this will open a dialouge
+                    title: "You need to log in",
+                    text: "Press ok to log in.",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true
+                })
+                    .then(function (ok) {
+                        if (ok) location.replace("login.html");
+                        else swal("You are not logged!");
+                    });
+                return false;
+            }
+
+
+            user = JSON.parse(localStorage.getItem("group101_userLogged"));
+
+            //We need to get all the user reservations and make sure he did rent the apartment.
+
+            currentUserID = user.Id;  //global variable for the user.
+            let api = `../api/Reservations/${currentUserID}`;
+            ajaxCall('GET', api, "", successCB, errorCB);
+
+            return false;//Wiring the submit form not to refresh
+        }
+
+        function successCB(reservations) {
+            let apartmentID = 0;
+            if (localStorage.getItem("group101_apartmentId") != undefined)
+                apartmentID = JSON.parse(localStorage.getItem("group101_apartmentId"));
+            let review = null;
+            console.log((new Date()).toLocaleDateString('en-US'));
+            for (var i = 0; i < reservations.length; i++) {
+
+                if (reservations[i].ApartmentID == apartmentID && ((new Date() - new Date(reservations[i].To)) > 0) ) {
+                    review = {
+                        Listing_id: apartmentID,
+                        Id: 0,
+                        Date: (new Date()).toLocaleDateString('en-US'),
+                        ReviewerID: user.Id,
+                        ReviewerName: $("#contact-name").val(),
+                        RevComment: $("#contact-message").val(),
+                    }
+                    break;
+                }
+            }
+            if (review != null) {
+                let api = `../api/Reviews/insertReview`;
+                ajaxCall("POST", api, JSON.stringify(review), insertReviewSCB, insertReviewECB);
+            }
+            else {
+                swal({ // this will open a dialouge
+                    title: "You can't review yet!",
+                    text: "Please wait until your back from this apartment.",
+                    icon: "warning",
+                    button: true,
+                    dangerMode: true
+                })
+            }
+        }
+
+        function insertReviewSCB(success) {
+            console.log(success);
+            renderReviews(apartmentID); // apartmentID from global variable at document ready.
+            swal({ // this will open a dialouge
+                title: "Your review added successfuly!",
+                text: "Thank you for grading us",
+                icon: "success",
+                button: true,
+                dangerMode: false
+            })
+            location.reload();
+        }
+
+        function insertReviewECB(error) {
+            console.log(error);
+        }
+
+
+
+    </script>
+</head>
+<body>
+    <div class="preloader">
+        <div class="preloader-body">
+            <div class="cssload-container">
+                <div class="cssload-speeding-wheel"></div>
+            </div>
+        </div>
+    </div>
+    <!-- Page-->
+    <div class="page">
+        <!-- Page Header-->
+        <header class="page-head">
+            <!-- RD Navbar-->
+            <div class="rd-navbar-wrap header_corporate">
+                <nav class="rd-navbar" data-layout="rd-navbar-fixed" data-sm-layout="rd-navbar-fixed" data-md-layout="rd-navbar-fullwidth" data-lg-layout="rd-navbar-fullwidth" data-xl-layout="rd-navbar-fullwidth" data-xxl-layout="rd-navbar-fullwidth" data-device-layout="rd-navbar-fixed" data-sm-device-layout="rd-navbar-fixed" data-md-device-layout="rd-navbar-fixed" data-lg-device-layout="rd-navbar-fullwidth" data-xl-device-layout="rd-navbar-fullwidth" data-xxl-device-layout="rd-navbar-fullwidth" data-stick-up-offset="100px">
+                    <!--RD Navbar Panel-->
+                    <div class="rd-navbar-top-panel">
+                        <div class="rd-navbar-top-panel-wrap">
+                            <dl class="dl-horizontal-mod-1 login">
+                                <dt><span class="mdi mdi-login icon-xxs-mod-2"></span></dt>
+                                <dd><a class="text-sushi sign" href="login.html"> Login/Registration</a></dd>
+                            </dl>
+                            <div class="top-panel-inner">
+                                <dl class="dl-horizontal-mod-1">
+                                    <dt><span class="material-icons-local_phone icon-xxs-mod-2"></span></dt>
+                                    <dd><a href="callto:#"> +1 (855) 635-7754</a></dd>
+                                </dl>
+                                <dl class="dl-horizontal-mod-1">
+                                    <dt><span class="material-icons-drafts icon-xxs-mod-2"></span></dt>
+                                    <dd><a href="mailto:#">support@airbnb.com</a></dd>
+                                </dl>
+                                <address>
+                                    <dl class="dl-horizontal-mod-1">
+                                        <dt><span class="mdi mdi-map-marker-radius icon-xxs-mod-2"></span></dt>
+                                        <dd><a class="inset-11"> 888 Brannan Street San Francisco, CA 94103 USA </a></dd>
+                                    </dl>
+                                </address>
+                            </div>
+                            <ul class="list-inline">
+                                <li><a class="fa-facebook" href="https://www.facebook.com/airbnb/"></a></li>
+                                <li><a class="fa-twitter" href="https://twitter.com/airbnb"></a></li>
+                                <li><a class="mdi mdi-instagram" href="https://www.instagram.com/airbnb/"></a></li>
+                                <li><a class="fa-google" href="https://www.google.com/search?q=airbnb&hl=iw&source=hp&ei=JJmXYpbLLJ2Vxc8Pq9q3mA4&iflsig=AJiK0e8AAAAAYpenNDXx8_Ad_y2dMZ3THoR2Ts333B_l&ved=0ahUKEwiW7aKk24z4AhWdSvEDHSvtDeMQ4dUDCAc&uact=5&oq=airbnb&gs_lcp=Cgdnd3Mtd2l6EAMyBAgAEEMyFAguEIAEELEDEIMBEMcBENEDEMkDMgUIABCSAzIFCAAQkgMyBQgAEIAEMgUIABCABDIFCAAQgAQyBQgAEIAEMgUIABCABDIFCAAQgAQ6EAguELEDEIMBEMcBENEDEEM6EQguEIAEELEDEIMBEMcBENEDOgsILhCABBDHARDRAzoICAAQgAQQsQM6CwgAEIAEELEDEIMBOg4ILhCABBCxAxDHARCjAjoRCC4QgAQQsQMQgwEQxwEQrwFQiANYog1g8g5oAXAAeACAAZ4BiAGfBpIBAzAuNpgBAKABAbABAA&sclient=gws-wiz"></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="rd-navbar-inner inner-wrap">
+                        <div class="rd-navbar-panel">
+                            <!-- RD Navbar Toggle-->
+                            <button class="rd-navbar-toggle" data-rd-navbar-toggle=".rd-navbar-nav-wrap"><span></span></button>
+                            <!-- RD Navbar Brand-->
+                            <div class="rd-navbar-brand"><a class="brand-name" href="index.html"><img src="images/logo-1.png" alt=""></a></div>
+                        </div>
+                        <div class="btn-group"><a class="btn btn-sm btn-primary userLogin">Hello Guest</a></div>
+                        <div class="rd-navbar-nav-wrap">
+                            <!-- RD Navbar Nav-->
+                            <ul class="rd-navbar-nav">
+                                <li><a href="./">Home</a></li>
+                                <li>
+                                    <a href="reservationsManagment.html">My reservations</a>
+                                </li>
+                                <li>
+                                    <a href="additions.html">Additions</a>
+                                </li>
+                                <li id="adminPages">
+                                    <a>Management pages</a>
+                                    <!-- RD Navbar Dropdown-->
+                                    <ul class="rd-navbar-dropdown">
+                                        <li><a href="usersManagment.html">Users</a></li>
+                                        <li><a href="hostManagement.html">Hosts</a></li>
+                                        <li><a href="apartmentManagement.html">Apartments</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="favorites.html">My Favorites</a>
+                                </li>
+                                <li class="link-group"><a class="btn btn-sm btn-primary userLogin">Hello Guest</a></li>
+                                <li class="rd-navbar-bottom-panel">
+                                    <div class="rd-navbar-bottom-panel-wrap">
+                                        <dl class="dl-horizontal-mod-1 login">
+                                            <dt><span class="mdi mdi-login icon-xxs-mod-2"></span></dt>
+                                            <dd><a class="text-sushi sign" href="login.html"> Login/Registration</a></dd>
+                                        </dl>
+                                        <div class="top-panel-inner">
+                                            <dl class="dl-horizontal-mod-1">
+                                                <dt><span class="material-icons-local_phone icon-xxs-mod-2"></span></dt>
+                                                <dd><a href="callto:#"> +1 (855) 635-7754</a></dd>
+                                            </dl>
+                                            <dl class="dl-horizontal-mod-1">
+                                                <dt><span class="material-icons-drafts icon-xxs-mod-2"></span></dt>
+                                                <dd><a href="mailto:#">support@airbnb.com</a></dd>
+                                            </dl>
+                                            <address>
+                                                <dl class="dl-horizontal-mod-1">
+                                                    <dt><span class="icon-xxs-mod-2 mdi mdi-map-marker-radius"></span></dt>
+                                                    <dd><a class="inset-11" href="#">795 Folsom Ave, Suite 600 San Francisco, CA 94107</a></dd>
+                                                </dl>
+                                            </address>
+                                        </div>
+                                        <ul class="list-inline">
+                                            <li><a class="fa-facebook" href="https://www.facebook.com/airbnb/"></a></li>
+                                            <li><a class="fa-twitter" href="https://twitter.com/airbnb"></a></li>
+                                            <li><a class="mdi mdi-instagram" href="https://www.instagram.com/airbnb/"></a></li>
+                                            <li><a class="fa-google" href="https://www.google.com/search?q=airbnb&hl=iw&source=hp&ei=JJmXYpbLLJ2Vxc8Pq9q3mA4&iflsig=AJiK0e8AAAAAYpenNDXx8_Ad_y2dMZ3THoR2Ts333B_l&ved=0ahUKEwiW7aKk24z4AhWdSvEDHSvtDeMQ4dUDCAc&uact=5&oq=airbnb&gs_lcp=Cgdnd3Mtd2l6EAMyBAgAEEMyFAguEIAEELEDEIMBEMcBENEDEMkDMgUIABCSAzIFCAAQkgMyBQgAEIAEMgUIABCABDIFCAAQgAQyBQgAEIAEMgUIABCABDIFCAAQgAQ6EAguELEDEIMBEMcBENEDEEM6EQguEIAEELEDEIMBEMcBENEDOgsILhCABBDHARDRAzoICAAQgAQQsQM6CwgAEIAEELEDEIMBOg4ILhCABBCxAxDHARCjAjoRCC4QgAQQsQMQgwEQxwEQrwFQiANYog1g8g5oAXAAeACAAZ4BiAGfBpIBAzAuNpgBAKABAbABAA&sclient=gws-wiz"></a></li>
+                                        </ul>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </header>
+        <!-- Page Content-->
+        <main class="page-content text-start">
+            <!-- Section Title Breadcrumbs-->
+            <section class="section-full">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <h1>Apartment Details</h1>
+                            <p></p>
+                            <ol class="breadcrumb">
+                                <li><a href="index.html">Home</a></li>
+                                <li class="active">Apartment Details</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- Section Catalog Single Left-->
+            <section class="bg-gray-dark section-md section-md-mod-1">
+                <div class="container">
+                    <div class="row flow-offset-7">
+                        <div class="col-12 col-md-8 col-lg-4">
+                            <p>Name</p><p id="name" class="h5 text-sushi text-regular">Heather Turner</p>
+                        </div>
+                        <div class="col-12 col-md-8 col-lg-4 col-xl-3">
+                            <p>Location</p>
+                            <p id="location" class="h5 text-sushi text-regular">7758 Laguna heights Court, San Francisco, MA 02127</p>
+                        </div>
+                        <div class="col-12 col-md-8 col-lg-4 col-xl-2 offset-xl-1">
+                            <p>Price</p>
+                            <p id="price" class=" text-sushi thumbnail-price h5">$2490.00<span class="mon text-regular">/night</span></p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="section-md section-md-mod-2">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-8">
+                            <!-- Slick Carousel-->
+                            <img src="" />
+                            <div><img id="img" class="item" data-lightgallery="item" src="images/loading.gif" width="770" height="513" /></div>
+
+                            <div class="row">
+                                <div class="col-12">
+                                    <a class="btn btn-primary btn-sm btn-min-width-md" id="favorites"><span class="icon icon-left icon-sm fa-heart"></span>Add to favorites</a>
+                                    <br />
+                                    <br />
+                                    <h4 class="border-bottom">Overview</h4>
+                                    <div class="table-mobile offset-custom-11">
+                                        <table class="table table-default">
+                                            <tbody>
+                                                <tr>
+                                                    <td>Neighbourhood</td>
+                                                    <td id="neighbourhood"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Property type</td>
+                                                    <td id="propertyType"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Room type</td>
+                                                    <td id="roomType"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Bedrooms</td>
+                                                    <td id="bedrooms"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Beds</td>
+                                                    <td id="beds"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Bathrooms</td>
+                                                    <td id="bathrooms"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Amenities</td>
+                                                    <td id="amenities"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Min nights</td>
+                                                    <td id="minNights"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Max nights</td>
+                                                    <td id="maxNights"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Availability in the last 365 days</td>
+                                                    <td id="availability365"></td>
+                                                </tr>
+                                                <tr>
+
+                                                    <td>Distance from the center</td>
+                                                    <td id="distance"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Exist since</td>
+                                                    <td id="since"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Host verified</td>
+                                                    <td id="verified"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Host response time</td>
+                                                    <td id="hostResponseTime"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Reviews</td>
+                                                    <td id="numOfReviews"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Last review date</td>
+                                                    <td id="lastReview"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Review rating</td>
+                                                    <td id="reviewRating">stars</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Review cleanliness</td>
+                                                    <td id="reviewCleanliness">stars</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Review communication</td>
+                                                    <td id="reviewCommunication">stars</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Review location</td>
+                                                    <td id="reviewLocation">stars</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Accommodates</td>
+                                                    <td id="accommodates">peoples</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <h4 class="border-bottom offset-custom-8">Description</h4>
+                                    <div id="description"></div>
+
+                                    <!--Reviews-->
+                                    <h4 class="border-bottom offset-custom-8">Reviews</h4>
+                                    <br />
+                                    <div id="mainReviews">
+                                        <div class="media media-mod-2 comment">
+                                            <div class="media-body">
+                                                <p class="h6 text-sushi text-ubold">---</p>
+                                                <time class="fa-calendar" datetime="2016">---</time>
+                                                <p class="text-light-custom">---</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="media media-mod-2 comment">
+                                            <div class="media-body">
+                                                <p class="h6 text-sushi text-ubold">---</p>
+                                                <time class="fa-calendar" datetime="2016">---</time>
+                                                <p class="text-light-custom">---</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <button id="showReviews" class="btn btn-sushi">Show all reviews</button>
+
+                                    <h4 class="border-bottom offset-custom-8">Write Review</h4>
+                                    <!-- RD Mailform-->
+                                    <form class="text-start offset-custom-11" id="submitReview">
+                                        <div class="row">
+                                            <div class="col-12 col-md-6">
+                                                <div class="form-wrap">
+                                                    <label class="form-label" for="contact-name">Enter your name</label>
+                                                    <input class="form-input" id="contact-name" type="text" name="name" data-constraints="@Required">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12">
+                                                <div class="form-wrap">
+                                                    <label class="form-label" for="contact-message">Enter your message</label>
+                                                    <textarea class="form-input" id="contact-message" name="message" data-constraints="@Required"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <button class="btn btn-sushi btn-sm" type="submit">Submit Review</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-12 col-lg-4">
+                            <div class="sidebar sidebar-mod-1">
+                                <div class="sidebar-module">
+                                    <!--Google map.-->
+                                    <div id="map">
+                                        <div class="google-map google-map-4"></div>
+                                        <ul class="google-map-markers">
+                                            <li></li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="sidebar-module">
+                                        <h4>Make Reservation</h4>
+                                        <form action="" id="submitBook">
+                                            <div id="aroundBorder" class="thumbnail-3 border">
+                                                <div class="caption">
+                                                    <label class="form-label" for="contact-name">Check-in</label>
+                                                    <input type="date" class="form-input" id="from" required />
+                                                    <br />
+                                                    <label class="form-label" for="contact-name">Check-out</label>
+                                                    <input type="date" class="form-input" id="to" required />
+                                                    <br />
+                                                    <p><button id="book" class="btn btn-sushi">Book Now</button></p>
+                                                </div>
+                                            </div>
+                                        </form>
+                                        <br /><br />
+                                        <br /><br />
+                                        <h4>Amsterdam Weather</h4>
+
+                                        <div class="card">
+                                            <h2>Today</h2>
+                                            <h2 id="minD"> 23°</h2> 
+                                            <h3><span id="weatherType">Cloudy</span><span class="dot span" id="uvRisk"> UV Risk: 5</span> <br /> <span id="wind" class="dot">Wind: 10km/h </span><span id="humidity" class="dot span"> Humidity: 60%</span></h3>
+                                            <div class="sky">
+                                                <div class="sun"></div>
+                                                <div class="cloud">
+                                                    <div class="circle-small"></div>
+                                                    <div class="circle-tall"></div>
+                                                    <div class="circle-medium"></div>
+                                                </div>
+                                            </div>
+                                            <table>
+                                                <tr> <td id="day2">loading..</td> <td id="day3">loading..</td></tr>
+                                                <tr> <td id="type2">loading..</td> <td id="type3">loading..</td></tr>
+                                                <tr> <td id="range2">loading..</td> <td id="range3">loading..</td></tr>
+                                            </table>
+                                        </div>
+                                  
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </section>
+        </main>
+        <!--Footer-->
+        <section class="section-lg bg-gray text-center text-lg-start">
+            <div class="container">
+                <h2>Our Advantages</h2>
+                <hr>
+                <div class="row flow-offset-8">
+                    <div class="col-md-6 col-lg-3">
+                        <div class="media media-mod-6">
+                            <div class="media-left"><span class="linecons-location4 icon icon-lg bg-accent"></span></div>
+                            <div class="media-body">
+                                <h4>Various Locations</h4>
+                                <p>Search by state then by city to find an apartment  overlooking the lake in Chicago, within walking distance of the beach in Los Angeles or in the heart of Atlanta.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="media media-mod-6">
+                            <div class="media-left"><span class="linecons-camera7 icon icon-lg bg-accent"></span></div>
+                            <div class="media-body">
+                                <h4>View Apartments</h4>
+                                <p>View apartment listings with photos, HD videos, InsideView virtual tours, 3D floor plans, and more, while also choosing the apartment and community features that you want.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="media media-mod-6">
+                            <div class="media-left"><span class="linecons-blockade icon icon-lg bg-accent"></span></div>
+                            <div class="media-body">
+                                <h4>Privacy and Security</h4>
+                                <p>Renters insurance helps keep your belongings secure, whether they're on your desk, under your couch, or in some cases, even in your car's glove box.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="media media-mod-6">
+                            <div class="media-left"><span class="linecons-banknote icon icon-lg bg-accent"></span></div>
+                            <div class="media-body">
+                                <h4>No Commission</h4>
+                                <p>You will therefore appreciate this opportunity to acquire a high-quality apartment for rent without having to pay any commission to our real estate agency.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="container" style="text-align:center">
+                <ul class="list-inline">
+                    <li><a class="fa-facebook" href="https://www.facebook.com/airbnb/"></a></li>
+                    <li><a class="fa-twitter" href="https://twitter.com/airbnb"></a></li>
+                    <li><a class="mdi mdi-instagram" href="https://www.instagram.com/airbnb/"></a></li>
+                    <li><a class="fa-google" href="https://www.google.com/search?q=airbnb&hl=iw&source=hp&ei=JJmXYpbLLJ2Vxc8Pq9q3mA4&iflsig=AJiK0e8AAAAAYpenNDXx8_Ad_y2dMZ3THoR2Ts333B_l&ved=0ahUKEwiW7aKk24z4AhWdSvEDHSvtDeMQ4dUDCAc&uact=5&oq=airbnb&gs_lcp=Cgdnd3Mtd2l6EAMyBAgAEEMyFAguEIAEELEDEIMBEMcBENEDEMkDMgUIABCSAzIFCAAQkgMyBQgAEIAEMgUIABCABDIFCAAQgAQyBQgAEIAEMgUIABCABDIFCAAQgAQ6EAguELEDEIMBEMcBENEDEEM6EQguEIAEELEDEIMBEMcBENEDOgsILhCABBDHARDRAzoICAAQgAQQsQM6CwgAEIAEELEDEIMBOg4ILhCABBCxAxDHARCjAjoRCC4QgAQQsQMQgwEQxwEQrwFQiANYog1g8g5oAXAAeACAAZ4BiAGfBpIBAzAuNpgBAKABAbABAA&sclient=gws-wiz"></a></li>
+                </ul>
+            </div>
+        </section>
+    </div>
+    <!-- Global Mailform Output-->
+    <div class="snackbars" id="form-output-global"></div>
+    <!-- Java script-->
+    <script src="js/core.min.js"></script>
+    <script src="js/script.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBwgbLOX5Asukel9nJJzqnqYEXSCCQh1GU"></script>
+
+</body>
+</html>

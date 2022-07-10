@@ -1,0 +1,44 @@
+// Section Catalog
+section.section-lg
+  .container
+    .row.justify-content-xs-between
+      .col-12.col-md-3.text-center.text-md-start
+        // RD SelectMenu
+        .sort-input
+          .form-wrap.form-wrap-mod-1
+            label.form-label(for='sort-1') Sorting
+            //Select 2
+            select.form-input.select-filter#sort-1(data-minimum-results-for-search="Infinity" )
+              option(value="By Price" selected) By Price
+              option(value="By Date") By Date
+              option(value="By Square") By Square
+              option(value="By Location") By Location
+      .col-12.col-md-4.text-center.text-md-end
+        .btn-group-mod-3.sorting
+          a(href="property-catalog-list.html").btn.btn-primary-transparent.btn-sm.active List
+          a(href="property-catalog-grid.html").btn.btn-primary-transparent.btn-sm Grid
+    .row
+      .col-12.col-xl-8
+        .row
+          .col-12.col-md-12
+            +thumbnail-4("images/index-6.jpg", "$4,339.00/", "Building: 123 on the Park", "Introducing Brooklyn's most unique and genteel address: 123 on the Park. A stately, one-of-a-kind rental residence directly overlooking Brooklyn's famed Prospect Park." )
+          .col-12.col-md-12
+            +thumbnail-4("images/index-7.jpg", "$2,229.00/", "225 Maywood Dr, San Francisco, CA 94127", "One of the original homes built at Ocean Beach." )
+          .col-12.col-md-12
+            +thumbnail-4("images/index-8.jpg", "$1,339.00/", "2266 48th Ave", "Classic architectural detail, truly superb floor plan & strong upside potential for the next steward to restore this forever home to greatness." )
+          .col-12.col-md-12
+            +thumbnail-4("images/index-9.jpg", "$4,339.00/", "1336 N Occidental Blvd", "Located in the heart of Silver Lake, this magnificently re-imagined Spanish bungalow is not to be missed. " )
+          .col-12.col-md-12
+            +thumbnail-4("images/index-10.jpg", "$2,229.00/", "650 Kelton Ave #201", "Front-facing, single level, well-designed floor plan. Secure building in a highly DESIRABLE location!" )
+          .col-12.col-md-12
+            +thumbnail-4("images/index-11.jpg", "$1,339.00/", "1735 N Fuller Ave #124", "This charming 2 bed and 2 bath townhome has been beautifully renovated and ready for its next owners." )
+          .col-12.text-center.text-md-start.offset-custom-11
+            +pagination()
+      .col-12.col-md-12.col-xl-4.offset-custom-4.inset-10.offset-custom-14
+        //Please, add the data attribute data-key="YOUR_API_KEY" in order to insert your own API key for the Google map.
+        //Please note that YOUR_API_KEY should replaced with your key.
+        //Example: <div class="google-map-container" data-key="YOUR_API_KEY">
+        .google-map-container( data-center='9870 St Vincent Place, Glasgow, DC 45 Fr 45.', data-zoom='5', data-icon='images/gmap_marker.png', data-icon-active='images/gmap_marker_active.png', data-styles='[{"featureType":"administrative","elementType":"labels.text.fill","stylers":[{"color":"#444444"}]},{"featureType":"landscape","elementType":"all","stylers":[{"color":"#f2f2f2"}]},{"featureType":"poi","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"poi.business","elementType":"geometry.fill","stylers":[{"visibility":"on"}]},{"featureType":"road","elementType":"all","stylers":[{"saturation":-100},{"lightness":45}]},{"featureType":"road.highway","elementType":"all","stylers":[{"visibility":"simplified"}]},{"featureType":"road.arterial","elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"transit","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"water","elementType":"all","stylers":[{"color":"#b4d4e1"},{"visibility":"on"}]}]' )
+          .google-map.google-map-3
+          ul.google-map-markers
+            li( data-location='9870 St Vincent Place, Glasgow, DC 45 Fr 45.', data-description='9870 St Vincent Place, Glasgow' )

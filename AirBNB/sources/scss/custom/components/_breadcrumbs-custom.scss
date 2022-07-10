@@ -1,0 +1,38 @@
+//
+// Breadcrumbs Custom
+// --------------------------------------------------
+
+.breadcrumb {
+  padding:0;
+  margin-bottom: 0;
+  list-style: none;
+  background-color: $breadcrumb-bg;
+  border-radius: $border-radius;
+  font-size: 14px;
+
+  > li {
+    display: inline-block;
+    color: $primary;
+    a {
+      color: $primary;
+      &:hover{
+        color: $brand-trinidad;
+      }
+    }
+
+    + li:before {
+      // [converter] Workaround for https://github.com/sass/libsass/issues/1115
+      $nbsp: "\00a0";
+      content: "#{$breadcrumb-separator}#{$nbsp}"; // Unicode space added since inline-block means non-collapsing white-space
+      padding: 0 5px;
+      color: $breadcrumb-color;
+      @include media-breakpoint-up(md) {
+        padding: 0 14px;
+      }
+    }
+  }
+
+  > .active {
+    color: $breadcrumb-active-color;
+  }
+}

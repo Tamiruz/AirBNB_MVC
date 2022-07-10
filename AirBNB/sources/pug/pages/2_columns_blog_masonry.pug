@@ -1,0 +1,25 @@
+extends  ../_skeleton
+include ../mixins/_thumbnail-mixin-5
+include ../mixins/_pagination-mixin
+include ../elements/_section_fullwidth
+block variables
+  - var activeIndex = 7
+  - var title_h1 = "2 Columns Masonry Blog"
+  - var bread_2 = "Blog"
+  - footer_class_adjuster = "bg-gray"
+  - var section_full_adjuster = ""
+  - var section_full_col_adjuster = ""
+  - var brand_name_adjuster = "images/logo-2.png"
+block title
+  title 2 Columns Blog Masonry
+
+block page
+  // Page Header
+  include ../elements/_header
+
+  // Page Content
+  main.page-content.text-start
+    +breadcrumb_items(1)
+    include ../section/blog/_section_blog_columns_2_masonry
+  // Page Footer
+  include ../elements/_footer-widget

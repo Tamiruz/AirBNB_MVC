@@ -1,0 +1,73 @@
+//Section Description
+section.section-md.bg-gray-dark
+  .container
+    .row.justify-content-center
+      .col-md-6.col-lg-4.inset-8
+        .img-wrap-mod-1
+          img(src="images/agent-1.jpg" alt="" width="320" height="320")
+        h4.border-bottom.offset-custom-8 Get in Touch
+        p.offset-custom-10 You can contact us any way that is convenient for you. We would be happy to answer your questions.
+        // RD Mailform
+        form.rd-mailform.text-start.offset-custom-10(data-form-output="form-output-global", data-form-type='contact', method='post', action='bat/rd-mailform.php')
+          .form-wrap
+            label.form-label(for="contact-name") Enter your name
+            input#contact-name.form-input(type="text" name="name" data-constraints="@Required")
+
+          .form-wrap
+            label.form-label(for="contact-email") Enter your e-mail
+            input#contact-email.form-input(type="email" name="email" data-constraints="@Required @Email")
+
+          .form-wrap
+            label.form-label(for="contact-message") Message
+            textarea#contact-message.form-input.min-height(name="message" data-constraints="@Required" placeholder="Hello, Heather! I`d like...")
+          button(type="submit").btn.btn-sushi.btn-sm Send
+
+      .col-12.col-lg-8.offset-custom-5
+        .row.row-40
+          .col-sm-6.col-md-4.col-lg-3
+            dl.contact-info
+              dt
+                span.h6.text-ubold Phones
+              dd
+                a(href="callto:#").text-light-custom 1-800-123-4567<br>
+                a(href="callto:#").text-light-custom 1-800-987-1234
+          .col-sm-6.col-md-4.col-lg-4
+            dl.contact-info
+              dt
+                span.h6.text-ubold E-mail
+              dd
+                a.text-sushi(href="mailto:#") heatherturner@demolink.org
+          .col-sm-6.col-md-4.col-lg-4
+            address.address
+              span.h6.text-ubold Address
+              p 2130 Fulton Street San Francisco, CA 94117-1080 USA
+        h4.offset-custom-8.border-bottom About Heather
+        p As a dedicated realtor for over 10 years, Heather Turner specializes in helping clients buy and sell new and previously owned residential properties throughout the region. She gives a complete understanding on buying and selling issues to her clients.
+        p The real estate market consists of a complicated puzzle of many various pieces. She is committed to bringing all of these pieces together for a client with personal approach. Jessica can also provide accurate market appraisals, genuine advice and competent market insight. Feel free to contact her and she will happily assist you.
+        h4.offset-custom-8.border-bottom Certificates and Awards
+        // PhotoSwipe
+        .row.row-30.offset-custom-11.gallery-wrap( data-lightgallery='group' )
+          .col-auto.col-md-3.col-lg-2
+            a(data-lightgallery='item', href='images/certifikate-1.jpg', data-author="Michael Hull").img-wrap-mod-2
+              span.icon.icon-xs.fa-search-plus.icon-white
+              img(width='105', height='150', src='images/agent-2.jpg', alt='')
+          .col-auto.col-md-3.col-lg-2
+            a(data-lightgallery='item', href='images/certifikate-1.jpg').img-wrap-mod-2
+              span.icon.icon-xs.fa-search-plus.icon-white
+              img(width='105', height='150', src='images/agent-2.jpg', alt='')
+          .col-auto.col-md-3.col-lg-2
+            a(data-lightgallery='item', href='images/certifikate-1.jpg').img-wrap-mod-2
+              span.icon.icon-xs.fa-search-plus.icon-white
+              img(width='105', height='150', src='images/agent-2.jpg', alt='')
+          .col-auto.col-md-3.col-lg-2
+            a(data-lightgallery='item', href='images/certifikate-1.jpg').img-wrap-mod-2
+              span.icon.icon-xs.fa-search-plus.icon-white
+              img(width='105', height='150', src='images/agent-2.jpg', alt='')
+
+        h4.border-bottom.offset-custom-8 Social Connections
+        .icon-group
+          a.icon.icon-sm.icon-social.fa-facebook(href="#")
+          a.icon.icon-sm.icon-social.fa-twitter(href="#")
+          a.icon.icon-sm.icon-social.fa-google-plus(href="#")
+          a.icon.icon-sm.icon-social.fa-linkedin(href="#")
+          a.icon.icon-sm.icon-social.fa-instagram(href="#")

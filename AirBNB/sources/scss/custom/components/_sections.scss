@@ -1,0 +1,64 @@
+//
+// Sections
+// --------------------------------------------------
+.page{
+  .section {
+    &-mod-1 {
+      padding-top: 0;
+    }
+    &-bottom-0{
+      padding-bottom: 0;
+    }
+  }
+}
+
+.section-xs {
+  padding: 40px 0;
+}
+
+.section-sm {
+  @include media-breakpoint-up(xl) {
+    padding-top: 9px;
+    padding-bottom: 12px;
+  }
+}
+
+.section-md {
+  padding-top: 40px;
+  padding-bottom: 40px;
+
+  @include media-breakpoint-up(xl) {
+    padding-top: 60px;
+    padding-bottom: 60px;
+
+    &-mod-1{
+      padding-bottom: 80px;
+    }
+    &-mod-2{
+      padding-bottom: 120px;
+    }
+  }
+}
+
+.section-lg {
+  padding-top: 60px;
+  padding-bottom: 60px;
+  @include media-breakpoint-up(lg) {
+    padding-top: 90px;
+    padding-bottom: 90px;
+  }
+}
+
+.section-xl {
+  padding-top: 60px;
+  padding-bottom: 60px;
+  @include media-breakpoint-up(xl) {
+    padding-top: 85px;
+    padding-bottom: 94px;
+  }
+  &-mod-1 {
+    @include media-breakpoint-up(lg) {
+      padding-top: 0;
+    }
+  }
+}

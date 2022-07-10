@@ -1,0 +1,28 @@
+extends  ../_skeleton
+include ../elements/_section_fullwidth
+include ../components/_countdown
+block variables
+  - var activeIndex = 4
+  - var title_h1 = "Coming Soon"
+  - var bread_2 = "Extras"
+  - footer_class_adjuster = "bg-gray"
+  - var brand_name_adjuster = "images/logo-2.png"
+
+block title
+  title Coming Soon
+
+block page
+  // Page Header
+  include ../elements/_header
+
+  // Page Content
+  main.page-content.text-center.text-md-start
+    +breadcrumb_items(1)
+    include ../section/extras/_section_coming
+
+  // Page Footer
+  include ../elements/_footer-widget
+
+
+
+

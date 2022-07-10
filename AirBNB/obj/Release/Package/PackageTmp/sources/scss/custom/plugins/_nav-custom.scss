@@ -1,0 +1,220 @@
+/** @section Nav custom */
+
+// Base styles
+p + .accordion-custom {
+	margin-top: 70px;
+}
+
+// Tabs custom
+.tabs-corporate {
+	.nav {
+		display: block;
+		border-bottom: none;
+
+		li {
+			text-align: center;
+			cursor: pointer;
+			transition: .35s all ease;
+			display: block;
+			width: 100%;
+
+			& + li {
+				margin-top: 15px;
+			}
+
+			a {
+				font-size: 14px;
+				line-height: 22px;
+				padding: 0;
+				font-weight: 400;
+				color: $gray-light;
+				background-color: transparent;
+				border-radius: 0;
+				outline: none;
+				box-shadow: none;
+				border: none;
+				display: inline-block;
+				margin: 0;
+				cursor: pointer;
+				border-bottom: 1px solid transparent;
+
+				&:hover,
+				&.active {
+					color: $color-abbey;
+					border: none;
+					border-bottom: 1px solid;
+					border-bottom-color: $primary;
+					background-color: transparent;
+				}
+
+				&:hover,
+				&.active {
+					border-color: $primary;
+				}
+
+				&:hover:after,
+				&.active:after {
+					opacity: 1;
+				}
+			}
+		}
+	}
+
+	.tab-content {
+		margin-top: 25px;
+		text-align: left;
+	}
+
+	@include media-breakpoint-up( md ) {
+		.nav {
+			display: inline-block;
+			border-bottom: 1px solid $gray-darker;
+
+			li {
+				display: inline-block;
+				width: auto;
+
+				a {
+					padding: 10px 0;
+				}
+
+				& + li {
+					margin-top: 0px;
+					margin-left: 50px;
+				}
+			}
+		}
+	}
+
+
+	/* Tabs Vertical */
+
+	&.tabs-corporate-vertical {
+		text-align: center;
+
+		.nav li {
+			display: block;
+			width: 100%;
+			text-align: center;
+
+			a {
+				padding: 0;
+				border-bottom: 1px solid transparent;
+
+				&:hover,
+				&.active {
+					color: #4a4b4e;
+					border-bottom-color: $primary;
+				}
+			}
+
+			& + li {
+				margin-top: 15px;
+				margin-left: 0;
+			}
+		}
+
+		.tab-content {
+			margin-top: 0;
+		}
+
+
+		@include media-breakpoint-up( md ) {
+			.nav {
+				border-bottom: none;
+				border-right: 1px solid $gray-darker;
+
+				li {
+					display: block;
+					text-align: right;
+
+					a {
+						border-right: 1px solid transparent;
+						padding-right: 30px;
+
+						&:hover,
+						&.active {
+							border-right-color: $primary;
+							border-bottom-color: transparent;
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+
+/* Buttons Tabs */
+.tabs-custom-buttons {
+	border-bottom: none;
+
+	.tab-content {
+		margin-top: 25px;
+		text-align: left;
+	}
+
+	.nav {
+		border: none;
+
+		li {
+			text-align: center;
+			width: 100%;
+
+			.btn-primary-transparent:hover,
+			.btn-primary-transparent.active {
+				color: #fff;
+				background-color: $primary;
+				border-color: $primary;
+				border-width: 2px;
+			}
+
+			.btn {
+				display: inline-block;
+				border-radius: 5px;
+				border-color: $primary;
+				border-width: 2px;
+			}
+
+			& + li {
+				margin-top: 10px;
+			}
+		}
+
+		@include media-breakpoint-up( md ) {
+			li {
+				display: inline-block;
+				width: auto;
+
+				& + li {
+					margin-top: 0;
+					margin-left: 20px;
+				}
+			}
+		}
+	}
+}
+
+
+
+/* Buttons Tabs Vertical */
+@include media-breakpoint-up( md ) {
+	.tabs-custom-buttons-vertical {
+		.tab-content {
+			margin-top: 0;
+		}
+
+		.nav {
+			li,
+			li .btn {
+				display: block;
+				width: 100%;
+			}
+
+			li + li {
+				margin-top: 15px;
+				margin-left: 0;
+			}
+		}
+	}
+}

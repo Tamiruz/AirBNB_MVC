@@ -1,0 +1,262 @@
+//
+// Scaffolding Custom
+// --------------------------------------------------
+a {
+  color: $color-abbey;
+  transition: .3s;
+  &:focus,
+  &:active {
+    outline: none;
+  }
+  &:hover {
+    color: $brand-olive-drab;
+  }
+}
+
+strong {
+  color: $color-abbey;
+}
+
+.page-foot {
+  position: relative;
+  z-index: 1;
+  padding: 55px 0;
+  border-top: 1px solid $gray-darker;
+
+  @media (min-width: 1500px) {
+    padding: 55px 76px;
+  }
+
+  &.bg-gray {
+    p,
+    address,
+    time {
+      color: $gray-lightest;
+    }
+    h6 {
+      color: $white-clr;
+    }
+
+    a.text-primary:hover {
+      color: $gray-dark;
+    }
+    .list-marked li a:hover {
+      color: $gray-dark;
+    }
+    a {
+      &:hover {
+        color: $white-clr;
+      }
+      &.brand-name {
+        &:hover {
+          color: $gray-darker;
+        }
+      }
+    }
+    border-top: none;
+    .list-inline {
+      a {
+        &:hover {
+          color: $white-clr;
+        }
+      }
+    }
+    .copyright {
+      a {
+        color: $gray-lightest;
+        &:hover {
+          color: $white-clr;
+        }
+      }
+    }
+  }
+
+  .dl-horizontal-mod-1 dt, .dl-horizontal-mod-1 dd {
+    font-weight: 400;
+  }
+  a {
+    color: $gray-light;
+    &:hover {
+      color: $brand-olive-drab;
+    }
+  }
+
+  a.text-primary {
+    color: $primary;
+    &:hover {
+      color: $brand-olive-drab;
+    }
+  }
+
+  .list-inline {
+    a {
+      color: $gray-light;
+      &:hover {
+        color: $color-abbey;
+      }
+    }
+  }
+
+  .copyright {
+    //color: $gray-lightest;
+    font-size: 14px;
+  }
+
+  .footer-wrap {
+    @include media-breakpoint-up(lg) {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .rd-navbar-brand .brand-name {
+      vertical-align: bottom;
+      color: $gray-darker;
+      span {
+        vertical-align: top;
+      }
+    }
+  }
+
+  .rd-navbar-brand {
+    order: 1;
+
+    a,
+    a:before,
+    span {
+      color: $gray-darker;
+    }
+
+  }
+
+  .copyright {
+    order: 2;
+    margin-top: 30px;
+    @include media-breakpoint-up(lg) {
+      margin-top: 0;
+    }
+  }
+
+  ul.list-inline {
+    order: 3;
+  }
+
+  h6 + * {
+    margin-top: 20px;
+  }
+
+  .rd-navbar-brand + p {
+    margin-top: 25px;
+  }
+
+  .blog-post + .blog-post {
+    margin-top: 20px;
+  }
+
+  .list-marked {
+    li {
+      padding-left: 25px;
+      &:before {
+        left: 4px;
+      }
+      a {
+        color: $primary;
+        &:hover {
+          color: $brand-olive-drab;
+        }
+      }
+    }
+  }
+
+  .subscribe {
+    margin-top: 20px;
+    @include media-breakpoint-up(md) {
+      text-align: left;
+    }
+    .btn {
+      margin-top: 10px;
+      margin-left: 0;
+    }
+    .form-wrap .form-input {
+      border-radius: 0;
+    }
+  }
+  .blog-post {
+    color: $gray-light;
+  }
+
+  section.copyright {
+    margin-top: 50px;
+    p {
+      padding-top: 5px;
+    }
+    .list-inline {
+      li {
+        a {
+          font-size: 18px;
+        }
+      }
+    }
+  }
+
+  &.footer-center {
+    * + .list-inline {
+      margin-top: 25px;
+    }
+    * + .copyright {
+      margin-top: 55px;
+    }
+    .list-inline {
+      a {
+        font-size: 18px;
+      }
+    }
+  }
+
+  > * {
+    @media (min-width: 3000px) {
+      max-width: 2560px;
+      margin: 0 auto;
+    }
+  }
+
+  @media (min-width: 560px) and (max-width: 1199px) {
+    [class*="col-"]:nth-child(2) {
+      margin-top: 0;
+    }
+    [class*="col-"]:nth-child(odd) {
+      clear:left;
+    }
+
+    .col-12 {
+      width: 50%;
+    }
+  }
+}
+
+.section-full {
+  h1 {
+    color: $white-clr;
+  }
+  p {
+    color: $gray-darker;
+  }
+  h1 + p {
+    margin-top: 0;
+  }
+  p + .breadcrumb {
+    margin-top: 51px;
+  }
+  padding-top: 72px;
+  padding-bottom: 29px;
+  background-image: url("../images/elements-1.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  &-mod-1 {
+    @include media-breakpoint-up(xl) {
+      padding-bottom: 180px;
+    }
+
+    background-image: url("../images/elements-2.jpg");
+  }
+}

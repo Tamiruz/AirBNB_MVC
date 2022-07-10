@@ -1,0 +1,22 @@
+//Section Button sizes
+section.section-lg
+  .container
+    h2 Login Form
+    hr
+    .row.offset-custom-8
+      .col-12.col-lg-7.col-xl-5
+        // Login form
+        form
+          .form-wrap
+            label.form-label(for="name") Username or e-mail
+            input#name.form-input(type="text" name="name" )
+          .form-wrap
+            label.form-label(for="password") Password
+            input#password.form-input( name="password" type="password")
+          .form-wrap-btn
+            button(type="submit").btn.btn-sushi.btn-sm.btn-min-width-xs Enter
+            p or enter with
+            .icon-group
+              a.icon.icon-sm.icon-social.fa-facebook(href="#")
+              a.icon.icon-sm.icon-social.fa-twitter(href="#")
+              a.icon.icon-sm.icon-social.fa-google-plus(href="#")

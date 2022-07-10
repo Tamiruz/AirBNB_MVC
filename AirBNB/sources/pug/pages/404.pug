@@ -1,0 +1,30 @@
+extends  ../_skeleton
+include ../elements/_section_fullwidth
+
+block variables
+  - var activeIndex = 4
+  - var title_h1 = "404. Page Not Found"
+  - var bread_2 = "Extras"
+  - var bread_3 = "404"
+  - footer_class_adjuster = "bg-gray"
+  - var brand_name_adjuster = "images/logo-2.png"
+
+block title
+  title 404
+
+block page
+  // Page Header
+  include ../elements/_header
+
+  // Page Content
+  main.page-content.text-center.text-md-start
+    +breadcrumb_items(2)
+
+    include ../section/extras/_section_404
+
+  // Page Footer
+  include ../elements/_footer-widget
+
+
+
+

@@ -1,0 +1,32 @@
+extends  ../_skeleton
+include ../elements/_section_fullwidth
+include ../mixins/_category-mixin
+block variables
+  - var activeIndex = 6
+  - var title_h1 = "Categories"
+  - var bread_2 = "Pages"
+  - footer_class_adjuster = "bg-gray"
+  - var section_full_adjuster = ""
+  - var brand_name_adjuster = "images/logo-2.png"
+  - var section_full_col_adjuster = ""
+
+block title
+  title Categories
+
+block page
+  // Page Header
+  include ../elements/_header
+
+  // Page Content
+  main.page-content.text-start
+    +breadcrumb_items(1)
+    include ../section/pages/categories/_section_categories-2
+    include ../section/pages/categories/_section_categories-1
+
+
+  // Page Footer
+  include ../elements/_footer-widget
+
+
+
+

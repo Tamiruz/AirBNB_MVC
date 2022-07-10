@@ -1,0 +1,104 @@
+//Section Find your home
+section.section-md.section-bottom-0( class= background_color )
+  .container.position-margin-top(class= position_margin_top_adjuster )
+    .search-form-wrap.bg-default.container-shadow
+      h3 Find Your Home
+      form(action='#', name='search-form').form-variant-1
+        .form-wrap
+          label.form-label(for='keyword') Keyword
+          input#keyword.form-input(type='text', name='keyword', placeholder="Any")
+        .form-wrap
+          label.form-label(for='select-search-1') Location
+          select.form-input.select-filter#select-search-1( data-minimum-results-for-search="Infinity")
+            option(value="Any" selected) Any
+            option(value="Denver") Denver
+            option(value="Houston") Houston
+            option(value="Las Vegas") Las Vegas
+            option(value="Orlando") Orlando
+            option(value="Phoenix") Phoenix
+            option(value="San Diego") San Diego
+            option(value="Miami") Miami
+            option(value="Atlanta") Atlanta
+        .form-wrap
+          label.form-label(for='select-search-2') Property Status
+          select.form-input.select-filter#select-search-2( data-minimum-results-for-search="Infinity")
+            option(value="Any" selected) Any
+            option(value="Vacant land") Vacant land
+            option(value="Commercial") Commercial
+            option(value="Residential") Residential
+            option(value="Homes") Homes
+            option(value="Condos") Condos
+            option(value="Townhouses") Townhouses
+            option(value="Foreclosures") Foreclosures
+        .form-wrap
+          label.form-label(for='select-search-3') Property Type
+          select.form-input.select-filter#select-search-3( data-minimum-results-for-search="Infinity")
+            option(value="Any" selected) Any
+            option(value="Under Construction") Under Construction
+            option(value="Ready to Move") Ready to Move
+        .form-wrap.width-1
+          span Price (USD)<br>
+          .form-inline-flex-xs
+            input#range-1.rd-range-input-value.rd-range-input-value-1.form-input(type='text', name='range-2')
+            span.text-abbey.dash &mdash;
+            input#range-2.rd-range-input-value.rd-range-input-value-2.form-input(type='text', name='range-3')
+          .rd-range(data-min='100', data-max='10000', data-start='[600, 9500]', data-step='50', data-tooltip='true', data-min-diff='100', data-input='.rd-range-input-value-1', data-input-2='.rd-range-input-value-2')
+        .form-wrap.width-1
+          span Area (Sq Ft)<br>
+          .form-inline-flex-xs
+            input#range-3.rd-range-input-value.rd-range-input-value-3.form-input(type='text', name='range-2')
+            span.text-abbey.dash &mdash;
+            input#range-4.rd-range-input-value.rd-range-input-value-4.form-input(type='text', name='range-3')
+          .rd-range(data-min='500', data-max='22000', data-start='[2000, 20000]', data-step='50', data-tooltip='true', data-min-diff='500', data-input='.rd-range-input-value-3', data-input-2='.rd-range-input-value-4')
+        .form-wrap.width-2
+          label.form-label(for='select-search-7') Min Beds
+          select.form-input.select-filter#select-search-7( data-minimum-results-for-search="Infinity")
+            option(value="Any" selected) Any
+            option(value="1") 1
+            option(value="2") 2
+            option(value="3") 3
+            option(value="4") 4
+            option(value="5") 5
+            option(value="6") 6
+        .form-wrap.width-2
+          label.form-label(for='select-search-8') Min Baths
+          select.form-input.select-filter#select-search-8( data-minimum-results-for-search="Infinity")
+            option(value="Any" selected) Any
+            option(value="1") 1
+            option(value="2") 2
+            option(value="3") 3
+            option(value="4") 4
+            option(value="5") 5
+            option(value="6") 6
+        button.btn.btn-sm.btn-sushi.btn-min-width-sm Search
+
+        .features
+
+          a(href="" onclick="return false").btn-features
+            span
+            | Look for certain features
+          ul.checkbox-list.list-inline
+            li
+              label.checkbox-inline
+                input(name="input-group-radio", value="checkbox-1", type="checkbox", checked)
+                span Central Heating (7)
+            li
+              label.checkbox-inline
+                input(name="input-group-radio", value="checkbox-2", type="checkbox")
+                span Lawn (6)
+            li
+              label.checkbox-inline
+                input(name="input-group-radio", value="checkbox-3", type="checkbox")
+                span Marble Floors (8)
+            li
+              label.checkbox-inline
+                input(name="input-group-radio", value="checkbox-4", type="checkbox")
+                span Fire Alarm (5)
+            li
+              label.checkbox-inline
+                input(name="input-group-radio", value="checkbox-5", type="checkbox")
+                span Home Theater (3)
+            li
+              label.checkbox-inline
+                input(name="input-group-radio", value="checkbox-6", type="checkbox")
+                span Hurricane Shutters (1)

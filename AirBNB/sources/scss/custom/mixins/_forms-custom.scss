@@ -1,0 +1,51 @@
+// Form validation states
+//
+@mixin form-input-validation-custom($body-color: #555, $border-color: #ccc, $background-color: #f5f5f5) {
+  // Color the label and help text
+  .help-block,
+  .control-label,
+  .radio,
+  .checkbox,
+  .radio-inline,
+  .checkbox-inline,
+  &.radio label,
+  &.checkbox label,
+  &.radio-inline label,
+  &.checkbox-inline label {
+    color: $body-color;
+  }
+
+  // Set the border and box shadow on specific inputs to match
+  .form-input:not(.form-input-impressed) {
+    &, &:focus {
+      border-color: $border-color;
+      box-shadow: none;
+    }
+  }
+
+  .form-input-impressed{
+    &, &:focus{
+      box-shadow: inset 0 0 0 1px $border-color;
+    }
+  }
+
+  // Set validation states also for addons
+  .input-group-addon {
+    color: $white-clr;
+    border-color: $border-color;
+    background-color: $background-color;
+  }
+
+  // Set validation states also for buttons
+  .input-group-btn{
+    > .btn{
+      border-color: $border-color;
+      background: $background-color;
+    }
+  }
+
+  // Set validation states also for validation message
+  .form-validation{
+    color: $body-color;
+  }
+}

@@ -1,0 +1,245 @@
+// Media Custom
+// --------------------------------------------------
+* + .media {
+  margin-top: 30px;
+}
+
+.media {
+  display: flex;
+}
+
+.media-left,
+.media-right {
+  flex: 0 0 auto;
+}
+
+.media-right {
+  padding-left: 10px;
+}
+
+.media-body {
+  flex: 1 1 auto;
+}
+
+.media-mod-1 {
+  display: block;
+  max-width: 570px;
+  margin-left: auto;
+  margin-right: auto;
+  .media-body,
+    .media-left{
+      display: block;
+      width: 100%;
+      padding-right: 0;
+    }
+    .media-left{
+      padding-bottom: 20px;
+    }
+    @include media-breakpoint-up(lg) {
+      display: flex;
+      .media-left{
+        min-width: 100px;
+        padding-right: 30px;
+        padding-bottom: 0;
+      }
+      .media-body,
+        .media-left{
+          display: table-cell;
+          width: auto;
+        }
+    }
+}
+
+.thumbnail.media.media-mod-2 {
+  img {
+    width: 100%;
+    float: right;
+    max-width: none;
+    @include media-breakpoint-up(md) {
+      width: auto;
+    }
+  }
+  .img-link:hover{
+    img{
+      transform: translateX(0);
+    }
+  }
+  .media-body,
+  .media-left,
+  .media-right {
+    @include media-breakpoint-down( md ) {
+      width: 100%;
+      display: block;
+      padding-top: 15px;
+      padding-left: 0;
+      text-align: center;
+     }
+  }
+  .media-left {
+    padding-right: 0;
+    @include media-breakpoint-up(md) {
+      padding-right: 30px;
+    }
+  }
+  p{
+    color: $color-abbey;
+  }
+  ul.describe-1 li, ul.describe-2 li {
+    color: $gray-light;
+  }
+}
+
+.media-mod-2 {
+  .media-body,
+  .media-left,
+  .media-right {
+    img {
+      display: inline-block;
+      width: auto;
+      height: auto;
+    }
+  }
+  .media-left {
+    padding-right: 0;
+  }
+
+  @include media-breakpoint-down( md ) {
+    width: 100%;
+    display: block;
+
+    .media-body,
+    .media-left,
+    .media-right {
+      padding-top: 15px;
+      padding-left: 0;
+      text-align: center;
+    }
+  }
+
+  @include media-breakpoint-up( md ) {
+    .media-body,
+    .media-left,
+    .media-right {
+      img {
+        width: auto;
+        max-width: none;
+      }
+    }
+    .media-left {
+      padding-right: 30px;
+    }
+  }
+}
+
+.media-mod-3 {
+  width: 100%;
+  h5 + p {
+    margin-top: 5px;
+  }
+  p + dl{
+    margin-top: 20px;
+  }
+  a {
+    display: inline-block;
+  }
+  p + a {
+    margin-top: 20px;
+  }
+  .media-left {
+    padding-right: 18px;
+    img {
+      width: auto;
+      max-width: none;
+    }
+  }
+  & + p {
+   margin-top: 15px;
+  }
+}
+
+.media-mod-4 {
+  img {
+    width: 100%;
+    max-width: none;
+    @include media-breakpoint-up(md) {
+      width: auto;
+    }
+  }
+  .media-body,
+  .media-left,
+  .media-right {
+    @include media-breakpoint-down(md) {
+      width: 100%;
+      display: block;
+      padding-top: 15px;
+      padding-left: 0;
+      img {
+        width: auto;
+      }
+    }
+  }
+  .media-left {
+    padding-right: 0;
+    @include media-breakpoint-up(md) {
+      padding-right: 50px;
+    }
+  }
+  .media-body {
+    padding-right: 0;
+    @include media-breakpoint-up(md) {
+      padding-right: 15px;
+    }
+  }
+  h4 + p {
+    margin-top: 0;
+  }
+  p + p {
+    margin-top: 20px;
+  }
+}
+
+.media-mod-5 {
+  display: block;
+
+  .media-body,
+  .media-left{
+    display: block;
+    width: 100%;
+  }
+  .media-left{
+    padding-bottom: 20px;
+  }
+  @include media-breakpoint-up(md) {
+    display: flex;
+
+    .media-left{
+      min-width: 100px;
+      padding-right: 30px;
+      padding-bottom: 0;
+    }
+    .media-body,
+      .media-left{
+        display: table-cell;
+        width: auto;
+      }
+  }
+}
+
+.media-mod-6 {
+  display: block;
+  width: 100%;
+
+  .media-left{
+    padding-bottom: 20px;
+  }
+  @include media-breakpoint-up(md) {
+    .media-left{
+      min-width: 100px;
+    }
+    .media-body,
+      .media-left{
+        width: auto;
+      }
+  }
+}
+

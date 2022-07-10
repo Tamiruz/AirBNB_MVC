@@ -1,0 +1,34 @@
+extends  ../_skeleton
+include ../elements/_section_fullwidth
+include ../components/_counter
+include ../components/_progress-linear
+include ../components/_progress-circle
+block variables
+  - var activeIndex = 2
+  - var title_h1 = "Progress Bars"
+  - var bread_2 = "Elements"
+  - footer_class_adjuster = "bg-gray"
+  - var section_full_adjuster = ""
+  - var section_full_col_adjuster = ""
+  - var brand_name_adjuster = "images/logo-2.png"
+
+block title
+  title Progress Bars
+
+block page
+  // Page Header
+  include ../elements/_header
+
+  // Page Content
+  main.page-content.text-center.text-md-start
+    +breadcrumb_items(1)
+    include ../section/progress_bars/_section_progress_bars-1
+    include ../section/progress_bars/_section_progress_bars-2
+    include ../section/progress_bars/_section_progress_bars-3
+
+  // Page Footer
+  include ../elements/_footer-widget
+
+
+
+

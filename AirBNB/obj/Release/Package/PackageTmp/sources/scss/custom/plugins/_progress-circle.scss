@@ -1,0 +1,48 @@
+/** @section Progress Circle */
+
+
+.progress-circle {
+  display: inline-block;
+  text-align: center;
+  line-height: 1.2;
+}
+
+.progress-circle-block {
+  position: relative;
+}
+
+.progress-circle-bar {
+  max-width: 100%;
+  height: auto;
+}
+
+.progress-circle-bg {
+  fill: transparent;
+  stroke: $gray-dark;
+  stroke-width: 6px;
+}
+
+.progress-circle-fg {
+  fill: transparent;
+  stroke: $primary;
+  stroke-width: 6px;
+}
+
+.progress-circle-counter {
+  position: absolute;
+  top: 50%;
+  left: 51%;
+  font-weight: 900;
+  font-size: 30px;
+  line-height: 30px;
+  color: $color-abbey;
+  transform: translate(-50%, -50%);
+
+  &::after {
+    content: "%";
+  }
+}
+
+* + .progress-circle-title {
+  margin-top: 24px;
+}

@@ -1,0 +1,33 @@
+//Section Some of your questions
+section.section-lg
+  .container
+    .row
+      .col-12.col-lg-8
+        h2 Accordion FAQ
+        hr
+        p If you need help, we have a list of frequently asked questions and answers. We strive to give you the best buying experience possible. Click a question below to view the answer.
+        #accordion-1.accordion-custom
+          +accordion({
+            show: true,
+            parentId: 'accordion-1',
+            title: 'Why should I work with real estate agent?'
+          })
+            p There are three main reasons which agent is absolutely necessary. First off is the knowledge of juridical laws and regulations. Laws regulate who can operate on the real estate market and who can take part in the mediation, and who not. Therefore it's clear, that you should choose a legitimate agent, instead one who operates outside of the laws and regulations. Second is the expertise of a licensed real estate agent. Every legitimate real estate agent, apart from his professional education, has expertise, which allows him to operate professionally and diligently on the real estate market to your benefit. With his help all legal regulations are adhered to. The third reason is security. Through the mediation of a real estate agent, the resulting contract will protect all your rights and interests.
+
+          +accordion({
+            parentId: 'accordion-1',
+            title: 'What is property tax?'
+          })
+            p Property tax is a statutory levy, which is levied from the legal or natural person who owns or occupies the property, except those properties which are explicitly freed from this levy.
+
+          +accordion({
+            parentId: 'accordion-1',
+            title: 'How is the market value determined?'
+          })
+            p Market value is determined by a communal commission by standards installed by the government. These standards for marketprice evaluation offer grounds to define the value via value of the buildings on the property, microlocation and makrolocation.
+
+          +accordion({
+            parentId: 'accordion-1',
+            title: 'Who pays the property tax?'
+          })
+            p Whether you're a first-time buyer, investor or existing homeowner, you need to understand the best locations for your investment. Buying the smallest house on the best street versus the largest house on a less preferred street will reap big rewards when it comes time to sell. As an investor, a condominium that is near public transit or a university is a good move.

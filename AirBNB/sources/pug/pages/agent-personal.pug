@@ -1,0 +1,34 @@
+extends  ../_skeleton
+include ../elements/_section_fullwidth
+include ../mixins/_pagination-mixin
+include ../mixins/_thumbnail-mixin
+block variables
+  - var activeIndex = 6
+  - var title_h1 = "Heather Turner"
+  - var bread_2 = "Pages"
+  - var bread_3 = "Personal Agent Page"
+  - footer_class_adjuster = "bg-gray"
+  - var section_full_adjuster = ""
+  - var section_full_col_adjuster = "col-lg-8 offset-lg-4"
+  - var section_full_text=""
+  - var brand_name_adjuster = "images/logo-2.png"
+
+block title
+  title Personal Page
+
+block page
+  // Page Header
+  include ../elements/_header
+
+  // Page Content
+  main.page-content.text-start
+    +breadcrumb_items(2)
+    include ../section/pages/personal_agent/_section_personal_agent_1
+    include ../section/pages/personal_agent/_section_personal_agent_2
+
+  // Page Footer
+  include ../elements/_footer-widget
+
+
+
+

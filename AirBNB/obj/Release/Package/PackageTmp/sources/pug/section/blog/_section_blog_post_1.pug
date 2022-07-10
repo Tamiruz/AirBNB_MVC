@@ -1,0 +1,103 @@
+//Section Blog Post
+section.section-lg
+  .container
+    .row
+      .col-lg-8
+        .blog-post
+          h2 Being a magnet for your, Berlin's Housing Problems Boil Over
+          hr
+          .caption-meta
+            time(datetime="2016")
+              span.mdi.mdi-calendar
+              span May 24, 2016 at 7:52 pm
+            a(href="#")
+              span.mdi.mdi-account
+              span Admin
+            a(href="blog_post.html").comment
+              span.mdi.mdi-comment-multiple-outline
+              span 3
+            .post-meta
+              span.mdi.mdi-folder-outline
+              a(href="blog_post.html").meta-link Real Estate
+              | , &nbsp;
+              a(href="blog_post.html").meta-link News
+              | , &nbsp;
+              a(href="blog_post.html").meta-link Berlin
+          img(src="images/left_sidebar_blog-5.jpg" alt="" width="770" height="520")
+
+          p When a German property developer tried to hold a meet-and-greet barbecue for neighbors of its new 68-unit condominium in August, protesters flooded the site, waving signs and dumping piles of garbage before police clad in bulletproof vests halted further unrest. The demonstrators were protesting soaring apartment rents and the increasing gentrification of the leafy working-class neighborhood of the area.
+          p "It will change a lot of the area - we are afraid," said Tom Brown, an artist who leases space for his art gallery nearby and brought a large fake pig to register his disgust.
+          img(src="images/post_page-2.jpg" alt="" width="770" height="520")
+          p Major global cities like San Francisco, New York and London are groaning under the stress of fast-increasing populations that are far outpacing the creation of new housing. But few cities face a quandary as difficult as Berlin's. More than 40,000 new residents a year have been piling in recently, as Berlin has become a magnet for European youth.
+          p Yet no more than 8,000 housing units a year were added through 2014, according to real-estate firm, a yawning gap that lies at the heart of Berlin's housing problems today.
+          .blog-post-footer
+            h4.border-bottom Share
+            .icon-group
+              a.icon.icon-sm.icon-social.fa-facebook(href="#")
+              a.icon.icon-sm.icon-social.fa-twitter(href="#")
+              a.icon.icon-sm.icon-social.fa-google-plus(href="#")
+              a.icon.icon-sm.icon-social.fa-linkedin(href="#")
+              a.icon.icon-sm.icon-social.fa-instagram(href="#")
+          h4.text-center.text-md-start.border-bottom Posted By
+          .media.media-mod-2
+            .media-left
+              img(src="images/post_page-3.jpg" alt="" width="170" height="170")
+            .media-body
+              h6.text-sushi.text-ubold Phillip Sanders
+              p.text-light-custom I am a professional blogger interested in everything taking place in cyberspace. I am running this website and try my best to make it a better place to visit. I post only the articles that are related to the topic and thoroughly analyze all visitors' comments to cater to their needs better.
+
+          h4.border-bottom  Related Posts
+          .row
+            .col-12.col-md-6
+              +thumbnail-6("images/three-column-blog-3.jpg","370", "250",  "May 14, 2016 at 7:52 pm", "Moshe Silagi Sells 24-Property              Portfolio for $224 Million", "Real Estate", "News", "Berlin")
+                p An Israeli immigrant who built a vast real-estate empire after moving to the U.S. in 1976 has sold a 24-property portfolio in 12 states to a venture of Northstar Commercial Partners and Real Estate funds for $224 million. Moshe Silagi, 69 years old, said he is greatly reducing his property holdings as part of his plan to "be debt free and enjoy life."
+            .col-12.col-md-6
+              +thumbnail-6("images/three-column-blog-5.jpg","370", "250", "May 30, 2016 at 7:52 pm", "3 Easy Ways to Keep Real Estate Agents Motivated", "Real Estate", "News", "Berlin")
+                p You've done all the prep work. Processes are in place. Leads are flowing in. Everyone has his role. Reaching the end-of-year goal seems like it isn't too far away. You just need time and the perseverance to keep plowing through.
+          .row
+            .col-12
+              .text-center.text-md-start
+                h4.border-bottom Comments
+              .media.media-mod-2.comment
+                .media-left.round
+                  img.round(src="images/post_page-4.jpg" alt="" width="70" height="70")
+                .media-body
+                  p.h6.text-sushi.text-ubold Marilyn Taylor
+                  time(datetime="2016").fa-calendar May 21, 2016 at 5:50 pm
+                  p.text-light-custom I just don't know how to describe your services... They are extraordinary! I am quite happy with them! Just keep up going this way!
+                  a(href="#").text-sushi
+                    span.fa-mail-reply.icon
+                    span Reply
+              .media.media-mod-2.comment.comment-repost
+                .media-left.round
+                  img.round(src="images/post_page-5.jpg" alt="" width="70" height="70")
+                .media-body
+                  p.h6.text-sushi.text-ubold Heather Turner
+                  time(datetime="2016").fa-calendar May 21, 2016 at 6:23 pm
+
+                  p.text-light-custom Thank you!
+                  a(href="#").text-sushi
+                    span.fa-mail-reply.icon
+                    span Reply
+
+              h4.border-bottom Send a Comment
+              // RD Mailform
+              form.text-start.offset-custom-11()
+                .row
+                  .col-12.col-md-6
+                    .form-wrap
+                      label.form-label(for="contact-name") Enter your name
+                      input#contact-name.form-input(type="text" name="name" data-constraints="@Required")
+                  .col-12.col-md-6
+                    .form-wrap
+                      label.form-label(for="contact-email") Enter your e-mail
+                      input#contact-email.form-input(type="email" name="email" data-constraints="@Required @Email")
+                  .col-12
+                    .form-wrap
+                      label.form-label(for="contact-message") Enter your message
+                      textarea#contact-message.form-input(name="message" data-constraints="@Required")
+                  .col-12
+                    button(type="submit").btn.btn-sushi.btn-sm Send message
+
+      .col-12.col-md-12.col-lg-4
+        include ../../elements/_section_sidebar

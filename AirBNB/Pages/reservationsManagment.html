@@ -1,0 +1,576 @@
+﻿<!DOCTYPE html>
+<html class="wide wow-animation" lang="en">
+<head>
+    <!-- Site Title-->
+    <title>My Reservations</title>
+    <meta name="format-detection" content="telephone=no">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta charset="utf-8">
+    <style>
+
+        
+
+        .viewBtn, .cancelBtn {
+            margin: 5px;
+        }
+        table.dataTable tbody tr.selected td ,table.dataTable tbody tr.selected {
+            background-color: pink !important;
+        }
+        .viewBtn-size{
+            width:90%;
+        }
+        #apartmentImg{
+            border-radius:10px;
+        }
+        .a {
+            background-color: #f7f7f7 !important;
+        }
+
+        .b {
+            background-color: white !important;
+        }
+        .closeBtn{
+            text-align:center;
+        }
+
+    </style>
+
+    <!-- Data Table-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" defer></script>
+    <script src="../Scripts/ajaxCalls.js"></script>
+    <script src="../Scripts/jquery-3.3.1.min.js"></script>
+    <script src="../Scripts/renderFunction.js"></script>
+
+    <!-- Stylesheets-->
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Lato:400,700,900,400italic">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/fonts.css">
+    <link rel="stylesheet" href="css/style.css">
+
+    <script>
+
+        $(document).ready(function () {
+            //Checking if the user is logged in
+            $('#viewDiv').hide();
+            let bool = checkLogin();
+            if (bool == false) {
+                swal({ // this will open a dialouge
+                    title: "You need to log in",
+                    text: "Press ok to log in.",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true
+                })
+                    .then(function (ok) {
+                        if (ok) location.replace("login.html");
+                        else {
+                            swal("You are not logged!");
+                            return;
+                        }
+                    });
+                
+            }
+
+            //Getting all the reservations for user by user id.
+            currentUserID = user.Id;//global variable for the user.
+            let api = `../api/Reservations/${currentUserID}`;
+            ajaxCall('GET', api, "", successCB, errorCB);
+
+            // Route cancel Reservation button.
+            $(document).on("click", ".cancelBtn", function () {
+
+                $('#viewDiv').hide();
+                markSelected(this);
+                var reservationID = this.getAttribute('id');
+                swal({ // this will open a dialouge
+                    title: "Are you sure ??",
+                    text: "",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true
+                })
+                    .then(function (willDelete) {
+                        if (willDelete) cancelReservation(reservationID);
+                        else swal("Not Deleted!");
+                    });
+            });
+
+            // Route view Reservation button.
+            $(document).on("click", ".viewBtn", function () {
+                
+                $('#viewDiv').hide();
+                markSelected(this);
+                var reservationID = this.getAttribute('id');
+                reservation = getReservation(reservationID);
+                let id = reservation.ApartmentID;
+                window.location.hash = "#" + id;
+                let api = `../api/Apartments/${id}`;
+                ajaxCall('GET', api, "", getApartmentSCB, errorCB);
+            });
+
+            // Hidding the view div.
+            $('#viewDiv').hide();
+
+            $("#closeBtn").click(() => $('#viewDiv').hide());
+
+        });
+
+        function getApartmentSCB(apartment) {
+            console.log(apartment);
+            console.log(reservation);
+            $("#reservationId").html(reservation.Id);
+            $("#from").html(reservation.From.split(' ')[0]);
+            $("#to").html(reservation.To.split(' ')[0]);
+            $("#nights").html(reservation.Nights);
+            $("#price").html(reservation.Price);
+            $("#rating").html(renderStars(apartment.ReviewRating));
+            $("#accomodates").html(renderPersons(apartment.Accommodates));
+            $("#distance").html(apartment.Distance.toFixed(2)+' km');
+            $("#location").html(apartment.Location);
+            $("#bedrooms").html(apartment.Bedrooms);
+            $("#apartmentImg").attr("src", apartment.Picture);
+            $("#name").html(apartment.Name);
+
+            //Showing the view div
+            $('#viewDiv').show();
+
+            //Transfering to the viewDiv.
+            window.location.hash = "#viewDiv";
+        }
+
+        // mark the selected row
+        function markSelected(btn) {
+            $("#reservationsData tr").removeClass("selected"); // remove seleced class from rows that were selected before
+            row = (btn.parentNode).parentNode; // button is in TD which is in Row
+            row.className = 'selected'; // mark as selected
+        }
+
+
+        // get a reservation by Id
+        function getReservation(id) {
+            for (i in reservations) {
+                if (reservations[i].Id == id)
+                    return reservations[i];
+            }
+            return null;
+        }
+
+
+        //Success function for getting the reservation.
+        function cancelReservation(id) {
+            let reservation = getReservation(id);
+            console.log(reservation);
+            let api = `../api/Reservations/cancelReservation`;
+
+            //Clearing the datatable before deleting
+            $('#reservationsData').dataTable().fnClearTable();
+
+            //After receving the reservation we will provide details and reduce the relevant parameters from host & user.
+            ajaxCall("DELETE", api, JSON.stringify(reservation), cancelSCB, errorCB);
+        }
+
+        //success function for canceling the reservation, in the next ajaxCall we will re-render the reservations(to make sure it succeeded).
+        function cancelSCB(success) {
+            //Current user ID is global variable from document ready, we getting again all the reservations that user has and re-render.
+            let api = `../api/Reservations/${currentUserID}`;
+            ajaxCall('GET', api, "", newDataSCB, errorCB);
+      
+        }
+
+        //success function for getting the new reservations after cancelation.
+        function newDataSCB(reservations) {
+            console.log(reservations);
+            $('#reservationsData').dataTable().fnAddData(reservations);
+        }
+
+        //Success function for getting the reservations by user id, now we will render with datatable.
+        function successCB(reservationsData) {
+            console.log(reservationsData);
+
+            reservations = reservationsData; // keep the cars array in a global variable;
+            try {
+                tbl = $('#reservationsData').DataTable({
+                    data: reservations,
+                    pageLength: 5,
+                    columns: [
+                        {
+                            render: function (data, type, row, meta) {
+                                let id = "id='" + row.Id + "'";
+                                viewBtn = "<button class = 'btn btn-sushi viewBtn' " + id + "> View </button>";
+                                cancelBtn = "<button class = 'btn btn-sushi cancelBtn' " + id + "> Cancel </button>";
+                                disabledCancelBtn = "<button class = 'btn btn-sushi cancelBtn disabled' " + id + "> Cancel </button>";
+
+                                let calc = isAbleToCancel(row.From);
+                                if (calc == 0)    
+                                    return disabledCancelBtn + viewBtn + "<br /><span style='color:red'>You can cancel up to 2 days<br /> before your check-in.</span>";
+                                else if (calc == -1)    
+                                    return "<button class = 'btn btn-sushi viewBtn viewBtn-size'" + id + "> View </button>";
+                                else return cancelBtn + viewBtn;
+
+                            }
+                        },
+                        {
+                            render: function (data, type, row, meta) {
+                                return "<div class='col-xs d-md-none'><b>id</b></div>" + row.Id ;
+                            }
+                        },
+                        {
+                            render: function (data, type, row, meta) {
+                                return "<div class='col-xs d-md-none'><b>Name</b></div>" + row.ApartmentName;
+                            }
+                        },
+                        {
+                            render: function (data, type, row, meta) {
+                                return "<div class='col-xs d-md-none'><b>Check-in</b></div>" + row.From;
+                            }
+                        },
+                        {
+                            render: function (data, type, row, meta) {
+                                return "<div class='col-xs d-md-none'><b>Check-out</b></div>" + row.To;
+                            }
+                        },
+                        {
+                            render: function (data, type, row, meta) {
+                                return "<div class='col-xs d-md-none'><b>Nights</b></div>" + row.Nights;
+                            }
+                        },
+                        {
+                            render: function (data, type, row, meta) {
+                                return "<div class='col-xs d-md-none'><b>Price</b></div>" + row.Price;
+                            }
+                        }
+                    ],
+                });
+            }
+            catch (err) {
+                alert(err);
+            }
+        }
+
+        function errorCB(error) {
+            console.log(error);
+        }
+
+        
+        // Function to check if the dates of reservation is past, present or future.
+        function isAbleToCancel(fromDate) {
+            fromDate = fromDate.split(' ')[0];
+            fromDate = new Date(fromDate); 
+            nowDate = new Date();
+            let diffTime = (fromDate - nowDate);
+            let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            fromDate.setHours(00);
+            fromDate.setMinutes(00);
+            fromDate.setSeconds(00);
+            nowDate.setHours(00);
+            nowDate.setMinutes(00);
+            nowDate.setSeconds(00);
+
+            if (diffDays > 1)
+                return 1; // Able to cancel. future - more than 2 days.
+            else if (diffDays > -1)
+                return 0; // Not able to cancel. future - less than 2 days.
+            return -1;    // Past or present reservation.
+        }
+
+
+    </script>
+
+
+</head>
+<body>
+    <div class="preloader">
+        <div class="preloader-body">
+            <div class="cssload-container">
+                <div class="cssload-speeding-wheel"></div>
+            </div>
+        </div>
+    </div>
+    <!-- Page-->
+    <div class="page">
+        <!-- Page Header-->
+        <header class="page-head">
+            <!-- RD Navbar-->
+            <div class="rd-navbar-wrap header_corporate">
+                <nav class="rd-navbar" data-layout="rd-navbar-fixed" data-sm-layout="rd-navbar-fixed" data-md-layout="rd-navbar-fullwidth" data-lg-layout="rd-navbar-fullwidth" data-xl-layout="rd-navbar-fullwidth" data-xxl-layout="rd-navbar-fullwidth" data-device-layout="rd-navbar-fixed" data-sm-device-layout="rd-navbar-fixed" data-md-device-layout="rd-navbar-fixed" data-lg-device-layout="rd-navbar-fullwidth" data-xl-device-layout="rd-navbar-fullwidth" data-xxl-device-layout="rd-navbar-fullwidth" data-stick-up-offset="100px">
+                    <!--RD Navbar Panel-->
+                    <div class="rd-navbar-top-panel">
+                        <div class="rd-navbar-top-panel-wrap">
+                            <dl class="dl-horizontal-mod-1 login">
+                                <dt><span class="mdi mdi-login icon-xxs-mod-2"></span></dt>
+                                <dd><a class="text-sushi sign" href="login.html"> Login/Registration</a></dd>
+                            </dl>
+                            <div class="top-panel-inner">
+                                <dl class="dl-horizontal-mod-1">
+                                    <dt><span class="material-icons-local_phone icon-xxs-mod-2"></span></dt>
+                                    <dd><a href="callto:#"> +1 (855) 635-7754</a></dd>
+                                </dl>
+                                <dl class="dl-horizontal-mod-1">
+                                    <dt><span class="material-icons-drafts icon-xxs-mod-2"></span></dt>
+                                    <dd><a href="mailto:#">support@airbnb.com</a></dd>
+                                </dl>
+                                <address>
+                                    <dl class="dl-horizontal-mod-1">
+                                        <dt><span class="mdi mdi-map-marker-radius icon-xxs-mod-2"></span></dt>
+                                        <dd><a class="inset-11"> 888 Brannan Street San Francisco, CA 94103 USA </a></dd>
+                                    </dl>
+                                </address>
+                            </div>
+                            <ul class="list-inline">
+                                <li><a class="fa-facebook" href="https://www.facebook.com/airbnb/"></a></li>
+                                <li><a class="fa-twitter" href="https://twitter.com/airbnb"></a></li>
+                                <li><a class="mdi mdi-instagram" href="https://www.instagram.com/airbnb/"></a></li>
+                                <li><a class="fa-google" href="https://www.google.com/search?q=airbnb&hl=iw&source=hp&ei=JJmXYpbLLJ2Vxc8Pq9q3mA4&iflsig=AJiK0e8AAAAAYpenNDXx8_Ad_y2dMZ3THoR2Ts333B_l&ved=0ahUKEwiW7aKk24z4AhWdSvEDHSvtDeMQ4dUDCAc&uact=5&oq=airbnb&gs_lcp=Cgdnd3Mtd2l6EAMyBAgAEEMyFAguEIAEELEDEIMBEMcBENEDEMkDMgUIABCSAzIFCAAQkgMyBQgAEIAEMgUIABCABDIFCAAQgAQyBQgAEIAEMgUIABCABDIFCAAQgAQ6EAguELEDEIMBEMcBENEDEEM6EQguEIAEELEDEIMBEMcBENEDOgsILhCABBDHARDRAzoICAAQgAQQsQM6CwgAEIAEELEDEIMBOg4ILhCABBCxAxDHARCjAjoRCC4QgAQQsQMQgwEQxwEQrwFQiANYog1g8g5oAXAAeACAAZ4BiAGfBpIBAzAuNpgBAKABAbABAA&sclient=gws-wiz"></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="rd-navbar-inner inner-wrap">
+                        <div class="rd-navbar-panel">
+                            <!-- RD Navbar Toggle-->
+                            <button class="rd-navbar-toggle" data-rd-navbar-toggle=".rd-navbar-nav-wrap"><span></span></button>
+                            <!-- RD Navbar Brand-->
+                            <div class="rd-navbar-brand"><a class="brand-name" href="index.html"><img src="images/logo-1.png" alt=""></a></div>
+                        </div>
+                        <div class="btn-group"><a class="btn btn-sm btn-primary userLogin">Hello Guest</a></div>
+                        <div class="rd-navbar-nav-wrap">
+                            <!-- RD Navbar Nav-->
+                            <ul class="rd-navbar-nav">
+                                <li><a href="./">Home</a></li>
+                                <li class="active">
+                                    <a href="reservationsManagment.html">My reservations</a>
+                                </li>
+                                <li>
+                                    <a href="additions.html">Additions</a>
+                                </li>
+                                <li id="adminPages">
+                                    <a href="">Management pages</a>
+                                    <!-- RD Navbar Dropdown-->
+                                    <ul class="rd-navbar-dropdown">
+                                        <li><a href="usersManagment.html">Users</a></li>
+                                        <li><a href="hostManagement.html">Hosts</a></li>
+                                        <li><a href="apartmentManagement.html">Apartments</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="favorites.html">My Favorites</a>
+                                </li>
+                                <li class="link-group"><a class="btn btn-sm btn-primary userLogin">Hello Guest</a></li>
+                                <li class="rd-navbar-bottom-panel">
+                                    <div class="rd-navbar-bottom-panel-wrap">
+                                        <dl class="dl-horizontal-mod-1 login">
+                                            <dt><span class="mdi mdi-login icon-xxs-mod-2"></span></dt>
+                                            <dd><a class="text-sushi sign" href="login.html"> Login/Registration</a></dd>
+                                        </dl>
+                                        <div class="top-panel-inner">
+                                            <dl class="dl-horizontal-mod-1">
+                                                <dt><span class="material-icons-local_phone icon-xxs-mod-2"></span></dt>
+                                                <dd><a href="callto:#"> +1 (855) 635-7754</a></dd>
+                                            </dl>
+                                            <dl class="dl-horizontal-mod-1">
+                                                <dt><span class="material-icons-drafts icon-xxs-mod-2"></span></dt>
+                                                <dd><a href="mailto:#">support@airbnb.com</a></dd>
+                                            </dl>
+                                            <address>
+                                                <dl class="dl-horizontal-mod-1">
+                                                    <dt><span class="icon-xxs-mod-2 mdi mdi-map-marker-radius"></span></dt>
+                                                    <dd><a class="inset-11" href="#">795 Folsom Ave, Suite 600 San Francisco, CA 94107</a></dd>
+                                                </dl>
+                                            </address>
+                                        </div>
+                                        <ul class="list-inline">
+                                            <li><a class="fa-facebook" href="https://www.facebook.com/airbnb/"></a></li>
+                                            <li><a class="fa-twitter" href="https://twitter.com/airbnb"></a></li>
+                                            <li><a class="mdi mdi-instagram" href="https://www.instagram.com/airbnb/"></a></li>
+                                            <li><a class="fa-google" href="https://www.google.com/search?q=airbnb&hl=iw&source=hp&ei=JJmXYpbLLJ2Vxc8Pq9q3mA4&iflsig=AJiK0e8AAAAAYpenNDXx8_Ad_y2dMZ3THoR2Ts333B_l&ved=0ahUKEwiW7aKk24z4AhWdSvEDHSvtDeMQ4dUDCAc&uact=5&oq=airbnb&gs_lcp=Cgdnd3Mtd2l6EAMyBAgAEEMyFAguEIAEELEDEIMBEMcBENEDEMkDMgUIABCSAzIFCAAQkgMyBQgAEIAEMgUIABCABDIFCAAQgAQyBQgAEIAEMgUIABCABDIFCAAQgAQ6EAguELEDEIMBEMcBENEDEEM6EQguEIAEELEDEIMBEMcBENEDOgsILhCABBDHARDRAzoICAAQgAQQsQM6CwgAEIAEELEDEIMBOg4ILhCABBCxAxDHARCjAjoRCC4QgAQQsQMQgwEQxwEQrwFQiANYog1g8g5oAXAAeACAAZ4BiAGfBpIBAzAuNpgBAKABAbABAA&sclient=gws-wiz"></a></li>
+                                        </ul>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </header>
+        <!-- Page Content-->
+        <main class="page-content text-center text-xl-start">
+            <!-- Section Title Breadcrumbs-->
+            <section class="section-full">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <h1>Reservations</h1>
+                            <p></p>
+                            <ol class="breadcrumb">
+                                <li><a href="index.html">Home</a></li>
+                                <li class="active">My Reservations</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!--Section Tables Dark Header-->
+
+            <section class="section-lg bg-gray-dark">
+                <div class="container">
+                    <h2>My reservations</h2>
+                    <hr>
+                    <div class="row">
+                        <div class="col-xl-8">
+                            <div class="table-mobile">
+                                <table id="reservationsData" class="table table-simple table-sushi display nowrap" style="width:100%">
+                                    <thead>
+                                        <tr class="bg-sushi text-white">
+                                            <th>Operation</th>
+                                            <th>Id</th>
+                                            <th>Name</th>
+                                            <th>Check-in</th>
+                                            <th>Check-out</th>
+                                            <th>Nights</th>
+                                            <th>Price</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section id="viewDiv" class="section-lg">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6 order-md-2">
+                            <h2 id="name">Welcome</h2>
+                            <hr><br /><br />
+                            <!--Section Tables Main Color Header-->
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-xl-8">
+                                        <div class="table-mobile">
+                                            <table class="table table-default">
+                                                <tbody>
+                                                    <tr>
+                                                        <td>Reservation id</td>
+                                                        <td id="reservationId"></td>
+                                                        <td class="b">Rating</td>
+                                                        <td class="b" id="rating"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Check in</td>
+                                                        <td id="from">4</td>
+                                                        <td class='a'>Accomodates</td>
+                                                        <td class='a' id="accomodates">4</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Check out</td>
+                                                        <td id="to">2</td>
+                                                        <td class='b'>Distance</td>
+                                                        <td class='b' id="distance">2</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Nights</td>
+                                                        <td id="nights">2</td>
+                                                        <td class='a'>Location</td>
+                                                        <td class='a' id="location">2</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Price</td>
+                                                        <td id="price">Lawn, Sprinkler System, Marble Floors</td>
+                                                        <td class='b'>Bedrooms</td>
+                                                        <td class='b' id="bedrooms">Lawn, Sprinkler System, Marble Floors</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="4">
+                                                            <p class="closeBtn"><input type="button" id="closeBtn" value="Close" class="btn btn-sushi btn-min-width-sm btn-shape-3" /></p>
+                                                        </td>
+                                                    </tr>
+
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 offset-custom-5 order-md-1">
+                            <div class="img-wrap inset-4"><img id="apartmentImg" src="images/preloader.gif" alt="" width="570" height="350"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+        <!-- Page Footer-->
+        <section class="section-lg bg-gray text-center text-lg-start">
+            <div class="container">
+                <h2>Our Advantages</h2>
+                <hr>
+                <div class="row flow-offset-8">
+                    <div class="col-md-6 col-lg-3">
+                        <div class="media media-mod-6">
+                            <div class="media-left"><span class="linecons-location4 icon icon-lg bg-accent"></span></div>
+                            <div class="media-body">
+                                <h4>Various Locations</h4>
+                                <p>Search by state then by city to find an apartment  overlooking the lake in Chicago, within walking distance of the beach in Los Angeles or in the heart of Atlanta.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="media media-mod-6">
+                            <div class="media-left"><span class="linecons-camera7 icon icon-lg bg-accent"></span></div>
+                            <div class="media-body">
+                                <h4>View Apartments</h4>
+                                <p>View apartment listings with photos, HD videos, InsideView virtual tours, 3D floor plans, and more, while also choosing the apartment and community features that you want.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="media media-mod-6">
+                            <div class="media-left"><span class="linecons-blockade icon icon-lg bg-accent"></span></div>
+                            <div class="media-body">
+                                <h4>Privacy and Security</h4>
+                                <p>Renters insurance helps keep your belongings secure, whether they're on your desk, under your couch, or in some cases, even in your car's glove box.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="media media-mod-6">
+                            <div class="media-left"><span class="linecons-banknote icon icon-lg bg-accent"></span></div>
+                            <div class="media-body">
+                                <h4>No Commission</h4>
+                                <p>You will therefore appreciate this opportunity to acquire a high-quality apartment for rent without having to pay any commission to our real estate agency.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="container" style="text-align:center">
+                <ul class="list-inline">
+                    <li><a class="fa-facebook" href="https://www.facebook.com/airbnb/"></a></li>
+                    <li><a class="fa-twitter" href="https://twitter.com/airbnb"></a></li>
+                    <li><a class="mdi mdi-instagram" href="https://www.instagram.com/airbnb/"></a></li>
+                    <li><a class="fa-google" href="https://www.google.com/search?q=airbnb&hl=iw&source=hp&ei=JJmXYpbLLJ2Vxc8Pq9q3mA4&iflsig=AJiK0e8AAAAAYpenNDXx8_Ad_y2dMZ3THoR2Ts333B_l&ved=0ahUKEwiW7aKk24z4AhWdSvEDHSvtDeMQ4dUDCAc&uact=5&oq=airbnb&gs_lcp=Cgdnd3Mtd2l6EAMyBAgAEEMyFAguEIAEELEDEIMBEMcBENEDEMkDMgUIABCSAzIFCAAQkgMyBQgAEIAEMgUIABCABDIFCAAQgAQyBQgAEIAEMgUIABCABDIFCAAQgAQ6EAguELEDEIMBEMcBENEDEEM6EQguEIAEELEDEIMBEMcBENEDOgsILhCABBDHARDRAzoICAAQgAQQsQM6CwgAEIAEELEDEIMBOg4ILhCABBCxAxDHARCjAjoRCC4QgAQQsQMQgwEQxwEQrwFQiANYog1g8g5oAXAAeACAAZ4BiAGfBpIBAzAuNpgBAKABAbABAA&sclient=gws-wiz"></a></li>
+                </ul>
+            </div>
+        </section>
+    </div>
+    <!-- Global Mailform Output-->
+    <div class="snackbars" id="form-output-global"></div>
+    <!-- Java script-->
+    <script src="js/core.min.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>

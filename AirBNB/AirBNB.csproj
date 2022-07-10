@@ -1,0 +1,708 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{A6BD73F7-2B54-4BBE-B3AA-A542AA4D6DCE}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AirBNB</RootNamespace>
+    <AssemblyName>AirBNB</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <Use64BitIISExpress />
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.4\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.4\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=5.2.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.4\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.4\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.4\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.4\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.4\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.4\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.4\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Areas\HelpPage\ApiDescriptionExtensions.cs" />
+    <Compile Include="Areas\HelpPage\App_Start\HelpPageConfig.cs" />
+    <Compile Include="Areas\HelpPage\Controllers\HelpController.cs" />
+    <Compile Include="Areas\HelpPage\HelpPageAreaRegistration.cs" />
+    <Compile Include="Areas\HelpPage\HelpPageConfigurationExtensions.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\CollectionModelDescription.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\ComplexTypeModelDescription.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\DictionaryModelDescription.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\EnumTypeModelDescription.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\EnumValueDescription.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\IModelDocumentationProvider.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\KeyValuePairModelDescription.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\ModelDescription.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\ModelDescriptionGenerator.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\ModelNameAttribute.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\ModelNameHelper.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\ParameterAnnotation.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\ParameterDescription.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\SimpleTypeModelDescription.cs" />
+    <Compile Include="Areas\HelpPage\Models\HelpPageApiModel.cs" />
+    <Compile Include="Areas\HelpPage\SampleGeneration\HelpPageSampleGenerator.cs" />
+    <Compile Include="Areas\HelpPage\SampleGeneration\HelpPageSampleKey.cs" />
+    <Compile Include="Areas\HelpPage\SampleGeneration\ImageSample.cs" />
+    <Compile Include="Areas\HelpPage\SampleGeneration\InvalidSample.cs" />
+    <Compile Include="Areas\HelpPage\SampleGeneration\ObjectGenerator.cs" />
+    <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
+    <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
+    <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Controllers\ApartmentsController.cs" />
+    <Compile Include="Controllers\FavoritesController.cs" />
+    <Compile Include="Controllers\HostsController.cs" />
+    <Compile Include="Controllers\ReservationController.cs" />
+    <Compile Include="Controllers\ReviewsController.cs" />
+    <Compile Include="Controllers\RssController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Apartment.cs" />
+    <Compile Include="Models\DAL\DataServices.cs" />
+    <Compile Include="Models\Favorite.cs" />
+    <Compile Include="Models\Host.cs" />
+    <Compile Include="Models\Reservation.cs" />
+    <Compile Include="Models\Review.cs" />
+    <Compile Include="Models\User.cs" />
+    <Compile Include="Models\XMLServices.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="AirBNB\AirBNB.csproj.user" />
+    <Content Include="AirBNB\Pages\Index.html" />
+    <Content Include="Areas\HelpPage\HelpPage.css" />
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="favicon.ico" />
+    <Content Include="Global.asax" />
+    <Content Include="Models\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Pages\additions.html" />
+    <Content Include="Pages\apartmentManagement.html" />
+    <Content Include="Pages\css\weather.css" />
+    <Content Include="Pages\favorites.html" />
+    <Content Include="Pages\hostManagement.html" />
+    <Content Include="Pages\images\airbnb1.png" />
+    <Content Include="Pages\reservationsManagment.html" />
+    <Content Include="Pages\usersManagment.html" />
+    <Content Include="Scripts\ajaxCalls.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Areas\HelpPage\Views\Web.config" />
+    <Content Include="Areas\HelpPage\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\ResourceModel.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\Index.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\TextSample.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\SimpleTypeModelDescription.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\Samples.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\Parameters.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ModelDescriptionLink.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\KeyValuePairModelDescription.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\InvalidSample.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ImageSample.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\HelpPageApiModel.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\EnumTypeModelDescription.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\DictionaryModelDescription.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ComplexTypeModelDescription.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\CollectionModelDescription.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ApiGroup.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
+    <Content Include="Models\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Models\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Models\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Models\fonts\glyphicons-halflings-regular.woff2" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
+    <None Include="Scripts\jquery-3.3.1.intellisense.js" />
+    <Content Include="Scripts\commonFunctions.js" />
+    <Content Include="Scripts\favoritesFunctions.js" />
+    <Content Include="Scripts\jquery-3.3.1.js" />
+    <Content Include="Scripts\jquery-3.3.1.min.js" />
+    <Content Include="Scripts\jquery-3.3.1.slim.js" />
+    <Content Include="Scripts\jquery-3.3.1.slim.min.js" />
+    <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Pages\404.html" />
+    <Content Include="Pages\bat\phpmailer\class.phpmailer.php" />
+    <Content Include="Pages\bat\phpmailer\class.pop3.php" />
+    <Content Include="Pages\bat\phpmailer\class.smtp.php" />
+    <Content Include="Pages\bat\phpmailer\PHPMailerAutoload.php" />
+    <Content Include="Pages\bat\rd-mailform.php" />
+    <Content Include="Pages\bat\reCaptcha.php" />
+    <Content Include="Pages\bat\ReCaptcha\autoload.php" />
+    <Content Include="Pages\bat\ReCaptcha\ReCaptcha.php" />
+    <Content Include="Pages\bat\ReCaptcha\RequestMethod.php" />
+    <Content Include="Pages\bat\ReCaptcha\RequestMethod\Curl.php" />
+    <Content Include="Pages\bat\ReCaptcha\RequestMethod\CurlPost.php" />
+    <Content Include="Pages\bat\ReCaptcha\RequestMethod\Post.php" />
+    <Content Include="Pages\bat\ReCaptcha\RequestMethod\Socket.php" />
+    <Content Include="Pages\bat\ReCaptcha\RequestMethod\SocketPost.php" />
+    <Content Include="Pages\bat\ReCaptcha\RequestParameters.php" />
+    <Content Include="Pages\bat\ReCaptcha\Response.php" />
+    <Content Include="Pages\css\bootstrap.css" />
+    <Content Include="Pages\css\fonts.css" />
+    <Content Include="Pages\css\style.css" />
+    <Content Include="Pages\fonts\fontawesome-webfont.svg" />
+    <Content Include="Pages\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Pages\fonts\Hotel-Regular.svg" />
+    <Content Include="Pages\fonts\lg.svg" />
+    <Content Include="Pages\fonts\linecons.svg" />
+    <Content Include="Pages\fonts\materialdesignicons-webfont.svg" />
+    <Content Include="Pages\images\ajax-loader.gif" />
+    <Content Include="Pages\images\bg-clients.jpg" />
+    <Content Include="Pages\images\logo-1.png" />
+    <Content Include="Pages\images\elements-1.jpg" />
+    <Content Include="Pages\images\elements-2.jpg" />
+    <Content Include="Pages\images\ie8-panel\warning_bar_0000_us.jpg" />
+    <Content Include="Pages\images\loading.gif" />
+    <Content Include="Pages\images\logo-2.png" />
+    <Content Include="Pages\images\photoswipe-controls.png" />
+    <Content Include="Pages\images\video-play.png" />
+    <Content Include="Pages\images\vimeo-play.png" />
+    <Content Include="Pages\images\youtube-play.png" />
+    <Content Include="Pages\images\_blank.png" />
+    <Content Include="Pages\index.html" />
+    <Content Include="Pages\js\core.min.js" />
+    <Content Include="Pages\js\html5shiv.min.js" />
+    <Content Include="Pages\js\pointer-events.min.js" />
+    <Content Include="Pages\js\script.js" />
+    <Content Include="Pages\js\suppot.js" />
+    <Content Include="Pages\login.html" />
+    <Content Include="Pages\property-catalog-grid.html" />
+    <Content Include="Pages\property-catalog-single.html" />
+    <Content Include="Scripts\renderFunction.js" />
+    <Content Include="Web.config" />
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Areas\HelpPage\Views\_ViewStart.cshtml" />
+    <Content Include="Content\Site.css" />
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="sources\pug\_config.pug" />
+    <Content Include="sources\pug\_functions.pug" />
+    <Content Include="sources\pug\_mixins.pug" />
+    <Content Include="sources\pug\_navigation.pug" />
+    <Content Include="sources\pug\_skeleton.pug" />
+    <Content Include="sources\pug\components\_countdown.pug" />
+    <Content Include="sources\pug\components\_counter.pug" />
+    <Content Include="sources\pug\components\_progress-circle.pug" />
+    <Content Include="sources\pug\components\_progress-linear.pug" />
+    <Content Include="sources\pug\elements\_footer-cent.pug" />
+    <Content Include="sources\pug\elements\_footer-widget.pug" />
+    <Content Include="sources\pug\elements\_footer.pug" />
+    <Content Include="sources\pug\elements\_header-center.pug" />
+    <Content Include="sources\pug\elements\_header-corp.pug" />
+    <Content Include="sources\pug\elements\_header-hamburger.pug" />
+    <Content Include="sources\pug\elements\_header-minimal.pug" />
+    <Content Include="sources\pug\elements\_header.pug" />
+    <Content Include="sources\pug\elements\_section_fullwidth.pug" />
+    <Content Include="sources\pug\elements\_section_sidebar.pug" />
+    <Content Include="sources\pug\elements\_section_swiper.pug" />
+    <Content Include="sources\pug\mixins\_category-mixin.pug" />
+    <Content Include="sources\pug\mixins\_media-mixin.pug" />
+    <Content Include="sources\pug\mixins\_pagination-mixin.pug" />
+    <Content Include="sources\pug\mixins\_thumbnail-mixin-2.pug" />
+    <Content Include="sources\pug\mixins\_thumbnail-mixin-3.pug" />
+    <Content Include="sources\pug\mixins\_thumbnail-mixin-4.pug" />
+    <Content Include="sources\pug\mixins\_thumbnail-mixin-5.pug" />
+    <Content Include="sources\pug\mixins\_thumbnail-mixin-6.pug" />
+    <Content Include="sources\pug\mixins\_thumbnail-mixin-7.pug" />
+    <Content Include="sources\pug\mixins\_thumbnail-mixin.pug" />
+    <Content Include="sources\pug\pages\2_columns_blog.pug" />
+    <Content Include="sources\pug\pages\2_columns_blog_masonry.pug" />
+    <Content Include="sources\pug\pages\3_columns_blog.pug" />
+    <Content Include="sources\pug\pages\3_columns_blog_masonry.pug" />
+    <Content Include="sources\pug\pages\404.pug" />
+    <Content Include="sources\pug\pages\agency.pug" />
+    <Content Include="sources\pug\pages\agent-personal.pug" />
+    <Content Include="sources\pug\pages\appointment.pug" />
+    <Content Include="sources\pug\pages\blog_post.pug" />
+    <Content Include="sources\pug\pages\buttons.pug" />
+    <Content Include="sources\pug\pages\categories.pug" />
+    <Content Include="sources\pug\pages\clients.pug" />
+    <Content Include="sources\pug\pages\coming.pug" />
+    <Content Include="sources\pug\pages\contact_us.pug" />
+    <Content Include="sources\pug\pages\faq.pug" />
+    <Content Include="sources\pug\pages\forms.pug" />
+    <Content Include="sources\pug\pages\gallery-1.pug" />
+    <Content Include="sources\pug\pages\gallery-2.pug" />
+    <Content Include="sources\pug\pages\gallery-3.pug" />
+    <Content Include="sources\pug\pages\gallery-4.pug" />
+    <Content Include="sources\pug\pages\grid.pug" />
+    <Content Include="sources\pug\pages\icons.pug" />
+    <Content Include="sources\pug\pages\index-cent-dark.pug" />
+    <Content Include="sources\pug\pages\index-cent.pug" />
+    <Content Include="sources\pug\pages\index-corp-default.pug" />
+    <Content Include="sources\pug\pages\index-corp.pug" />
+    <Content Include="sources\pug\pages\index-light.pug" />
+    <Content Include="sources\pug\pages\index-min.pug" />
+    <Content Include="sources\pug\pages\index-sidebar.pug" />
+    <Content Include="sources\pug\pages\index-wid-dark.pug" />
+    <Content Include="sources\pug\pages\index-wid.pug" />
+    <Content Include="sources\pug\pages\index.pug" />
+    <Content Include="sources\pug\pages\left_sidebar_blog.pug" />
+    <Content Include="sources\pug\pages\login.pug" />
+    <Content Include="sources\pug\pages\maintenance.pug" />
+    <Content Include="sources\pug\pages\our-team.pug" />
+    <Content Include="sources\pug\pages\pricing.pug" />
+    <Content Include="sources\pug\pages\progress-bars.pug" />
+    <Content Include="sources\pug\pages\property-catalog-grid.pug" />
+    <Content Include="sources\pug\pages\property-catalog-list.pug" />
+    <Content Include="sources\pug\pages\property-catalog-single.pug" />
+    <Content Include="sources\pug\pages\right_sidebar_blog.pug" />
+    <Content Include="sources\pug\pages\services-2.pug" />
+    <Content Include="sources\pug\pages\services.pug" />
+    <Content Include="sources\pug\pages\submit-property.pug" />
+    <Content Include="sources\pug\pages\tables.pug" />
+    <Content Include="sources\pug\pages\tabs-accordion.pug" />
+    <Content Include="sources\pug\pages\terms.pug" />
+    <Content Include="sources\pug\pages\timeline.pug" />
+    <Content Include="sources\pug\pages\typography.pug" />
+    <Content Include="sources\pug\section\appoitment\_section_appointment_1.pug" />
+    <Content Include="sources\pug\section\blog\_section-timeline.pug" />
+    <Content Include="sources\pug\section\blog\_section_blog_columns_2.pug" />
+    <Content Include="sources\pug\section\blog\_section_blog_columns_2_masonry.pug" />
+    <Content Include="sources\pug\section\blog\_section_blog_columns_3.pug" />
+    <Content Include="sources\pug\section\blog\_section_blog_columns_3_masonry.pug" />
+    <Content Include="sources\pug\section\blog\_section_blog_post_1.pug" />
+    <Content Include="sources\pug\section\blog\_section_left_sidebar.pug" />
+    <Content Include="sources\pug\section\blog\_section_right_sidebar.pug" />
+    <Content Include="sources\pug\section\buttons\_section_buttons-1.pug" />
+    <Content Include="sources\pug\section\buttons\_section_buttons-2.pug" />
+    <Content Include="sources\pug\section\buttons\_section_buttons-3.pug" />
+    <Content Include="sources\pug\section\buttons\_section_buttons-4.pug" />
+    <Content Include="sources\pug\section\buttons\_section_buttons-5.pug" />
+    <Content Include="sources\pug\section\catalog\_section_catalog_grid-1.pug" />
+    <Content Include="sources\pug\section\catalog\_section_catalog_grid-2.pug" />
+    <Content Include="sources\pug\section\catalog\_section_catalog_list-2.pug" />
+    <Content Include="sources\pug\section\catalog\_section_catalog_single-1.pug" />
+    <Content Include="sources\pug\section\catalog\_section_catalog_single-2.pug" />
+    <Content Include="sources\pug\section\extras\_section_404.pug" />
+    <Content Include="sources\pug\section\extras\_section_coming.pug" />
+    <Content Include="sources\pug\section\extras\_section_login.pug" />
+    <Content Include="sources\pug\section\extras\_section_maintenance.pug" />
+    <Content Include="sources\pug\section\extras\_section_register.pug" />
+    <Content Include="sources\pug\section\extras\_section_terms.pug" />
+    <Content Include="sources\pug\section\forms\_section_forms-1.pug" />
+    <Content Include="sources\pug\section\forms\_section_forms-2.pug" />
+    <Content Include="sources\pug\section\forms\_section_forms-3.pug" />
+    <Content Include="sources\pug\section\gallery\_section-gallery-1.pug" />
+    <Content Include="sources\pug\section\gallery\_section-gallery-2.pug" />
+    <Content Include="sources\pug\section\gallery\_section-gallery-3.pug" />
+    <Content Include="sources\pug\section\gallery\_section-gallery-4.pug" />
+    <Content Include="sources\pug\section\grid\_section_grid-1.pug" />
+    <Content Include="sources\pug\section\grid\_section_grid-2.pug" />
+    <Content Include="sources\pug\section\icons\_font-awesome.pug" />
+    <Content Include="sources\pug\section\icons\_linecons.pug" />
+    <Content Include="sources\pug\section\icons\_material-icons.pug" />
+    <Content Include="sources\pug\section\icons\_mdi.pug" />
+    <Content Include="sources\pug\section\index\_section_index-1.pug" />
+    <Content Include="sources\pug\section\index\_section_index-2.pug" />
+    <Content Include="sources\pug\section\index\_section_index-3.pug" />
+    <Content Include="sources\pug\section\index\_section_index-4.pug" />
+    <Content Include="sources\pug\section\index\_section_index-5.pug" />
+    <Content Include="sources\pug\section\index\_section_index-6.pug" />
+    <Content Include="sources\pug\section\progress_bars\_section_progress_bars-1.pug" />
+    <Content Include="sources\pug\section\progress_bars\_section_progress_bars-2.pug" />
+    <Content Include="sources\pug\section\progress_bars\_section_progress_bars-3.pug" />
+    <Content Include="sources\pug\section\tables\_section_tables-1.pug" />
+    <Content Include="sources\pug\section\tables\_section_tables-2.pug" />
+    <Content Include="sources\pug\section\tables\_section_tables-3.pug" />
+    <Content Include="sources\pug\section\tabs\_section_tabs-1.pug" />
+    <Content Include="sources\pug\section\tabs\_section_tabs-2.pug" />
+    <Content Include="sources\pug\section\tabs\_section_tabs-3.pug" />
+    <Content Include="sources\pug\section\tabs\_section_tabs-4.pug" />
+    <Content Include="sources\pug\section\tabs\_section_tabs-5.pug" />
+    <Content Include="sources\pug\section\typography\_section_typography-1.pug" />
+    <Content Include="sources\pug\section\pages\agency\_section_agency-1.pug" />
+    <Content Include="sources\pug\section\pages\agency\_section_agency-2.pug" />
+    <Content Include="sources\pug\section\pages\agency\_section_agency-3.pug" />
+    <Content Include="sources\pug\section\pages\agency\_section_agency-4.pug" />
+    <Content Include="sources\pug\section\pages\categories\_section_categories-1.pug" />
+    <Content Include="sources\pug\section\pages\categories\_section_categories-2.pug" />
+    <Content Include="sources\pug\section\pages\contacts\_section_contact_2_1.pug" />
+    <Content Include="sources\pug\section\pages\contacts\_section_contact_2_2.pug" />
+    <Content Include="sources\pug\section\pages\clients\_section_clients-1.pug" />
+    <Content Include="sources\pug\section\pages\clients\_section_clients-2.pug" />
+    <Content Include="sources\pug\section\pages\clients\_section_clients-3.pug" />
+    <Content Include="sources\pug\section\pages\clients\_section_clients-4.pug" />
+    <Content Include="sources\pug\section\pages\faq\_section_faq-1.pug" />
+    <Content Include="sources\pug\section\pages\faq\_section_faq-2.pug" />
+    <Content Include="sources\pug\section\pages\personal_agent\_section_personal_agent_1.pug" />
+    <Content Include="sources\pug\section\pages\personal_agent\_section_personal_agent_2.pug" />
+    <Content Include="sources\pug\section\pages\personal_agent\_section_personal_agent_3.pug" />
+    <Content Include="sources\pug\section\pages\pricing\_section-pricing-1.pug" />
+    <Content Include="sources\pug\section\pages\pricing\_section-pricing-2.pug" />
+    <Content Include="sources\pug\section\pages\pricing\_section-pricing-3.pug" />
+    <Content Include="sources\pug\section\pages\services\_section_services_1_1.pug" />
+    <Content Include="sources\pug\section\pages\services\_section_services_1_2.pug" />
+    <Content Include="sources\pug\section\pages\services\_section_services_2_1.pug" />
+    <Content Include="sources\pug\section\pages\services\_section_services_2_2.pug" />
+    <Content Include="sources\pug\section\pages\services\_section_services_2_3.pug" />
+    <Content Include="sources\pug\section\pages\submit-property\_section-submit-property-1.pug" />
+    <Content Include="sources\pug\section\pages\team\_section_team-1.pug" />
+    <Content Include="sources\pug\section\pages\team\_section_team-2.pug" />
+    <Content Include="sources\pug\section\pages\team\_section_team-3.pug" />
+    <Content Include="sources\scss\bootstrap\bootstrap.scss" />
+    <Content Include="sources\scss\bootstrap\forms\_floating-labels.scss" />
+    <Content Include="sources\scss\bootstrap\forms\_form-check.scss" />
+    <Content Include="sources\scss\bootstrap\forms\_form-control.scss" />
+    <Content Include="sources\scss\bootstrap\forms\_form-range.scss" />
+    <Content Include="sources\scss\bootstrap\forms\_form-select.scss" />
+    <Content Include="sources\scss\bootstrap\forms\_form-text.scss" />
+    <Content Include="sources\scss\bootstrap\forms\_input-group.scss" />
+    <Content Include="sources\scss\bootstrap\forms\_labels.scss" />
+    <Content Include="sources\scss\bootstrap\forms\_validation.scss" />
+    <Content Include="sources\scss\bootstrap\helpers\_clearfix.scss" />
+    <Content Include="sources\scss\bootstrap\helpers\_colored-links.scss" />
+    <Content Include="sources\scss\bootstrap\helpers\_position.scss" />
+    <Content Include="sources\scss\bootstrap\helpers\_ratio.scss" />
+    <Content Include="sources\scss\bootstrap\helpers\_stretched-link.scss" />
+    <Content Include="sources\scss\bootstrap\helpers\_text-truncation.scss" />
+    <Content Include="sources\scss\bootstrap\helpers\_visually-hidden.scss" />
+    <Content Include="sources\scss\bootstrap\mixins\_alert.scss" />
+    <Content Include="sources\scss\bootstrap\mixins\_border-radius.scss" />
+    <Content Include="sources\scss\bootstrap\mixins\_box-shadow.scss" />
+    <Content Include="sources\scss\bootstrap\mixins\_breakpoints.scss" />
+    <Content Include="sources\scss\bootstrap\mixins\_buttons.scss" />
+    <Content Include="sources\scss\bootstrap\mixins\_caret.scss" />
+    <Content Include="sources\scss\bootstrap\mixins\_clearfix.scss" />
+    <Content Include="sources\scss\bootstrap\mixins\_color-scheme.scss" />
+    <Content Include="sources\scss\bootstrap\mixins\_container.scss" />
+    <Content Include="sources\scss\bootstrap\mixins\_deprecate.scss" />
+    <Content Include="sources\scss\bootstrap\mixins\_forms.scss" />
+    <Content Include="sources\scss\bootstrap\mixins\_gradients.scss" />
+    <Content Include="sources\scss\bootstrap\mixins\_grid.scss" />
+    <Content Include="sources\scss\bootstrap\mixins\_image.scss" />
+    <Content Include="sources\scss\bootstrap\mixins\_list-group.scss" />
+    <Content Include="sources\scss\bootstrap\mixins\_lists.scss" />
+    <Content Include="sources\scss\bootstrap\mixins\_pagination.scss" />
+    <Content Include="sources\scss\bootstrap\mixins\_reset-text.scss" />
+    <Content Include="sources\scss\bootstrap\mixins\_resize.scss" />
+    <Content Include="sources\scss\bootstrap\mixins\_table-variants.scss" />
+    <Content Include="sources\scss\bootstrap\mixins\_text-truncate.scss" />
+    <Content Include="sources\scss\bootstrap\mixins\_transition.scss" />
+    <Content Include="sources\scss\bootstrap\mixins\_utilities.scss" />
+    <Content Include="sources\scss\bootstrap\mixins\_visually-hidden.scss" />
+    <Content Include="sources\scss\bootstrap\utilities\_api.scss" />
+    <Content Include="sources\scss\bootstrap\vendor\_rfs.scss" />
+    <Content Include="sources\scss\bootstrap\_accordion.scss" />
+    <Content Include="sources\scss\bootstrap\_alert.scss" />
+    <Content Include="sources\scss\bootstrap\_badge.scss" />
+    <Content Include="sources\scss\bootstrap\_breadcrumb.scss" />
+    <Content Include="sources\scss\bootstrap\_button-group.scss" />
+    <Content Include="sources\scss\bootstrap\_buttons.scss" />
+    <Content Include="sources\scss\bootstrap\_card.scss" />
+    <Content Include="sources\scss\bootstrap\_carousel.scss" />
+    <Content Include="sources\scss\bootstrap\_close.scss" />
+    <Content Include="sources\scss\bootstrap\_containers.scss" />
+    <Content Include="sources\scss\bootstrap\_dropdown.scss" />
+    <Content Include="sources\scss\bootstrap\_forms.scss" />
+    <Content Include="sources\scss\bootstrap\_functions.scss" />
+    <Content Include="sources\scss\bootstrap\_grid.scss" />
+    <Content Include="sources\scss\bootstrap\_helpers.scss" />
+    <Content Include="sources\scss\bootstrap\_images.scss" />
+    <Content Include="sources\scss\bootstrap\_list-group.scss" />
+    <Content Include="sources\scss\bootstrap\_mixins.scss" />
+    <Content Include="sources\scss\bootstrap\_modal.scss" />
+    <Content Include="sources\scss\bootstrap\_nav.scss" />
+    <Content Include="sources\scss\bootstrap\_navbar.scss" />
+    <Content Include="sources\scss\bootstrap\_offcanvas.scss" />
+    <Content Include="sources\scss\bootstrap\_pagination.scss" />
+    <Content Include="sources\scss\bootstrap\_popover.scss" />
+    <Content Include="sources\scss\bootstrap\_progress.scss" />
+    <Content Include="sources\scss\bootstrap\_reboot.scss" />
+    <Content Include="sources\scss\bootstrap\_root.scss" />
+    <Content Include="sources\scss\bootstrap\_spinners.scss" />
+    <Content Include="sources\scss\bootstrap\_tables.scss" />
+    <Content Include="sources\scss\bootstrap\_toasts.scss" />
+    <Content Include="sources\scss\bootstrap\_tooltip.scss" />
+    <Content Include="sources\scss\bootstrap\_transitions.scss" />
+    <Content Include="sources\scss\bootstrap\_type.scss" />
+    <Content Include="sources\scss\bootstrap\_utilities.scss" />
+    <Content Include="sources\scss\bootstrap\_variables.scss" />
+    <Content Include="sources\scss\custom\base\_functions.scss" />
+    <Content Include="sources\scss\custom\base\_reset.scss" />
+    <Content Include="sources\scss\custom\base\_variables.scss" />
+    <Content Include="sources\scss\custom\components\_alerts-custom.scss" />
+    <Content Include="sources\scss\custom\components\_badges-custom.scss" />
+    <Content Include="sources\scss\custom\components\_blog_post-custom.scss" />
+    <Content Include="sources\scss\custom\components\_breadcrumbs-custom.scss" />
+    <Content Include="sources\scss\custom\components\_button-groups-custom.scss" />
+    <Content Include="sources\scss\custom\components\_buttons-custom.scss" />
+    <Content Include="sources\scss\custom\components\_category-custom.scss" />
+    <Content Include="sources\scss\custom\components\_flex-grid.scss" />
+    <Content Include="sources\scss\custom\components\_forms-custom.scss" />
+    <Content Include="sources\scss\custom\components\_icons.scss" />
+    <Content Include="sources\scss\custom\components\_jumbotron-custom.scss" />
+    <Content Include="sources\scss\custom\components\_media-custom.scss" />
+    <Content Include="sources\scss\custom\components\_media-responsive.scss" />
+    <Content Include="sources\scss\custom\components\_mixins-custom.scss" />
+    <Content Include="sources\scss\custom\components\_modals-custom.scss" />
+    <Content Include="sources\scss\custom\components\_pagination-custom.scss" />
+    <Content Include="sources\scss\custom\components\_row-spacing.scss" />
+    <Content Include="sources\scss\custom\components\_scaffolding-custom.scss" />
+    <Content Include="sources\scss\custom\components\_sections.scss" />
+    <Content Include="sources\scss\custom\components\_sidebar-custom.scss" />
+    <Content Include="sources\scss\custom\components\_tables-custom.scss" />
+    <Content Include="sources\scss\custom\components\_text-responsive.scss" />
+    <Content Include="sources\scss\custom\components\_text-styling.scss" />
+    <Content Include="sources\scss\custom\components\_thumbnails-custom.scss" />
+    <Content Include="sources\scss\custom\components\_timeline.scss" />
+    <Content Include="sources\scss\custom\components\_type-custom.scss" />
+    <Content Include="sources\scss\custom\components\_utilities-custom.scss" />
+    <Content Include="sources\scss\custom\components\_wells-custom.scss" />
+    <Content Include="sources\scss\custom\mixins\_backgrounds.scss" />
+    <Content Include="sources\scss\custom\mixins\_buttons.scss" />
+    <Content Include="sources\scss\custom\mixins\_element-groups.scss" />
+    <Content Include="sources\scss\custom\mixins\_flex-grid-framework.scss" />
+    <Content Include="sources\scss\custom\mixins\_flex.scss" />
+    <Content Include="sources\scss\custom\mixins\_forms-custom.scss" />
+    <Content Include="sources\scss\custom\mixins\_functions.scss" />
+    <Content Include="sources\scss\custom\mixins\_grid.scss" />
+    <Content Include="sources\scss\custom\mixins\_indent-utilities.scss" />
+    <Content Include="sources\scss\custom\mixins\_media-utilities.scss" />
+    <Content Include="sources\scss\custom\mixins\_pull-utilities.scss" />
+    <Content Include="sources\scss\custom\mixins\_spacing.scss" />
+    <Content Include="sources\scss\custom\mixins\_unit-utilities.scss" />
+    <Content Include="sources\scss\custom\mixins\_vendors-custom.scss" />
+    <Content Include="sources\scss\custom\plugins\_accordion.scss" />
+    <Content Include="sources\scss\custom\plugins\_animate.scss" />
+    <Content Include="sources\scss\custom\plugins\_countdown.scss" />
+    <Content Include="sources\scss\custom\plugins\_counter.scss" />
+    <Content Include="sources\scss\custom\plugins\_google-map.scss" />
+    <Content Include="sources\scss\custom\plugins\_isotope.scss" />
+    <Content Include="sources\scss\custom\plugins\_lightgallery.scss" />
+    <Content Include="sources\scss\custom\plugins\_nav-custom.scss" />
+    <Content Include="sources\scss\custom\plugins\_owl-carousel.scss" />
+    <Content Include="sources\scss\custom\plugins\_preloader.scss" />
+    <Content Include="sources\scss\custom\plugins\_progress-bar.scss" />
+    <Content Include="sources\scss\custom\plugins\_progress-circle.scss" />
+    <Content Include="sources\scss\custom\plugins\_rd-calendar.scss" />
+    <Content Include="sources\scss\custom\plugins\_rd-datepicker.scss" />
+    <Content Include="sources\scss\custom\plugins\_rd-navbar.scss" />
+    <Content Include="sources\scss\custom\plugins\_rd-range.scss" />
+    <Content Include="sources\scss\custom\plugins\_scroll-to.scss" />
+    <Content Include="sources\scss\custom\plugins\_scrollspy.scss" />
+    <Content Include="sources\scss\custom\plugins\_select2.scss" />
+    <Content Include="sources\scss\custom\plugins\_slick.scss" />
+    <Content Include="sources\scss\custom\plugins\_swiper.scss" />
+    <Content Include="sources\scss\custom\plugins\_tooltip-custom.scss" />
+    <Content Include="sources\scss\custom\plugins\_ui-to-top.scss" />
+    <Content Include="sources\scss\custom\style.scss" />
+    <Content Include="sources\scss\fonts\fonts.scss" />
+    <Content Include="sources\scss\fonts\_font-awesome.scss" />
+    <Content Include="sources\scss\fonts\_hotel.scss" />
+    <Content Include="sources\scss\fonts\_linecons.scss" />
+    <Content Include="sources\scss\fonts\_material-design.scss" />
+    <Content Include="sources\scss\fonts\_material-icons.scss" />
+    <Content Include="sources\scss\fonts\_mdi.scss" />
+    <Content Include="Pages\bat\rd-mailform.config.json" />
+    <Content Include="Pages\bat\rd-mailform.tpl" />
+    <Content Include="Pages\fonts\fontawesome-webfont.eot" />
+    <Content Include="Pages\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Pages\fonts\fontawesome-webfont.woff" />
+    <Content Include="Pages\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Pages\fonts\FontAwesome.otf" />
+    <Content Include="Pages\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Pages\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Pages\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Pages\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Pages\fonts\Hotel-Regular.eot" />
+    <Content Include="Pages\fonts\Hotel-Regular.ttf" />
+    <Content Include="Pages\fonts\Hotel-Regular.woff" />
+    <Content Include="Pages\fonts\lg.eot" />
+    <Content Include="Pages\fonts\lg.ttf" />
+    <Content Include="Pages\fonts\lg.woff" />
+    <Content Include="Pages\fonts\linecons.eot" />
+    <Content Include="Pages\fonts\linecons.ttf" />
+    <Content Include="Pages\fonts\linecons.woff" />
+    <Content Include="Pages\fonts\materialdesignicons-webfont.eot" />
+    <Content Include="Pages\fonts\materialdesignicons-webfont.ttf" />
+    <Content Include="Pages\fonts\materialdesignicons-webfont.woff" />
+    <Content Include="Pages\fonts\materialdesignicons-webfont.woff2" />
+    <Content Include="Pages\fonts\MaterialIcons-Regular.eot" />
+    <Content Include="Pages\fonts\MaterialIcons-Regular.ijmap" />
+    <Content Include="Pages\fonts\MaterialIcons-Regular.ttf" />
+    <Content Include="Pages\fonts\MaterialIcons-Regular.woff" />
+    <Content Include="Pages\fonts\MaterialIcons-Regular.woff2" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="AirBNB\App_Data\" />
+    <Folder Include="AirBNB\bin\" />
+    <Folder Include="AirBNB\Models\" />
+    <Folder Include="AirBNB\obj\Debug\TempPE\" />
+    <Folder Include="App_Data\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\bootstrap.min.css.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\bootstrap.css.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\bootstrap-theme.min.css.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\bootstrap-theme.css.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
+    <Content Include="Scripts\jquery-3.3.1.min.map" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>63499</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:63499/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>
